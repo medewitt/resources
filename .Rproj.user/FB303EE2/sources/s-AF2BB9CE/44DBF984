@@ -5,13 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2645060198",
+    "hash" : "1372279724",
     "id" : "44DBF984",
-    "lastKnownWriteTime" : 1546435002,
-    "last_content_update" : 1546435002,
+    "lastKnownWriteTime" : 1546436851,
+    "last_content_update" : 1546436851353,
     "path" : "~/99_personal/resources/README.MD",
     "project_path" : "README.MD",
     "properties" : {
+        "cursorPosition" : "7,33",
+        "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
