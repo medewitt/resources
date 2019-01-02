@@ -1,0 +1,87 @@
+[0m[0K      2 [main] cut (3756) C:\Rtools\bin\cut.exe: *** fatal error - cygheap base[0K[?25l
+mismatch detected - 0x642BF410/0x612A5410.[0K
+This problem is probably due to using incompatible versions of the cygwin DLL.[0K
+Search for cygwin1.dll using the Windows Start->Find/Search facility[0K
+and delete all but the most recent version.  The most recent version *should*[0K
+reside in x:\cygwin\bin, where 'x' is the drive on which you have[0K
+installed the cygwin distribution.  Rebooting is also suggested if you[0K
+are unable to find another cygwin DLL.[0K
+[0K[?25h[?25l[8A      2 [main] cut (3756) C:\Rtools\bin\cut.exe: *** fatal error - cygheap base mismatch det[0Ke
+cted - 0x642BF410/0x612A5410.[0K
+This problem is probably due to using incompatible versions of the cygwin DLL.[0K
+Search for cygwin1.dll using the Windows Start->Find/Search facility[0K
+and delete all but the most recent version.  The most recent version *should*[0K
+reside in x:\cygwin\bin, where 'x' is the drive on which you have[0K
+installed the cygwin distribution.  Rebooting is also suggested if you[0K
+are unable to find another cygwin DLL.[0K
+[0K[?25h]0;[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ git init[0K[?25h[?25l
+[0K[?25hInitialized empty Git repository in C:/Users/dewittme/Documents/99_personal/resources/.git/[0K[?25l
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[?25l$ git ad[0K[?25h[?25l$ git a[0K[?25h[?25l$ git[0K[7G[?25h[?25l$ g[0K[?25h[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git s[0K[?25ht[0Ka[0Kt[0Ku[0Ks[0K[?25l
+[0K[?25hOn branch master[0K[?25l
+[0K
+No commits yet[0K
+[0K
+Untracked files:[0K
+  (use "git add <file>..." to include in what will be committed)[0K
+[0K
+        [0;31m.Rproj.user/[0m[0K
+        [0;31mGA.html[0m[0K
+        [0;31mREADME.MD[0m[0K
+        [0;31m_setup.Rmd[0m[0K
+        [0;31m_site.yml[0m[0K
+        [0;31mdata_sources.Rmd[0m[0K
+        [0;31mdocs/[0m[0K
+        [0;31mfooter.html[0m[0K
+        [0;31mindex.Rmd[0m[0K
+        [0;31mlibrary.bib[0m[0K
+        [0;31mnotes.Rmd[0m[0K
+        [0;31mresources.Rmd[0m[0K
+        [0;31mresources.Rproj[0m[0K
+        [0;31mresources_econ.Rmd[0m[0K
+        [0;31mresources_polisci.Rmd[0m[0K
+        [0;31mresources_stats.Rmd[0m[0K
+        [0;31mstyle.css[0m[0K
+        [0;31mtutorials.Rmd[0m[0K
+        [0;31mutils.R[0m[0K
+[0K
+nothing added to commit but untracked files present (use "git add" to track)[0K
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ git remote add origin https://github.com/medewitt/resources.git[0K[?25h[?25l
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25ho[0Km[0K[?25lm[0K[10G[?25h[11G[?25l$ git commi[0K[?25ht[0K[14G[?25l$ git commit -[0K[?25hm[0K[17G[?25l$ git commit -m "[0K[?25hi[0Kn[0Ki[0Kt[0Ki[0Ka[0Kl[0K[26G[?25l$ git commit -m "initial c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K"[0K[?25l
+[0K[?25h[?25lOn branch master[0K[1G[?25h[?25l
+[0K
+Initial commit[0K
+[0K
+Untracked files:[0K
+        [0;31m.Rproj.user/[0m[0K
+        [0;31mGA.html[0m[0K
+        [0;31mREADME.MD[0m[0K
+        [0;31m_setup.Rmd[0m[0K
+        [0;31m_site.yml[0m[0K
+        [0;31mdata_sources.Rmd[0m[0K
+        [0;31mdocs/[0m[0K
+        [0;31mfooter.html[0m[0K
+        [0;31mindex.Rmd[0m[0K
+        [0;31mlibrary.bib[0m[0K
+        [0;31mnotes.Rmd[0m[0K
+        [0;31mresources.Rmd[0m[0K
+        [0;31mresources.Rproj[0m[0K
+        [0;31mresources_econ.Rmd[0m[0K
+        [0;31mresources_polisci.Rmd[0m[0K
+        [0;31mresources_stats.Rmd[0m[0K
+        [0;31mstyle.css[0m[0K
+        [0;31mtutorials.Rmd[0m[0K
+        [0;31mutils.R[0m[0K
+[0K
+nothing added to commit but untracked files present[0K
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0Ka[0K[?25l
+[0K[?25h

@@ -1,0 +1,16 @@
+---
+title: "Untitled"
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+suppressPackageStartupMessages(library(tidyverse))
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+library(glue)
+library(yaml)
+source("utils.R")
+make_website_footer()
+repo_url <- yaml::read_yaml("_site.yml")[["base_url"]]
+
+```

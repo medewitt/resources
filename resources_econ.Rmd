@@ -1,0 +1,20 @@
+---
+title: Economics Resources
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+## Topics in Economics
+
+This is a course offered by the Econ Department at Harvard titled: 
+
+[Topics in Econometrics: Advances in Causality and Foundations of Machine Learning](https://maxkasy.github.io/home/TopicsInEconometrics2019/)
+
+## Introduction to Econometrics with R
+
+SciencesPo Course 
+
+<https://scpoecon.github.io/ScPoEconometrics/>

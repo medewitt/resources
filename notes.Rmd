@@ -1,0 +1,17 @@
+---
+title: "Syllabus"
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+This is where you could put your syllabus.
+
+```{r}
+grades <- tribble(
+  ~Item, ~Weight,
+  "Exams", "10%",
+  "HW", "90%"
+)
+```
+

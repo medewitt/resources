@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Raleway');
+
+
+
+header {
+    border-top: 0px solid ;
+	  border-bottom: 4px solid #f66733;
+    min-height: 56px;
+    background: #522d80;
+    position: relative;
+
+}
+
+
+h1 {
+  font-family: 'PT Sans', sans-serif;
+  color: #9E7E38;
+  
+}
+
+h2, h3 {
+  font-family: 'PT Sans', sans-serif;
+}
+
+
+ul {
+  border-bottom: 4px solid #9E7E38;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+p {
+  font-family: 'Raleway', sans-serif;
+}
+
+div.scroll {
+    background-color: #FFFFFF;
+    height:225px;
+    width: 100%;
+    overflow-x: scroll;
+}
+
+blockquote {
+    border-left:none;
+    font-size: 1em;
+    display: block;
+    margin-top: .25em;
+    margin-left: 20px;
+}
+
+.column-left{
+  float: left;
+  width: 33%;
+  text-align: left;
+}
+.column-center{
+  display: inline-block;
+  width: 33%;
+  text-align: center;
+}
+.column-right{
+  float: right;
+  width: 33%;
+  text-align: right;
+}
+.bigbr {
+   display: block;
+   margin: 100px 0;
+}
+
+hr.gold {
+  border-top: dotted 1px;
+  background-color: #522d80;
+}

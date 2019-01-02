@@ -1,0 +1,8 @@
+---
+title: Stats Resources
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```

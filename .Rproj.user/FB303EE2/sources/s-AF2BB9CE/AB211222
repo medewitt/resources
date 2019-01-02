@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546435386846.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2887316017",
+    "id" : "AB211222",
+    "lastKnownWriteTime" : 1546435502,
+    "last_content_update" : 1546435502084,
+    "path" : "~/99_personal/resources/resources_econ.Rmd",
+    "project_path" : "resources_econ.Rmd",
+    "properties" : {
+        "cursorPosition" : "17,18",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

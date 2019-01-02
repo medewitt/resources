@@ -1,0 +1,8 @@
+---
+title: Political Science Resources
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```

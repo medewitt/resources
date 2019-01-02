@@ -1,0 +1,16 @@
+---
+title: Resources
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+<div class="jumbotron">
+
+<h1>Just a test</h1>
+
+I wanted to test this feature
+
+</div>

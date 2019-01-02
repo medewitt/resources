@@ -1,0 +1,7 @@
+---
+title: Welcome
+---
+
+The purpose of this website is to provide all of the supporting documentation relating to the **Introduction to Data Analysis with R** that was offered through the Wake Forest University Personnel Development Center.
+
+All presentations, video, and supporting resources will be hosted here. IF you have any questions about the materials, please e-mail [me](mailto:dewittme@wfu.edu).
