@@ -1,5 +1,5 @@
 ---
-title: Exercises
+title: Data Sources
 bibliography: library.bib
 biblio-style: apalike
 ---
@@ -15,7 +15,9 @@ biblio-style: apalike
 
 <https://cces.gov.harvard.edu/>
 
-## Incarceration
+## Criminal Justice
+
+### Incarceration
 
 County-level jail data (1970-2015) and prison data (1983-2015)
 
