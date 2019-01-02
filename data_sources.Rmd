@@ -22,3 +22,9 @@ biblio-style: apalike
 County-level jail data (1970-2015) and prison data (1983-2015)
 
 <https://github.com/vera-institute/incarceration_trends>
+
+### Police Shooting Data
+
+>The Washington Post is compiling a database of every fatal shooting in the United States by a police officer in the line of duty since Jan. 1, 2015.
+
+<https://github.com/washingtonpost/data-police-shootings>
