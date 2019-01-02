@@ -6,3 +6,14 @@ biblio-style: apalike
 
 ```{r, child="_setup.Rmd"}
 ```
+
+```{block,type="tip"}
+
+test
+
+```
+
+
+```{block,type="warning"}
+Holding all other variables fixed at their observed values - or *ceteris paribus* - a one unit increase in $wt$ implies a -3.87783 units change in $mpg$. Similarly, one more $hp$ horse power implies a change in $mpg$ of -0.03177 units, *all else (i.e. $wt$) equal*.
+```

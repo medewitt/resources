@@ -74,3 +74,25 @@ hr.gold {
   border-top: dotted 1px;
   background-color: #522d80;
 }
+
+.note {
+    padding: 0.5em;
+    background-color: #e7f2fa;
+    border-radius: 5px;
+    text-align: center;
+
+}
+
+.warning {
+    padding: 0.5em;
+    background-color: #f0b37e;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.tip {
+    padding: 0.5em;
+    background-color: #dbfaf4;
+    border-radius: 5px;
+    text-align: center;
+}

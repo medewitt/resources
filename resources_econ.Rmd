@@ -18,3 +18,9 @@ This is a course offered by the Econ Department at Harvard titled:
 SciencesPo Course 
 
 <https://scpoecon.github.io/ScPoEconometrics/>
+
+## ECONOMY, SOCIETY, AND PUBLIC POLICY
+
+BYU MPA course
+
+<https://econw19.classes.andrewheiss.com/>

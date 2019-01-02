@@ -14,3 +14,7 @@ biblio-style: apalike
 I wanted to test this feature
 
 </div>
+
+## Academic Writing
+
+<https://sites.google.com/site/amandayagan/writingadvice>
