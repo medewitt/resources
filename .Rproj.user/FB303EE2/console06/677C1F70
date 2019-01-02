@@ -578,4 +578,70 @@ M       style.css[0K
 [0K[?25h[?25l
 [0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
 $[0K[3G[?25h[?25l$ f[0K[?25hi[0Kt[0K[7G[6G[?25l$ fi[0K[?25h[?25l$ f[0K[?25h[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h[?25l-[0K[12G[?25h[13G[?25l$ git add --a[0K[?25h[?25l
+[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/6A0194D0.[0K[?25l
+The file will have its original line endings in your working directory[0K
+warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/D65AC1A1.[0K
+The file will have its original line endings in your working directory[0K
+warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/F8FB0D9D.[0K[2G[?25h[?25l
+The file will have its original line endings in your working directory[0K
+warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/INDEX.[0K
+The file will have its original line endings in your working directory[0K
+warning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/paths.[0K
+The file will have its original line endings in your working directory[0K
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25h[?25li[0K[4G[?25h[5G[?25l$ git[0K[5G[?25h[6G[7G[?25l$ git c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K[14G[?25l$ git commit -[0K[?25hm[0K[17G[?25l$ git commit -m "[0K[?25hu[0Kp[0Kd[0Ka[0Kt[0Ke[0Kd[0K[26G[?25l$ git commit -m "updated s[0K[?25ho[0Km[0Ke[0K[31G[?25l$ git commit -m "updated some t[0K[?25hh[0Ki[0Kn[0Kg[0Ks[0K"[0K[?25l
+[0K[?25h[master f4d1e9d] updated some things[0K[?25l
+ 34 files changed, 304 insertions(+), 269 deletions(-)[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/22DC3206-contents[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638-contents[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD-contents[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/6168327A-contents[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86-contents[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222-contents[0K
+ delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/lock_file[0K
+ delete mode 100644 .Rproj.user/shared/notebooks/1F992400-resources_stats/1/FB303EE2AF2BB9CE[0K/
+chunks.json[0K
+ delete mode 100644 .Rproj.user/shared/notebooks/5ED9A53E-resources_econ/1/FB303EE2AF2BB9CE/[0Kc
+hunks.json[0K
+ delete mode 100644 .Rproj.user/shared/notebooks/76D897E2-resources_polisci/1/FB303EE2AF2BB9[0KC
+E/chunks.json[0K
+ create mode 100644 .gitignore[0K
+ rename .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-contents => docs/README.MD (100%)[0K
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0K[?25lt[0K[5G[?25h[6G[7G[?25l$ git p[0K[7G[?25h[8G[?25l$ git pu[0K[?25hs[0Kh[0K[?25l
+[0K[?25hfatal: The current branch master has no upstream branch.[0K[?25l
+To push the current branch and set the remote as upstream, use[0K
+[0K
+    git push --set-upstream origin master[0K
+[0K
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Ks[0Kh[0K[12G[?25l$ git push o[0K[?25hr[0Ki[0Kg[0Ki[0Kn[0K[19G[?25l$ git push origin m[0K[?25ha[0Ks[0K[?25lt[0K[22G[?25h[23G[?25l$ git push origin maste[0K[23G[?25h[24G[?25l$ git push origin master[0K[?25h[?25l
+[0K[?25hEnumerating objects: 64, done.[0K[?25l
+Counting objects: 100% (64/64), done.[0K
+Delta compression using up to 4 threads[0K
+Compressing objects: 100% (24/24), done.[0K
+Writing objects: 100% (33/33), 6.11 KiB | 1.53 MiB/s, done.[0K
+Total 33 (delta 15), reused 0 (delta 0)[0K
+[0K[?25hremote: Resolving deltas: 100% (15/15), completed with 13 local objects.[0K[?25l
+[0K[?25hTo https://github.com/medewitt/resources.git[0K[?25l
+   36af281..f4d1e9d  master -> master[0K
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[3G[?25h[?25l$ git update-index --skip-worktree[0K[?25h[36G[?25l$ git update-index --skip-worktree .[0K[?25hR[0Kp[0Kr[0Ko[0Kj[0K.[0Ku[0Ks[0Ke[0Kr[0K[?25l
+[0K[?25hfatal: Unable to mark file .Rproj.user[0K[?25l
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ git update-index --skip-worktree .Rproj.user[0K[?25hD[0KD[0KD[0KD[0K[?25l$ git update-index --skip-worktree .Rproj.userDDD[0K[?25h[?25l$ git update-index --skip-worktree .Rproj.userDD[0K[?25h[?25l$ git update-index --skip-worktree .Rproj.userD[0K[?25h[?25l$ git update-index --skip-worktree .Rproj.user[0K[?25h[43G[37G[27G[28G[29G[30G[31G[32G[33G[34G[35G[36G[?25l$ git update-index --skip-worktree ".Rproj.user[0K[37G[?25h[38G[39G[40G[41G[42G[43G[44G[45G[46G[47G[48G[?25l$ git update-index --skip-worktree ".Rproj.user/[0K[?25h"[0K[?25l
+[0K[?25hIgnoring path .Rproj.user/[0K[?25l
+[0K[?25h[?25l
+[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0K[?25ll[0K[9G[?25h[10G[?25l$ git pull[0K[?25h[?25l$ git pul[0K[?25h[?25l$ git pu[0K[10G[?25h[9G[?25l$ git p[0K[?25h[?25l$ git[0K[7G[?25h[6G[?25l$ gi[0K[?25h[?25l$ g[0K[5G[?25h[4G[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0K[?25l$ git add -[0K[?25h-[0K[?25la[0K[13G[?25h[14G[?25l
 [0K[?25h
