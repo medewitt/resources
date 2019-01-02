@@ -1,647 +1,0 @@
-[0m[0K      2 [main] cut (3756) C:\Rtools\bin\cut.exe: *** fatal error - cygheap base[0K[?25l
-mismatch detected - 0x642BF410/0x612A5410.[0K
-This problem is probably due to using incompatible versions of the cygwin DLL.[0K
-Search for cygwin1.dll using the Windows Start->Find/Search facility[0K
-and delete all but the most recent version.  The most recent version *should*[0K
-reside in x:\cygwin\bin, where 'x' is the drive on which you have[0K
-installed the cygwin distribution.  Rebooting is also suggested if you[0K
-are unable to find another cygwin DLL.[0K
-[0K[?25h[?25l[8A      2 [main] cut (3756) C:\Rtools\bin\cut.exe: *** fatal error - cygheap base mismatch det[0Ke
-cted - 0x642BF410/0x612A5410.[0K
-This problem is probably due to using incompatible versions of the cygwin DLL.[0K
-Search for cygwin1.dll using the Windows Start->Find/Search facility[0K
-and delete all but the most recent version.  The most recent version *should*[0K
-reside in x:\cygwin\bin, where 'x' is the drive on which you have[0K
-installed the cygwin distribution.  Rebooting is also suggested if you[0K
-are unable to find another cygwin DLL.[0K
-[0K[?25h]0;[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ git init[0K[?25h[?25l
-[0K[?25hInitialized empty Git repository in C:/Users/dewittme/Documents/99_personal/resources/.git/[0K[?25l
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[?25l$ git ad[0K[?25h[?25l$ git a[0K[?25h[?25l$ git[0K[7G[?25h[?25l$ g[0K[?25h[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git s[0K[?25ht[0Ka[0Kt[0Ku[0Ks[0K[?25l
-[0K[?25hOn branch master[0K[?25l
-[0K
-No commits yet[0K
-[0K
-Untracked files:[0K
-  (use "git add <file>..." to include in what will be committed)[0K
-[0K
-        [0;31m.Rproj.user/[0m[0K
-        [0;31mGA.html[0m[0K
-        [0;31mREADME.MD[0m[0K
-        [0;31m_setup.Rmd[0m[0K
-        [0;31m_site.yml[0m[0K
-        [0;31mdata_sources.Rmd[0m[0K
-        [0;31mdocs/[0m[0K
-        [0;31mfooter.html[0m[0K
-        [0;31mindex.Rmd[0m[0K
-        [0;31mlibrary.bib[0m[0K
-        [0;31mnotes.Rmd[0m[0K
-        [0;31mresources.Rmd[0m[0K
-        [0;31mresources.Rproj[0m[0K
-        [0;31mresources_econ.Rmd[0m[0K
-        [0;31mresources_polisci.Rmd[0m[0K
-        [0;31mresources_stats.Rmd[0m[0K
-        [0;31mstyle.css[0m[0K
-        [0;31mtutorials.Rmd[0m[0K
-        [0;31mutils.R[0m[0K
-[0K
-nothing added to commit but untracked files present (use "git add" to track)[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ git remote add origin https://github.com/medewitt/resources.git[0K[?25h[?25l
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25ho[0Km[0K[?25lm[0K[10G[?25h[11G[?25l$ git commi[0K[?25ht[0K[14G[?25l$ git commit -[0K[?25hm[0K[17G[?25l$ git commit -m "[0K[?25hi[0Kn[0Ki[0Kt[0Ki[0Ka[0Kl[0K[26G[?25l$ git commit -m "initial c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K"[0K[?25l
-[0K[?25h[?25lOn branch master[0K[1G[?25h[?25l
-[0K
-Initial commit[0K
-[0K
-Untracked files:[0K
-        [0;31m.Rproj.user/[0m[0K
-        [0;31mGA.html[0m[0K
-        [0;31mREADME.MD[0m[0K
-        [0;31m_setup.Rmd[0m[0K
-        [0;31m_site.yml[0m[0K
-        [0;31mdata_sources.Rmd[0m[0K
-        [0;31mdocs/[0m[0K
-        [0;31mfooter.html[0m[0K
-        [0;31mindex.Rmd[0m[0K
-        [0;31mlibrary.bib[0m[0K
-        [0;31mnotes.Rmd[0m[0K
-        [0;31mresources.Rmd[0m[0K
-        [0;31mresources.Rproj[0m[0K
-        [0;31mresources_econ.Rmd[0m[0K
-        [0;31mresources_polisci.Rmd[0m[0K
-        [0;31mresources_stats.Rmd[0m[0K
-        [0;31mstyle.css[0m[0K
-        [0;31mtutorials.Rmd[0m[0K
-        [0;31mutils.R[0m[0K
-[0K
-nothing added to commit but untracked files present[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0Ka[0K[?25l
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/6A0194D0.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/C11682CF.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/D05971E6.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/D65AC1A1.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/E14BD680.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/E60E9CDB.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/F8FB0D9D.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/INDEX.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/22DC3206-con[0Kt[?25l
-ents.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638-con[0Kt[?25l
-ents.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-con[0Kt
-ents.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD-con[0Kt
-ents.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/6168327A-con[0Kt[?25l
-ents.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86-con[0Kt[?25l
-ents.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222-con[0Kt
-ents.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/paths.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.c[0Ks[?25l
-s.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.m[0Ki[?25l
-n.css.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/bootstrap.css.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/bootstrap.min.css[0K.[?25l
-[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/cerulean.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/cosmo.min.css.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/flatly.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/journal.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/lumen.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/paper.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/readable.min.css.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/sandstone.min.css[0K.[1G[?25h[?25l
-[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/simplex.min.css.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/spacelab.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/united.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/css/yeti.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-half[0Kl[?25l
-ings-regular.svg.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25lwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/js/bootstrap.js.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/js/bootstrap.min.js.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/js/npm.js.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/shim/html5shiv.min.js[0K.
-[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/bootstrap-3.3.5/shim/respond.min.js.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/font-awesome-5.0.13/css/fa-svg-with-j[0Ks[?25l
-.css.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/font-awesome-5.0.13/js/fa-v4-shims.mi[0Kn[?25l
-.js.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/font-awesome-5.0.13/js/fontawesome-al[0Kl[2G[?25h[?25l
-.min.js.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/highlightjs-9.12.0/default.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/highlightjs-9.12.0/highlight.js.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25lwarning: LF will be replaced by CRLF in docs/site_libs/highlightjs-9.12.0/textmate.css.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jquery-1.11.3/jquery.min.js.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/README.[0K[2G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25lwarning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/index.html.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.css.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.js.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.min.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.min.js.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.structure.c[0Ks[?25l
-s.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.structure.m[0Ki
-n.css.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.theme.css.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/jqueryui-1.11.4/jquery-ui.theme.min.c[0Ks
-s.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/navigation-1.1/codefolding.js.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/navigation-1.1/sourceembed.js.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/navigation-1.1/tabsets.js.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/pagedtable-1.1/css/pagedtable.css.[0K[1G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in docs/site_libs/pagedtable-1.1/js/pagedtable.js.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/tocify-1.9.1/jquery.tocify.css.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in docs/site_libs/tocify-1.9.1/jquery.tocify.js.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ git add --a[0K[?25h[?25l$ git commit -m "initial commit"[0K[?25h[?25l
-[0K[?25h[master (root-commit) 562884e] initial commit[0K[?25l
- 144 files changed, 35084 insertions(+)[0K
- create mode 100644 .Rproj.user/FB303EE2/console06/677C1F70[0K
- create mode 100644 .Rproj.user/FB303EE2/console06/INDEX001[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/6A0194D0[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/C11682CF[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/D05971E6[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/D65AC1A1[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/E14BD680[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/E60E9CDB[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/F8FB0D9D[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/prop/INDEX[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/22DC3206-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/6168327A-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222-contents[0K
- create mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/lock_file[0K
- create mode 100644 .Rproj.user/shared/notebooks/1F992400-resources_stats/1/FB303EE2AF2BB9CE[0K/
-chunks.json[0K
- create mode 100644 .Rproj.user/shared/notebooks/1F992400-resources_stats/1/s/chunks.json[0K
- create mode 100644 .Rproj.user/shared/notebooks/5ED9A53E-resources_econ/1/FB303EE2AF2BB9CE/[0Kc
-hunks.json[0K
- create mode 100644 .Rproj.user/shared/notebooks/5ED9A53E-resources_econ/1/s/chunks.json[0K
- create mode 100644 .Rproj.user/shared/notebooks/76D897E2-resources_polisci/1/FB303EE2AF2BB9[0KC
-E/chunks.json[0K
- create mode 100644 .Rproj.user/shared/notebooks/76D897E2-resources_polisci/1/s/chunks.json[0K
- create mode 100644 .Rproj.user/shared/notebooks/patch-chunk-names[0K
- create mode 100644 .Rproj.user/shared/notebooks/paths[0K
- create mode 100644 GA.html[0K
- create mode 100644 README.MD[0K
- create mode 100644 _setup.Rmd[0K
- create mode 100644 _site.yml[0K
- create mode 100644 data_sources.Rmd[0K
- create mode 100644 docs/GA.html[0K
- create mode 100644 docs/README.MD[0K
- create mode 100644 docs/data_sources.html[0K
- create mode 100644 docs/footer.html[0K
- create mode 100644 docs/index.html[0K
- create mode 100644 docs/library.bib[0K
- create mode 100644 docs/notes.html[0K
- create mode 100644 docs/resources.html[0K
- create mode 100644 docs/resources_econ.html[0K
- create mode 100644 docs/resources_polisci.html[0K
- create mode 100644 docs/resources_stats.html[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css.map[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/bootstrap.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/bootstrap.css.map[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/bootstrap.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/cerulean.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/cosmo.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/flatly.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/Lato.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/LatoBold.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/LatoItalic.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycle.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycleBold.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSans.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBold.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBoldItalic.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansItalic.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLight.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLightItalic.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/Raleway.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/RalewayBold.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/Roboto.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoBold.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoLight.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoMedium.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansPro.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProBold.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProItalic.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProLight.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/fonts/Ubuntu.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/journal.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/lumen.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/paper.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/readable.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/sandstone.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/simplex.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/spacelab.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/united.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/css/yeti.min.css[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.eot[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.svg[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.ttf[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff2[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/js/bootstrap.js[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/js/bootstrap.min.js[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/js/npm.js[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/shim/html5shiv.min.js[0K
- create mode 100644 docs/site_libs/bootstrap-3.3.5/shim/respond.min.js[0K
- create mode 100644 docs/site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css[0K
- create mode 100644 docs/site_libs/font-awesome-5.0.13/fonts/fa-brands-400.ttf[0K
- create mode 100644 docs/site_libs/font-awesome-5.0.13/fonts/fa-regular-400.ttf[0K
- create mode 100644 docs/site_libs/font-awesome-5.0.13/fonts/fa-solid-900.ttf[0K
- create mode 100644 docs/site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js[0K
- create mode 100644 docs/site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js[0K
- create mode 100644 docs/site_libs/highlightjs-9.12.0/default.css[0K
- create mode 100644 docs/site_libs/highlightjs-9.12.0/highlight.js[0K
- create mode 100644 docs/site_libs/highlightjs-9.12.0/textmate.css[0K
- create mode 100644 docs/site_libs/jquery-1.11.3/jquery.min.js[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/README[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/images/ui-icons_444444_256x240.png[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/images/ui-icons_555555_256x240.png[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/images/ui-icons_777620_256x240.png[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/images/ui-icons_777777_256x240.png[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/images/ui-icons_cc0000_256x240.png[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/images/ui-icons_ffffff_256x240.png[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/index.html[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.css[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.js[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.min.css[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.min.js[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.structure.css[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.structure.min.css[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.theme.css[0K
- create mode 100644 docs/site_libs/jqueryui-1.11.4/jquery-ui.theme.min.css[0K
- create mode 100644 docs/site_libs/navigation-1.1/codefolding.js[0K
- create mode 100644 docs/site_libs/navigation-1.1/sourceembed.js[0K
- create mode 100644 docs/site_libs/navigation-1.1/tabsets.js[0K
- create mode 100644 docs/site_libs/pagedtable-1.1/css/pagedtable.css[0K
- create mode 100644 docs/site_libs/pagedtable-1.1/js/pagedtable.js[0K
- create mode 100644 docs/site_libs/tocify-1.9.1/jquery.tocify.css[0K
- create mode 100644 docs/site_libs/tocify-1.9.1/jquery.tocify.js[0K
- create mode 100644 docs/style.css[0K
- create mode 100644 docs/tutorials.html[0K
- create mode 100644 footer.html[0K
- create mode 100644 index.Rmd[0K
- create mode 100644 library.bib[0K
- create mode 100644 notes.Rmd[0K
- create mode 100644 resources.Rmd[0K
- create mode 100644 resources.Rproj[0K
- create mode 100644 resources_econ.Rmd[0K
- create mode 100644 resources_polisci.Rmd[0K
- create mode 100644 resources_stats.Rmd[0K
- create mode 100644 style.css[0K
- create mode 100644 tutorials.Rmd[0K
- create mode 100644 utils.R[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K p[0Ki[0Ks[0K[?25l$ git pi[0K[?25h[?25l$ git p[0K[?25hu[0K[?25ls[0K[9G[?25h[10G[?25l$ git push[0K[?25h[12G[?25l$ git push o[0K[?25hr[0Ki[0Kg[0Ki[0Kn[0K[19G[?25l$ git push origin m[0K[?25ha[0Ks[0Kt[0Ke[0Kr[0K[?25l
-[0K[?25h[?25lEnumerating objects: 165, done.[0K[1G[?25h[?25l
-Counting objects: 100% (165/165), done.[0K
-Delta compression using up to 4 threads[0K
-Compressing objects:  25% (38/152)[0K[1G[?25h[?25lCompressing objects:  96% (146/152)[0K[2G[?25h[?25lCompressing objects: 100% (152/152), done.[0K
-Writing objects:  36% (60/165)[0K[1G[?25hWriting objects:  40% (66/165)[0K[33G[?25lWriting objects:  43% (71/165)[0K[1G[?25h[?25lWriting objects:  46% (76/165)[0K[1G[?25h[?25lWriting objects:  52% (86/165)[0K[1G[?25h[?25lWriting objects:  56% (93/165)[0K[1G[?25h[?25lWriting objects:  64% (106/165)[0K[1G[?25h[?25lWriting objects:  72% (119/165)[0K[1G[?25h[?25lWriting objects:  73% (121/165)[0K[1G[?25h[?25lWriting objects:  77% (128/165), 1016.00 KiB | 1.65 MiB/s[0K[1G[?25h[?25lWriting objects:  84% (139/165), 1016.00 KiB | 1.65 MiB/s[0K[1G[?25hWriting objects: 100% (165/165), 1.54 MiB | 2.29 MiB/s, done.[0K[?25l
-Total 165 (delta 28), reused 0 (delta 0)[0K
-[0K[?25hremote: Resolving deltas: 100% (28/28), done.[0K[?25l
-[0K[?25hTo https://github.com/medewitt/resources.git[0K[?25l
- * [new branch]      master -> master[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[11G[?25h[12G[?25l$ git add --[0K[?25ha[0K[?25l
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/E60E9CDB.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-con[0Kt[?25l
-ents.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25ho[0K[?25lm[0K[9G[?25h[10G[?25l$ git comm[0K[?25hi[0Kt[0K[14G[?25l$ git commit -[0K[14G[?25h[15G[?25l$ git commit -m[0K[?25h[17G[?25l$ git commit -m "[0K[?25hu[0Kp[0Kd[0Ka[0Kt[0Ke[0Kd[0K[26G[?25l$ git commit -m "updated t[0K[26G[?25h[27G[?25l$ git commit -m "updated th[0K[?25he[0K[30G[?25l$ git commit -m "updated the r[0K[?25he[0Ka[0K[?25ld[0K[33G[?25h[34G[?25l$ git commit -m "updated the readm[0K[?25he[0K[37G[?25l$ git commit -m "updated the readme t[0K[37G[?25h[38G[39G[38G[?25l$ git commit -m "updated the readme to[0K[?25h[40G[?25l$ git commit -m "updated the readme to r[0K[?25he[0K[?25lf[0K[42G[?25h[43G[?25l$ git commit -m "updated the readme to refl[0K[?25he[0K[?25lc[0K[45G[?25h[46G[?25l$ git commit -m "updated the readme to reflect[0K[?25h[48G[?25l$ git commit -m "updated the readme to reflect t[0K[?25hh[0Ki[0Ks[0K[53G[?25l$ git commit -m "updated the readme to reflect this s[0K[?25hi[0Kt[0Ke[0K"[0K[?25l
-[0K[?25h[master 36af281] updated the readme to reflect this site[0K[?25l
- 5 files changed, 343 insertions(+), 67 deletions(-)[0K
- rewrite .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-contents (99%)[0K
- rewrite README.MD (99%)[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25h[?25lu[0K[8G[?25h[9G[?25l$ git pus[0K[?25hh[0K[?25l
-[0K[?25hfatal: The current branch master has no upstream branch.[0K[?25l
-To push the current branch and set the remote as upstream, use[0K
-[0K
-    git push --set-upstream origin master[0K
-[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Ks[0Kh[0K[12G[?25l$ git push o[0K[?25h[?25lr[0K[13G[?25h[14G[?25l$ git push ori[0K[14G[?25h[15G[?25l$ git push orig[0K[?25hi[0Kn[0K[19G[?25l$ git push origin m[0K[19G[?25h[20G[?25l$ git push origin ma[0K[?25hs[0Kt[0Ke[0Kw[0Kr[0K[?25l
-[0K[?25herror: src refspec mastewr does not match any.[0K[?25l
-[0;31merror: failed to push some refs to 'https://github.com/medewitt/resources.git'[0m[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ git push origin mastewr[0K[?25h[?25l$ git push origin mastew[0K[?25h[?25l$ git push origin maste[0K[?25hr[0K[?25l
-[0K[?25hEnumerating objects: 23, done.[0K[?25l
-Counting objects: 100% (23/23), done.[0K
-Delta compression using up to 4 threads[0K
-Compressing objects: 100% (12/12), done.[0K
-Writing objects: 100% (12/12), 4.49 KiB | 2.24 MiB/s, done.[0K
-Total 12 (delta 4), reused 0 (delta 0)[0K
-[0K[?25hremote: Resolving deltas: 100% (4/4), completed with 4 local objects.[0K[?25l
-[0K[?25hTo https://github.com/medewitt/resources.git[0K[?25l
-   562884e..36af281  master -> master[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0K[?25lt[0K[5G[?25h[6G[7G[?25l$ git c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K[14G[?25l$ git commit -[0K[?25h[?25l$ git commit[0K[14G[?25h[13G[?25l$ git commi[0K[?25h[?25l$ git comm[0K[?25h[?25l$ git com[0K[?25h[?25l$ git co[0K[?25h[?25l$ git c[0K[?25h[?25l$ git[0K[7G[?25h[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0Ka[0K[?25l
-[0K[?25herror: open(".Rproj.user/FB303EE2/console06/677C1F70"): Permission denied[0K[?25l
-error: unable to index file .Rproj.user/FB303EE2/console06/677C1F70[0K
-fatal: updating files failed[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25ho[0Km[0Km[0K[0m[0K      2 [main] cut (12208) C:\Rtools\bin\cut.exe: *** fatal error - cygheap base mismatch de[0Kt[?25l
-ected - 0x642BF410/0x612A5410.[0K
-This problem is probably due to using incompatible versions of the cygwin DLL.[0K
-Search for cygwin1.dll using the Windows Start->Find/Search facility[0K
-and delete all but the most recent version.  The most recent version *should*[0K
-reside in x:\cygwin\bin, where 'x' is the drive on which you have[0K
-installed the cygwin distribution.  Rebooting is also suggested if you[0K
-are unable to find another cygwin DLL.[0K
-[0K[?25h]0;[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0Ka[0K[?25l
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/6A0194D0.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/D65AC1A1.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/F8FB0D9D.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/INDEX.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/paths.[0K[?25l
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[7G[?25h[8G[?25l$ git ad[0K[?25hd[0K[?25l$ git ad[0K[?25h[?25l$ g[0K[?25h[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[?25l$ gi[0K[?25h[?25l$ g[0K[?25h[?25l$[0K[4G[?25h[3G[0m[0K      2 [main] cut (6244) C:\Rtools\bin\cut.exe: *** fatal error - cygheap base mismatch det[0Ke[?25l
-cted - 0x642BF410/0x612A5410.[0K
-This problem is probably due to using incompatible versions of the cygwin DLL.[0K
-Search for cygwin1.dll using the Windows Start->Find/Search facility[0K
-and delete all but the most recent version.  The most recent version *should*[0K
-reside in x:\cygwin\bin, where 'x' is the drive on which you have[0K
-installed the cygwin distribution.  Rebooting is also suggested if you[0K
-are unable to find another cygwin DLL.[0K
-]0;[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git s[0K[?25ht[0Ka[0Kt[0Ku[0Ks[0K[?25l
-[0K[?25hOn branch master[0K[?25l
-Changes to be committed:[0K
-  (use "git reset HEAD <file>..." to unstage)[0K
-[0K
-        [0;32mmodified:   .Rproj.user/FB303EE2/console06/677C1F70[0m[0K
-        [0;32mmodified:   .Rproj.user/FB303EE2/console06/INDEX001[0m[0K
-        [0;32mmodified:   .Rproj.user/FB303EE2/sources/prop/6A0194D0[0m[0K
-        [0;32mmodified:   .Rproj.user/FB303EE2/sources/prop/D65AC1A1[0m[0K
-        [0;32mmodified:   .Rproj.user/FB303EE2/sources/prop/F8FB0D9D[0m[0K
-        [0;32mmodified:   .Rproj.user/FB303EE2/sources/prop/INDEX[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/22DC3206-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/6168327A-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222-contents[0m[0K
-        [0;32mdeleted:    .Rproj.user/FB303EE2/sources/s-AF2BB9CE/lock_file[0m[0K
-        [0;32mdeleted:    .Rproj.user/shared/notebooks/1F992400-resources_stats/1/FB303EE2AF2BB9CE[0K/
-chunks.json[0m[0K
-        [0;32mdeleted:    .Rproj.user/shared/notebooks/5ED9A53E-resources_econ/1/FB303EE2AF2BB9CE/[0Kc
-hunks.json[0m[0K
-        [0;32mdeleted:    .Rproj.user/shared/notebooks/76D897E2-resources_polisci/1/FB303EE2AF2BB9[0KC
-E/chunks.json[0m[0K
-        [0;32mmodified:   .Rproj.user/shared/notebooks/paths[0m[0K
-        [0;32mnew file:   .gitignore[0m[0K
-        [0;32mmodified:   data_sources.Rmd[0m[0K
-        [0;32mmodified:   docs/README.MD[0m[0K
-        [0;32mmodified:   docs/data_sources.html[0m[0K
-        [0;32mmodified:   docs/resources.html[0m[0K
-        [0;32mmodified:   docs/resources_econ.html[0m[0K
-        [0;32mmodified:   docs/resources_stats.html[0m[0K
-        [0;32mmodified:   docs/style.css[0m[0K
-        [0;32mmodified:   resources.Rmd[0m[0K
-        [0;32mmodified:   resources_econ.Rmd[0m[0K
-        [0;32mmodified:   resources_stats.Rmd[0m[0K
-        [0;32mmodified:   style.css[0m[0K
-[0K
-Changes not staged for commit:[0K
-  (use "git add <file>..." to update what will be committed)[0K
-  (use "git checkout -- <file>..." to discard changes in working directory)[0K
-[0K
-        [0;31mmodified:   .Rproj.user/FB303EE2/console06/677C1F70[0m[0K
-        [0;31mmodified:   .Rproj.user/FB303EE2/console06/INDEX001[0m[0K
-        [0;31mmodified:   .Rproj.user/FB303EE2/sources/prop/INDEX[0m[0K
-[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git r[0K[?25h[?25le[0K[8G[?25h[9G[?25l$ git res[0K[?25he[0Kt[0K[?25l
-[0K[?25hUnstaged changes after reset:[0K[?25l
-M       .Rproj.user/FB303EE2/console06/677C1F70[0K
-M       .Rproj.user/FB303EE2/console06/INDEX001[0K
-M       .Rproj.user/FB303EE2/sources/prop/6A0194D0[0K
-M       .Rproj.user/FB303EE2/sources/prop/D65AC1A1[0K
-M       .Rproj.user/FB303EE2/sources/prop/F8FB0D9D[0K
-M       .Rproj.user/FB303EE2/sources/prop/INDEX[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/22DC3206-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/6168327A-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222-contents[0K
-D       .Rproj.user/FB303EE2/sources/s-AF2BB9CE/lock_file[0K
-D       .Rproj.user/shared/notebooks/1F992400-resources_stats/1/FB303EE2AF2BB9CE/chunks.json[0K
-D       .Rproj.user/shared/notebooks/5ED9A53E-resources_econ/1/FB303EE2AF2BB9CE/chunks.json[0K
-D       .Rproj.user/shared/notebooks/76D897E2-resources_polisci/1/FB303EE2AF2BB9CE/chunks.js[0Ko
-n[0K
-M       .Rproj.user/shared/notebooks/paths[0K
-M       data_sources.Rmd[0K
-M       docs/README.MD[0K
-M       docs/data_sources.html[0K
-M       docs/resources.html[0K
-M       docs/resources_econ.html[0K
-M       docs/resources_stats.html[0K
-M       docs/style.css[0K
-M       resources.Rmd[0K
-M       resources_econ.Rmd[0K
-M       resources_stats.Rmd[0K
-M       style.css[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ f[0K[?25hi[0Kt[0K[7G[6G[?25l$ fi[0K[?25h[?25l$ f[0K[?25h[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h[?25l-[0K[12G[?25h[13G[?25l$ git add --a[0K[?25h[?25l
-[0K[?25hwarning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/6A0194D0.[0K[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/D65AC1A1.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/F8FB0D9D.[0K[2G[?25h[?25l
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/FB303EE2/sources/prop/INDEX.[0K
-The file will have its original line endings in your working directory[0K
-warning: LF will be replaced by CRLF in .Rproj.user/shared/notebooks/paths.[0K
-The file will have its original line endings in your working directory[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25h[?25li[0K[4G[?25h[5G[?25l$ git[0K[5G[?25h[6G[7G[?25l$ git c[0K[?25ho[0Km[0Km[0Ki[0Kt[0K[14G[?25l$ git commit -[0K[?25hm[0K[17G[?25l$ git commit -m "[0K[?25hu[0Kp[0Kd[0Ka[0Kt[0Ke[0Kd[0K[26G[?25l$ git commit -m "updated s[0K[?25ho[0Km[0Ke[0K[31G[?25l$ git commit -m "updated some t[0K[?25hh[0Ki[0Kn[0Kg[0Ks[0K"[0K[?25l
-[0K[?25h[master f4d1e9d] updated some things[0K[?25l
- 34 files changed, 304 insertions(+), 269 deletions(-)[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/22DC3206-contents[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/3BB43638-contents[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/4E9895CD-contents[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/6168327A-contents[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/771E2E86-contents[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/AB211222-contents[0K
- delete mode 100644 .Rproj.user/FB303EE2/sources/s-AF2BB9CE/lock_file[0K
- delete mode 100644 .Rproj.user/shared/notebooks/1F992400-resources_stats/1/FB303EE2AF2BB9CE[0K/
-chunks.json[0K
- delete mode 100644 .Rproj.user/shared/notebooks/5ED9A53E-resources_econ/1/FB303EE2AF2BB9CE/[0Kc
-hunks.json[0K
- delete mode 100644 .Rproj.user/shared/notebooks/76D897E2-resources_polisci/1/FB303EE2AF2BB9[0KC
-E/chunks.json[0K
- create mode 100644 .gitignore[0K
- rename .Rproj.user/FB303EE2/sources/s-AF2BB9CE/44DBF984-contents => docs/README.MD (100%)[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0K[?25lt[0K[5G[?25h[6G[7G[?25l$ git p[0K[7G[?25h[8G[?25l$ git pu[0K[?25hs[0Kh[0K[?25l
-[0K[?25hfatal: The current branch master has no upstream branch.[0K[?25l
-To push the current branch and set the remote as upstream, use[0K
-[0K
-    git push --set-upstream origin master[0K
-[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Ks[0Kh[0K[12G[?25l$ git push o[0K[?25hr[0Ki[0Kg[0Ki[0Kn[0K[19G[?25l$ git push origin m[0K[?25ha[0Ks[0K[?25lt[0K[22G[?25h[23G[?25l$ git push origin maste[0K[23G[?25h[24G[?25l$ git push origin master[0K[?25h[?25l
-[0K[?25hEnumerating objects: 64, done.[0K[?25l
-Counting objects: 100% (64/64), done.[0K
-Delta compression using up to 4 threads[0K
-Compressing objects: 100% (24/24), done.[0K
-Writing objects: 100% (33/33), 6.11 KiB | 1.53 MiB/s, done.[0K
-Total 33 (delta 15), reused 0 (delta 0)[0K
-[0K[?25hremote: Resolving deltas: 100% (15/15), completed with 13 local objects.[0K[?25l
-[0K[?25hTo https://github.com/medewitt/resources.git[0K[?25l
-   36af281..f4d1e9d  master -> master[0K
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[3G[?25h[?25l$ git update-index --skip-worktree[0K[?25h[36G[?25l$ git update-index --skip-worktree .[0K[?25hR[0Kp[0Kr[0Ko[0Kj[0K.[0Ku[0Ks[0Ke[0Kr[0K[?25l
-[0K[?25hfatal: Unable to mark file .Rproj.user[0K[?25l
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ git update-index --skip-worktree .Rproj.user[0K[?25hD[0KD[0KD[0KD[0K[?25l$ git update-index --skip-worktree .Rproj.userDDD[0K[?25h[?25l$ git update-index --skip-worktree .Rproj.userDD[0K[?25h[?25l$ git update-index --skip-worktree .Rproj.userD[0K[?25h[?25l$ git update-index --skip-worktree .Rproj.user[0K[?25h[43G[37G[27G[28G[29G[30G[31G[32G[33G[34G[35G[36G[?25l$ git update-index --skip-worktree ".Rproj.user[0K[37G[?25h[38G[39G[40G[41G[42G[43G[44G[45G[46G[47G[48G[?25l$ git update-index --skip-worktree ".Rproj.user/[0K[?25h"[0K[?25l
-[0K[?25hIgnoring path .Rproj.user/[0K[?25l
-[0K[?25h[?25l
-[0;32mdewittme@DEWITTME-2017 [0;35m [0;33m~/Documents/99_personal/resources[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0K[?25ll[0K[9G[?25h[10G[?25l$ git pull[0K[?25h[?25l$ git pul[0K[?25h[?25l$ git pu[0K[10G[?25h[9G[?25l$ git p[0K[?25h[?25l$ git[0K[7G[?25h[6G[?25l$ gi[0K[?25h[?25l$ g[0K[5G[?25h[4G[?25l$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git a[0K[?25hd[0Kd[0K[11G[?25l$ git add -[0K[?25h-[0K[?25l$ git add -[0K[?25h-[0K[?25la[0K[13G[?25h[14G[?25l
-[0K[?25h
