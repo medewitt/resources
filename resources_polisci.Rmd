@@ -6,3 +6,7 @@ biblio-style: apalike
 
 ```{r, child="_setup.Rmd"}
 ```
+
+## MRP Papers
+
+<http://www.misterp.org/papers.html>

@@ -1,7 +1,7 @@
-name: "Introduction to R"
+name: "Research and Methods Resources"
 output_dir: "docs"
 navbar:
-  title: "Data Analysis in R"
+  title: "Research and Methods Resources"
   right:
   - text: "Resources"
     icon: fa-hand-paper

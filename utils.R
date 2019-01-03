@@ -128,3 +128,25 @@ make_google_analytics <-function(yaml = "_site.yml"){
 }
 
 make_google_analytics(yaml = "_site.yml")
+
+
+# make my citation --------------------------------------------------------
+
+# https://github.com/rstudio/radix/blob/master/R/appendices.R
+#' a <-read_yaml("resources.Rmd")
+#' 
+#' Citation:
+#'   For attribution, please cite this work as
+#' 
+#' 
+#' Yihan Wu. (2018-12-21). "Blogdown - shortcode for radix-like Bibtex". Retrieved from https://www.yihanwu.ca/post/blogdown-shortcode-generation-for-bibtex/. 
+#' 
+#' BibTex citation
+#' 
+#' 
+#' @misc{regenstein2017visualizing,
+#'   author = {Regenstein, Jonathan},
+#'   title = {Reproducible Finance with R: Visualizing Asset Returns},
+#'   url = {https://beta.rstudioconnect.com/content/3776/posts/2017-11-09-visualizing-asset-returns/},
+#'   year = {2017}
+#' }
