@@ -7,6 +7,38 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-## MRP Papers
+## Methodology
+
+### International Methods Colloquium
+
+<https://www.methods-colloquium.com/>
+
+### Lecture Notes for Advanced Quantitative Political Methodology
+
+<https://projects.iq.harvard.edu/gov2001/book/lecture-notes-advanced-quantitative-political-methodology>
+
+### MRP Papers
 
 <http://www.misterp.org/papers.html>
+
+## Quantitative Social Sciences
+
+For the tidyverse 
+
+<https://jrnold.github.io/qss-tidy/>
+
+---
+
+## Probabilistic Forecasting
+
+### How the Probabilistic Horse Race Demobilizes the Public
+
+<https://solomonmg.github.io/projects/1_project/>
+
+---
+
+## Policy Analysis
+
+### The Varying Effect of Belief in Discrimination Against Whites by Congressional District
+
+<https://github.com/svmiller/dfp-white-discrimination/blob/master/scrape-clean-upshot-polls.R>

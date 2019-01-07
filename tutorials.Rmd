@@ -16,3 +16,39 @@ biblio-style: apalike
 ```{r echo=FALSE, results='asis'}
 make_doc_links("introduction")
 ```
+
+## JHU Advanced Datascience
+
+<https://jhu-advdatasci.github.io/2018/>
+
+## Docker with R
+
+<https://colinfay.me/docker-r-reproducibility/>
+
+## R MArkdown for Scientists
+
+<https://rmd4sci.njtierney.com/>
+
+## R Metapackage
+
+<http://pkgverse.mikewk.com/>
+
+## .gitignore template
+
+<https://github.com/github/gitignore/blob/master/R.gitignore>
+
+## Rmarkdown website
+
+<https://stanford.edu/~vbauer/teaching/websites.html#faking-website-organization>
+
+## Shareable Link to Data R
+
+<https://gist.github.com/alexpghayes/9118cda66375e593343fe28c8d13fdb5>
+
+## Publishing with GH and Travis
+
+<https://www.r-bloggers.com/publishing-from-blogdown-to-github-with-travis/>
+
+## Adding Firebase Authentication to Shiny
+
+<https://www.tychobra.com/posts/2019-01-03-firebasse-auth-wtih-shiny/>

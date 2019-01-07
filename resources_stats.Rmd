@@ -14,6 +14,52 @@ test
 ```
 
 
+
+
 ```{block,type="warning"}
 Holding all other variables fixed at their observed values - or *ceteris paribus* - a one unit increase in $wt$ implies a -3.87783 units change in $mpg$. Similarly, one more $hp$ horse power implies a change in $mpg$ of -0.03177 units, *all else (i.e. $wt$) equal*.
 ```
+
+## The Algorithmic Foundations of Adaptive Data Analysis
+
+<https://adaptivedataanalysis.com/lecture-schedule-and-notes/>
+
+## Posterior Draws
+
+<https://wilkelab.org/ungeviz/articles/posterior-draws.html>
+
+## Path Analysis
+
+<https://www.kdnuggets.com/2018/09/introducing-path-analysis-using-r.html>
+
+## Model Selection
+
+<https://sebastianraschka.com/blog/2018/model-evaluation-selection-part4.html>
+
+## Non-Linear Regression
+
+<https://datascienceplus.com/first-steps-with-non-linear-regression-in-r/>
+
+## Bayes Dynamic Factor Analysis
+
+<https://cran.r-project.org/web/packages/bayesdfa/index.html>
+
+## Using Stan
+
+### Introduction
+
+<http://www.alexpghayes.com/blog/some-things-ive-learned-about-stan/>
+
+### Instrumental Variables
+
+<http://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html?m=1>
+
+## Confidence Intervals for GLMs
+Do it right...
+<https://www.fromthebottomoftheheap.net/2018/12/10/confidence-intervals-for-glms/>
+
+## Tidybayes Examples
+
+### Mixed Models
+
+<http://rpubs.com/tjmahr/tidybayes-on-a-mixed-model>

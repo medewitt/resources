@@ -21,6 +21,15 @@ SciencesPo Course
 
 <https://scpoecon.github.io/ScPoEconometrics/>
 
+
+### Temporal Hierarchical Forecasting
+
+<https://robjhyndman.com/hyndsight/thief/>
+
+### Quantitative Econimics
+
+<https://lectures.quantecon.org/jl/>
+
 ## Political Economy
 
 ### Economy, Society, AND Public Policy
@@ -28,3 +37,11 @@ SciencesPo Course
 BYU MPA course
 
 <https://econw19.classes.andrewheiss.com/>
+
+## Talks
+
+### Work of the Past, Work of the Future
+
+ASSA by David Autor
+
+<https://events7.mediasite.com/mediasite/Play/0c28325473ab4b72b75b0a63a829be9d1d?playFrom=16711&autoStart=true>

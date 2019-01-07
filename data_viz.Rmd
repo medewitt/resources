@@ -1,0 +1,23 @@
+---
+title: "Data Viz"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Technology
+
+### r2d3
+
+<https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/>
+
+## Visual Trumpery
+
+<https://www.dropbox.com/sh/tquq8igjtul5aou/AAA8SeSDBeh919R3I2In3fxNa?dl=0>
+
+## Design
+
+### Coloring for Colorblindness
+
+<https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D>
