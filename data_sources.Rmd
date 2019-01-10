@@ -13,6 +13,10 @@ biblio-style: apalike
 
 <https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/UYSHST>
 
+### Election Data
+
+<https://github.com/MEDSL/constituency-returns>
+
 ## Poltical Survey Data
 
 ### Cooperative Congressional Election Study
