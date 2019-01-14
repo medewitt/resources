@@ -47,6 +47,10 @@ County-level jail data (1970-2015) and prison data (1983-2015)
 
 <https://github.com/washingtonpost/data-police-shootings>
 
+### SIPRI Arms Transfers Database
+
+<https://www.sipri.org/databases/armstransfers/background>
+
 ### Eviction Labs
 
 <https://evictionlab.org/get-the-data/>

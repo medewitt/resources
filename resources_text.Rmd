@@ -15,3 +15,7 @@ title: "Text Analysis"
 ## Discourse Analysis
 
 <https://github.com/leifeld/dna/releases>
+
+## Topic Modeling Workshop
+
+<https://github.com/wesslen/Topic-Modeling-Workshop-with-R>

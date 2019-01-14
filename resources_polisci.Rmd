@@ -42,3 +42,13 @@ For the tidyverse
 ### The Varying Effect of Belief in Discrimination Against Whites by Congressional District
 
 <https://github.com/svmiller/dfp-white-discrimination/blob/master/scrape-clean-upshot-polls.R>
+
+## Ideal Point and IRT
+
+<https://github.com/RobertMyles/IRT/blob/master/scripts/1d_model_Stan.R>
+
+<https://cran.r-project.org/web/packages/brms/vignettes/brms_nonlinear.html>
+
+<http://caughey.mit.edu/sites/default/files/documents/CaugheyWarshaw_DIRT140803.pdf>
+
+---
