@@ -42,3 +42,9 @@ For the tidyverse
 ### The Varying Effect of Belief in Discrimination Against Whites by Congressional District
 
 <https://github.com/svmiller/dfp-white-discrimination/blob/master/scrape-clean-upshot-polls.R>
+
+## Research Methods
+
+Dean Eckles class:
+
+<https://docs.google.com/document/d/1x0EHydxvgk7p7rWg2Toj7zyOB3Aw_67qG_n0vNoumlE/edit>
