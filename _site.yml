@@ -22,6 +22,10 @@ navbar:
   - text: "Data Sources"
     icon: fa-paper-plane
     href: data_sources.html
+  - text: "Stan"
+    menu:
+    - text: "Simple Linear Regression"
+      href: stan_linear_regression.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

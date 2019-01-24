@@ -1,0 +1,85 @@
+---
+title: "Linear Regression in Stan"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## My Mission
+
+Write a bunch of Stan Code to practice building models in Stan. While `brms` is fantastic, I feel like I need to put in the work to learn to build the Stan code myself. I am going to try and work through one of the exercises each day from the [handbook](https://mc-stan.org/docs/2_18/stan-users-guide/index.html) and other websites dealing with interesting models.
+
+## Linear Regression
+
+```{r}
+library(rstan)
+```
+
+Create Some Basic Data:
+
+```{r}
+x <- rnorm(40, 10, 5)
+noise <- rnorm(40,0,1)
+y <- x*.5 + noise
+
+data <- list( x= x, y = y, N = length(x))
+```
+
+The below Stan code models the familiar $y = \beta*x + \alpha + \epsilon$
+
+Or more formally:
+
+$$y_n \sim N(\alpha + \beta X_n,\sigma)$$
+
+```
+data {
+  int<lower=0> N;
+  vector[N] x;
+  vector[N] y;
+}
+parameters {
+  real alpha;
+  real beta;
+  real<lower=0> sigma;
+}
+model {
+  y ~ normal(alpha + beta * x, sigma);
+}
+```
+
+So now we need to compile the Stan code. This takes a little while....
+
+```{r}
+linear_regression <- stan_model("stan_linear_regression.stan")
+```
+
+One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).
+
+```{r}
+fit1 <- sampling(linear_regression, data = data, chains = 2, iter = 1000, refresh = 0)
+```
+
+Now we can look at the model outputs with the `summary` which prints a lot of information or just look at the parameters one by one. I'm interested in if it could detect the true slope, in this case 0.5:
+
+```{r}
+print(fit1, pars = "beta", probs = c(0.025, 0.5, 0.975))
+```
+
+And it did a reasonable job! Yahoo it worked.
+
+As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the $\hat{R}$ which is a measure of the mixing on the chaines with a target of one (which is achieved here).
+
+Additionally, we can look at the trace plots to make sure everything converged and thise look good too.
+
+```{r}
+traceplot(fit1)
+```
+
+And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.
+
+```{r}
+pairs(fit1)
+```
+
+So, yahoo! first real model in Stan!
