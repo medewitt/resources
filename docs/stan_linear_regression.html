@@ -473,13 +473,22 @@ div.tocify {
 </div>
 <div id="linear-regression" class="section level2">
 <h2>Linear Regression</h2>
+<p>Linear regression is pretty much the cornerstone of models, so it is a good place to start.</p>
+<p>I’m going to go ahead and load <code>rstan</code> for use in this example</p>
 <pre class="r"><code>library(rstan)</code></pre>
-<p>Create Some Basic Data:</p>
+</div>
+<div id="generate-some-fake-data" class="section level2">
+<h2>Generate Some Fake Data</h2>
+<p>One of the most important processes in any model fitting data is to generate some data before hand. If your model performs as expected on the fake data simulation then you can have confidence that your model will work when faced with your actual data.</p>
+<p>I’m going to generate data from a normal distribution and a noise parameter. My slope will be set at 0.5.</p>
 <pre class="r"><code>x &lt;- rnorm(40, 10, 5)
 noise &lt;- rnorm(40,0,1)
 y &lt;- x*.5 + noise
 
 data &lt;- list( x= x, y = y, N = length(x))</code></pre>
+</div>
+<div id="specify-the-model" class="section level2">
+<h2>Specify the Model</h2>
 <p>The below Stan code models the familiar <span class="math inline">\(y = \beta*x + \alpha + \epsilon\)</span></p>
 <p>Or more formally:</p>
 <p><span class="math display">\[y_n \sim N(\alpha + \beta X_n,\sigma)\]</span></p>
@@ -496,6 +505,9 @@ parameters {
 model {
   y ~ normal(alpha + beta * x, sigma);
 }</code></pre>
+</div>
+<div id="modeling-the-fake-data" class="section level2">
+<h2>Modeling the Fake Data</h2>
 <p>So now we need to compile the Stan code. This takes a little while….</p>
 <pre class="r"><code>linear_regression &lt;- stan_model(&quot;stan_linear_regression.stan&quot;)</code></pre>
 <p>One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).</p>
@@ -507,20 +519,23 @@ model {
 ## post-warmup draws per chain=500, total post-warmup draws=1000.
 ## 
 ##      mean se_mean   sd 2.5%  50% 97.5% n_eff Rhat
-## beta 0.53       0 0.03 0.48 0.53  0.59   353    1
+## beta 0.49       0 0.03 0.43 0.49  0.56   287    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Jan 24 14:37:33 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jan 24 15:50:13 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
 <p>And it did a reasonable job! Yahoo it worked.</p>
+</div>
+<div id="model-checking" class="section level2">
+<h2>Model Checking</h2>
 <p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
 <p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
 <pre class="r"><code>traceplot(fit1)</code></pre>
-<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
 <pre class="r"><code>pairs(fit1)</code></pre>
-<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>So, yahoo! first real model in Stan!</p>
 </div>
 

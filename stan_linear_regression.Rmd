@@ -12,11 +12,21 @@ Write a bunch of Stan Code to practice building models in Stan. While `brms` is 
 
 ## Linear Regression
 
+Linear regression is pretty much the cornerstone of models, so it is a good place to start.
+
+I'm going to go ahead and load `rstan` for use in this example
+
 ```{r}
 library(rstan)
 ```
 
-Create Some Basic Data:
+
+## Generate Some Fake Data
+
+One of the most important processes in any model fitting data is to generate some data before hand. If your model performs as expected on the fake data simulation then you can have confidence that your model will work when faced with your actual data.
+
+
+I'm going to generate data from a normal distribution and a noise parameter. My slope will be set at 0.5.
 
 ```{r}
 x <- rnorm(40, 10, 5)
@@ -26,11 +36,14 @@ y <- x*.5 + noise
 data <- list( x= x, y = y, N = length(x))
 ```
 
+## Specify the Model
+
 The below Stan code models the familiar $y = \beta*x + \alpha + \epsilon$
 
 Or more formally:
 
 $$y_n \sim N(\alpha + \beta X_n,\sigma)$$
+
 
 ```
 data {
@@ -47,6 +60,7 @@ model {
   y ~ normal(alpha + beta * x, sigma);
 }
 ```
+## Modeling the Fake Data
 
 So now we need to compile the Stan code. This takes a little while....
 
@@ -67,6 +81,8 @@ print(fit1, pars = "beta", probs = c(0.025, 0.5, 0.975))
 ```
 
 And it did a reasonable job! Yahoo it worked.
+
+## Model Checking
 
 As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the $\hat{R}$ which is a measure of the mixing on the chaines with a target of one (which is achieved here).
 
