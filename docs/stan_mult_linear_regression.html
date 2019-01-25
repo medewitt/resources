@@ -447,6 +447,9 @@ div.tocify {
     <li>
       <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
     </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -537,10 +540,10 @@ generated quantities {
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
 ##          mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
-## beta[1]  0.51       0 0.04  0.44  0.51  0.59  1296    1
-## beta[2] -0.02       0 0.09 -0.20 -0.02  0.17   796    1
+## beta[1]  0.54       0 0.03  0.47  0.54   0.6   978    1
+## beta[2] -0.07       0 0.09 -0.25 -0.07   0.1   595    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Jan 25 07:38:04 2019.
+## Samples were drawn using NUTS(diag_e) at Fri Jan 25 14:07:15 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -569,10 +572,10 @@ generated quantities {
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
 ##          mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
-## beta[1] -3.43    0.05 1.24 -5.95 -3.43 -1.12   683    1
-## beta[2] -0.02    0.00 0.01 -0.04 -0.02  0.00   921    1
+## beta[1] -3.26    0.05 1.20 -5.69 -3.27 -0.97   570    1
+## beta[2] -0.02    0.00 0.01 -0.04 -0.02  0.00   765    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Jan 25 07:38:19 2019.
+## Samples were drawn using NUTS(diag_e) at Fri Jan 25 14:07:29 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
