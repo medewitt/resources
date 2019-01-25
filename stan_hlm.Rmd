@@ -1,0 +1,99 @@
+---
+title: "Hierarchical Linear Models in Stan"
+---
+
+## The Big One
+
+My favourite modeling method is by far hierarchical modeling which allows for population and group effects. My personal intuition is that these more accurately reflect reality on many levels (outside of the desirable mathematical properties (e.g. skrinkage)).
+
+## Generative Model
+
+So in the hierarchical world we are modeling different potential effects at different levels:
+
+$$y_j \sim N(\theta_j, \sigma_j)$$
+Where:
+
+$$\theta_j  = \mu + \tau*\eta_j$$
+
+$$\eta \sim n(0,1)$$
+
+Which accounts for the error at the school level, the true population mean, $\mu$, population standard deviation $\tau$ and the school level error $\eta$ which is given a normal(0,1) prior. 
+
+## Fake Data
+
+The classic example of a Hierarchical Linear Model is of course the eight school problem. We have eight different school, with estimated treated effects and associated standard deviations for the treatment for that given school.
+
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+(schools <- tribble(
+  ~"school", ~"estimate", ~"sd",
+  "A", 28, 15,
+  "B", 8, 10,
+  "C", -3, 16,
+  "D", 7, 11,
+  "E", -1, 9, 
+  "F", 1, 11,
+  "G", 18, 10,
+  "H", 12, 18
+))
+
+```
+
+Now stepping into the stan code we can write
+
+```
+//hierarchical linear model
+
+data{
+  int<lower=0> J;          //number of schools
+  real y[J];              //treatment effect for each school
+  real<lower=0>sigma[J]; //s.e. of effects
+}
+
+parameters{
+  real mu; //population mean
+  real<lower=0> tau; //population sd
+  vector[J] eta; //school-level error
+}
+
+transformed parameters{
+  vector[J] theta;  //school effect
+  theta = mu + tau*eta;
+}
+
+model{
+  eta ~ normal(0,1);
+  y~normal(theta, sigma);
+}
+
+```
+
+We can now load our friend `rstan` and compile the model:
+
+```{r message=FALSE, warning=FALSE}
+library(rstan)
+
+hlm_model <- stan_model("stan_hlm.stan")
+```
+
+We prep our data to be fit:
+
+```{r data-prep}
+
+data <- list(J = nrow(schools), 
+             y = schools$estimate, 
+             sigma = schools$sd)
+
+```
+
+```{r fit-model}
+
+fit_hlm <- sampling(hlm_model, data, chains = 2, iter = 2000, refresh = 0)
+
+```
+
+```{r}
+print(fit_hlm, pars = "theta", probs = c(0.025, 0.5, 0.975))
+```
+

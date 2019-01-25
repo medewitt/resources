@@ -30,6 +30,8 @@ navbar:
       href: stan_mult_linear_regression.html
     - text: "Robust Linear Regression"
       href: stan_robust_linear_regression.html
+    - text: "Hierarchical Linear Model"
+      href: stan_hlm.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

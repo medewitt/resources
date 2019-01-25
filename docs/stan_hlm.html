@@ -11,7 +11,7 @@
 
 
 
-<title>Linear Regression in Stan</title>
+<title>Hierarchical Linear Models in Stan</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -468,81 +468,96 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Linear Regression in Stan</h1>
+<h1 class="title toc-ignore">Hierarchical Linear Models in Stan</h1>
 
 </div>
 
 
-<div id="my-mission" class="section level2">
-<h2>My Mission</h2>
-<p>Write a bunch of Stan Code to practice building models in Stan. While <code>brms</code> is fantastic, I feel like I need to put in the work to learn to build the Stan code myself. I am going to try and work through one of the exercises each day from the <a href="https://mc-stan.org/docs/2_18/stan-users-guide/index.html">handbook</a> and other websites dealing with interesting models.</p>
+<div id="the-big-one" class="section level2">
+<h2>The Big One</h2>
+<p>My favourite modeling method is by far hierarchical modeling which allows for population and group effects. My personal intuition is that these more accurately reflect reality on many levels (outside of the desirable mathematical properties (e.g. skrinkage)).</p>
 </div>
-<div id="linear-regression" class="section level2">
-<h2>Linear Regression</h2>
-<p>Linear regression is pretty much the cornerstone of models, so it is a good place to start.</p>
-<p>I’m going to go ahead and load <code>rstan</code> for use in this example</p>
-<pre class="r"><code>library(rstan)</code></pre>
+<div id="generative-model" class="section level2">
+<h2>Generative Model</h2>
+<p>So in the hierarchical world we are modeling different potential effects at different levels:</p>
+<p><span class="math display">\[y_j \sim N(\theta_j, \sigma_j)\]</span> Where:</p>
+<p><span class="math display">\[\theta_j  = \mu + \tau*\eta_j\]</span></p>
+<p><span class="math display">\[\eta \sim n(0,1)\]</span></p>
+<p>Which accounts for the error at the school level, the true population mean, <span class="math inline">\(\mu\)</span>, population standard deviation <span class="math inline">\(\tau\)</span> and the school level error <span class="math inline">\(\eta\)</span> which is given a normal(0,1) prior.</p>
 </div>
-<div id="generate-some-fake-data" class="section level2">
-<h2>Generate Some Fake Data</h2>
-<p>One of the most important processes in any model fitting data is to generate some data before hand. If your model performs as expected on the fake data simulation then you can have confidence that your model will work when faced with your actual data.</p>
-<p>I’m going to generate data from a normal distribution and a noise parameter. My slope will be set at 0.5.</p>
-<pre class="r"><code>x &lt;- rnorm(40, 10, 5)
-noise &lt;- rnorm(40,0,1)
-y &lt;- x*.5 + noise
+<div id="fake-data" class="section level2">
+<h2>Fake Data</h2>
+<p>The classic example of a Hierarchical Linear Model is of course the eight school problem. We have eight different school, with estimated treated effects and associated standard deviations for the treatment for that given school.</p>
+<pre class="r"><code>library(dplyr)
+(schools &lt;- tribble(
+  ~&quot;school&quot;, ~&quot;estimate&quot;, ~&quot;sd&quot;,
+  &quot;A&quot;, 28, 15,
+  &quot;B&quot;, 8, 10,
+  &quot;C&quot;, -3, 16,
+  &quot;D&quot;, 7, 11,
+  &quot;E&quot;, -1, 9, 
+  &quot;F&quot;, 1, 11,
+  &quot;G&quot;, 18, 10,
+  &quot;H&quot;, 12, 18
+))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["school"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"A","2":"28","3":"15"},{"1":"B","2":"8","3":"10"},{"1":"C","2":"-3","3":"16"},{"1":"D","2":"7","3":"11"},{"1":"E","2":"-1","3":"9"},{"1":"F","2":"1","3":"11"},{"1":"G","2":"18","3":"10"},{"1":"H","2":"12","3":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Now stepping into the stan code we can write</p>
+<pre><code>//hierarchical linear model
 
-data &lt;- list( x= x, y = y, N = length(x))</code></pre>
-</div>
-<div id="specify-the-model" class="section level2">
-<h2>Specify the Model</h2>
-<p>The below Stan code models the familiar <span class="math inline">\(y = \beta*x + \alpha + \epsilon\)</span></p>
-<p>Or more formally:</p>
-<p><span class="math display">\[y_n \sim N(\alpha + \beta X_n,\sigma)\]</span></p>
-<pre><code>data {
-  int&lt;lower=0&gt; N;
-  vector[N] x;
-  vector[N] y;
+data{
+  int&lt;lower=0&gt; J;          //number of schools
+  real y[J];              //treatment effect for each school
+  real&lt;lower=0&gt;sigma[J]; //s.e. of effects
 }
-parameters {
-  real alpha;
-  real beta;
-  real&lt;lower=0&gt; sigma;
+
+parameters{
+  real mu; //population mean
+  real&lt;lower=0&gt; tau; //population sd
+  vector[J] eta; //school-level error
 }
-model {
-  y ~ normal(alpha + beta * x, sigma);
-}</code></pre>
-</div>
-<div id="modeling-the-fake-data" class="section level2">
-<h2>Modeling the Fake Data</h2>
-<p>So now we need to compile the Stan code. This takes a little while….</p>
-<pre class="r"><code>linear_regression &lt;- stan_model(&quot;stan_linear_regression.stan&quot;)</code></pre>
-<p>One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).</p>
-<pre class="r"><code>fit1 &lt;- sampling(linear_regression, data = data, chains = 2, iter = 1000, refresh = 0)</code></pre>
-<p>Now we can look at the model outputs with the <code>summary</code> which prints a lot of information or just look at the parameters one by one. I’m interested in if it could detect the true slope, in this case 0.5:</p>
-<pre class="r"><code>print(fit1, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
-<pre><code>## Inference for Stan model: stan_linear_regression.
-## 2 chains, each with iter=1000; warmup=500; thin=1; 
-## post-warmup draws per chain=500, total post-warmup draws=1000.
+
+transformed parameters{
+  vector[J] theta;  //school effect
+  theta = mu + tau*eta;
+}
+
+model{
+  eta ~ normal(0,1);
+  y~normal(theta, sigma);
+}
+</code></pre>
+<p>We can now load our friend <code>rstan</code> and compile the model:</p>
+<pre class="r"><code>library(rstan)
+
+hlm_model &lt;- stan_model(&quot;stan_hlm.stan&quot;)</code></pre>
+<p>We prep our data to be fit:</p>
+<pre class="r"><code>data &lt;- list(J = nrow(schools), 
+             y = schools$estimate, 
+             sigma = schools$sd)</code></pre>
+<pre class="r"><code>fit_hlm &lt;- sampling(hlm_model, data, chains = 2, iter = 2000, refresh = 0)</code></pre>
+<pre class="r"><code>print(fit_hlm, pars = &quot;theta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
+<pre><code>## Inference for Stan model: stan_hlm.
+## 2 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##      mean se_mean   sd 2.5% 50% 97.5% n_eff Rhat
-## beta  0.5       0 0.04 0.43 0.5  0.57   362    1
+##           mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
+## theta[1] 11.17    0.23 8.07 -1.91 10.00 31.63  1254    1
+## theta[2]  7.95    0.12 6.21 -4.71  7.94 20.08  2496    1
+## theta[3]  6.28    0.17 7.39 -9.01  6.84 20.11  1985    1
+## theta[4]  7.79    0.14 6.66 -5.78  7.82 22.09  2123    1
+## theta[5]  5.26    0.15 6.44 -8.88  5.79 17.00  1964    1
+## theta[6]  5.88    0.15 6.80 -9.64  6.53 17.36  2084    1
+## theta[7] 10.63    0.16 6.68 -0.26  9.93 25.19  1649    1
+## theta[8]  8.52    0.19 7.98 -6.84  8.34 24.76  1702    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Jan 25 17:07:44 2019.
+## Samples were drawn using NUTS(diag_e) at Fri Jan 25 17:06:56 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<p>And it did a reasonable job! Yahoo it worked.</p>
-</div>
-<div id="model-checking" class="section level2">
-<h2>Model Checking</h2>
-<p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
-<p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
-<pre class="r"><code>traceplot(fit1)</code></pre>
-<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
-<pre class="r"><code>pairs(fit1)</code></pre>
-<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>So, yahoo! first real model in Stan!</p>
 </div>
 
   <br>
