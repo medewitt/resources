@@ -26,6 +26,8 @@ navbar:
     menu:
     - text: "Simple Linear Regression"
       href: stan_linear_regression.html
+    - text: "Multiple Linear Regression"
+      href: stan_mult_linear_regression.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

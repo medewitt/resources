@@ -11,7 +11,7 @@
 
 
 
-<title>Political Science Resources</title>
+<title>Multiple Linear Regression in Stan</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -444,6 +444,9 @@ div.tocify {
     <li>
       <a href="stan_linear_regression.html">Simple Linear Regression</a>
     </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -462,58 +465,123 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Political Science Resources</h1>
+<h1 class="title toc-ignore">Multiple Linear Regression in Stan</h1>
 
 </div>
 
 
-<div id="methodology" class="section level2">
-<h2>Methodology</h2>
-<div id="international-methods-colloquium" class="section level3">
-<h3>International Methods Colloquium</h3>
-<p><a href="https://www.methods-colloquium.com/" class="uri">https://www.methods-colloquium.com/</a></p>
+<div id="multiple-linear-regression" class="section level2">
+<h2>Multiple Linear Regression</h2>
+<p>In this example I am going to practice multiple linear regression. Now I will add a second predictor to the model.</p>
+<p>I’m going to go ahead and load <code>rstan</code> for use in this example</p>
+<pre class="r"><code>library(rstan)
+library(dplyr)</code></pre>
 </div>
-<div id="research-design" class="section level3">
-<h3>Research Design</h3>
-<p>Dean Eckles class:</p>
-<p><a href="https://docs.google.com/document/d/1x0EHydxvgk7p7rWg2Toj7zyOB3Aw_67qG_n0vNoumlE/edit" class="uri">https://docs.google.com/document/d/1x0EHydxvgk7p7rWg2Toj7zyOB3Aw_67qG_n0vNoumlE/edit</a></p>
+<div id="generate-some-fake-data" class="section level2">
+<h2>Generate Some Fake Data</h2>
+<p>Again, It is a good practice to generate some fake data to ensure that the model is behaving as expected.</p>
+<pre class="r"><code>x &lt;- rnorm(40, 10, 5)
+z &lt;- rnorm(40, 0, 1)
+pred &lt;- data.frame(x = x, y = y)
+noise &lt;- rnorm(40,0,1)
+y &lt;- x*.5 + z * 0.25 + noise
+
+data &lt;- list( x= as.matrix(pred), y = y, N = length(x), K = 2L)</code></pre>
 </div>
-<div id="lecture-notes-for-advanced-quantitative-political-methodology" class="section level3">
-<h3>Lecture Notes for Advanced Quantitative Political Methodology</h3>
-<p><a href="https://projects.iq.harvard.edu/gov2001/book/lecture-notes-advanced-quantitative-political-methodology" class="uri">https://projects.iq.harvard.edu/gov2001/book/lecture-notes-advanced-quantitative-political-methodology</a></p>
+<div id="specify-the-model" class="section level2">
+<h2>Specify the Model</h2>
+<p>The below Stan code models the familiar <span class="math inline">\(y = \beta_1*x + \beta_2*x + \alpha + \epsilon\)</span></p>
+<p>Or more formally:</p>
+<p><span class="math display">\[y_n \sim N(\alpha + \beta X_n,\sigma)\]</span></p>
+<pre><code>//multiple linear regression code
+data {
+  int&lt;lower=0&gt; N;   // number of data items
+  int&lt;lower=0&gt; K;   // number of predictors
+  matrix[N, K] x;   // predictor matrix
+  vector[N] y;      // outcome vector
+}
+// this step does some transformations to the data
+transformed data {
+  matrix[N, K] Q_ast;
+  matrix[K, K] R_ast;
+  matrix[K, K] R_ast_inverse;
+  // thin and scale the QR decomposition
+  Q_ast = qr_Q(x)[, 1:K] * sqrt(N - 1);
+  R_ast = qr_R(x)[1:K, ] / sqrt(N - 1);
+  R_ast_inverse = inverse(R_ast);
+}
+parameters {
+  real alpha;           // intercept
+  vector[K] theta;      // coefficients on Q_ast
+  real&lt;lower=0&gt; sigma;  // error scale
+}
+model {
+  y ~ normal(Q_ast * theta + alpha, sigma);  // likelihood
+}
+// converts the quantities back to the original scale
+generated quantities {
+  vector[K] beta;
+  beta = R_ast_inverse * theta; // coefficients on x
+}</code></pre>
 </div>
-<div id="mrp-papers" class="section level3">
-<h3>MRP Papers</h3>
-<p><a href="http://www.misterp.org/papers.html" class="uri">http://www.misterp.org/papers.html</a></p>
+<div id="modeling-the-fake-data" class="section level2">
+<h2>Modeling the Fake Data</h2>
+<p>So now we need to compile the Stan code. This takes a little while….</p>
+<pre class="r"><code>mult_linear_regression &lt;- stan_model(&quot;stan_mult_linear_regression.stan&quot;)</code></pre>
+<p>One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).</p>
+<pre class="r"><code>fit1 &lt;- sampling(mult_linear_regression, data = data, chains = 2, iter = 2000, refresh = 0)</code></pre>
+<p>Now we can look at the model outputs with the <code>summary</code> which prints a lot of information or just look at the parameters one by one. I’m interested in if it could detect the true slope, in this case 0.5:</p>
+<pre class="r"><code>print(fit1, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
+<pre><code>## Inference for Stan model: stan_mult_linear_regression.
+## 2 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=2000.
+## 
+##          mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
+## beta[1]  0.51       0 0.04  0.44  0.51  0.59  1296    1
+## beta[2] -0.02       0 0.09 -0.20 -0.02  0.17   796    1
+## 
+## Samples were drawn using NUTS(diag_e) at Fri Jan 25 07:38:04 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
 </div>
+<div id="model-checking" class="section level2">
+<h2>Model Checking</h2>
+<p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
+<p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
+<pre class="r"><code>traceplot(fit1)</code></pre>
+<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
+<pre class="r"><code>pairs(fit1)</code></pre>
+<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
-<div id="quantitative-social-sciences" class="section level2">
-<h2>Quantitative Social Sciences</h2>
-<p>For the tidyverse</p>
-<p><a href="https://jrnold.github.io/qss-tidy/" class="uri">https://jrnold.github.io/qss-tidy/</a></p>
-<hr />
-</div>
-<div id="probabilistic-forecasting" class="section level2">
-<h2>Probabilistic Forecasting</h2>
-<div id="how-the-probabilistic-horse-race-demobilizes-the-public" class="section level3">
-<h3>How the Probabilistic Horse Race Demobilizes the Public</h3>
-<p><a href="https://solomonmg.github.io/projects/1_project/" class="uri">https://solomonmg.github.io/projects/1_project/</a></p>
-<hr />
-</div>
-</div>
-<div id="policy-analysis" class="section level2">
-<h2>Policy Analysis</h2>
-<div id="the-varying-effect-of-belief-in-discrimination-against-whites-by-congressional-district" class="section level3">
-<h3>The Varying Effect of Belief in Discrimination Against Whites by Congressional District</h3>
-<p><a href="https://github.com/svmiller/dfp-white-discrimination/blob/master/scrape-clean-upshot-polls.R" class="uri">https://github.com/svmiller/dfp-white-discrimination/blob/master/scrape-clean-upshot-polls.R</a></p>
-</div>
-</div>
-<div id="ideal-point-and-irt" class="section level2">
-<h2>Ideal Point and IRT</h2>
-<p><a href="https://github.com/RobertMyles/IRT/blob/master/scripts/1d_model_Stan.R" class="uri">https://github.com/RobertMyles/IRT/blob/master/scripts/1d_model_Stan.R</a></p>
-<p><a href="https://cran.r-project.org/web/packages/brms/vignettes/brms_nonlinear.html" class="uri">https://cran.r-project.org/web/packages/brms/vignettes/brms_nonlinear.html</a></p>
-<p><a href="http://caughey.mit.edu/sites/default/files/documents/CaugheyWarshaw_DIRT140803.pdf" class="uri">http://caughey.mit.edu/sites/default/files/documents/CaugheyWarshaw_DIRT140803.pdf</a></p>
-<hr />
+<div id="fit-on-actual-data" class="section level2">
+<h2>Fit on Actual Data</h2>
+<p>For the sake of illustration I am going to turn to our friend, <code>mtcars</code> to test this model. So first things first is to put our data into the correct format:</p>
+<pre class="r"><code>data &lt;- list(y = mtcars$mpg, x = as.matrix(select(mtcars, wt, disp)),
+             N = nrow(mtcars), K = 2L)</code></pre>
+<p>Now we can fit the model with our already compiled Stan code and let it run.</p>
+<pre class="r"><code>fit_real &lt;- sampling(mult_linear_regression, data = data, chains = 2, iter = 2000, refresh = 0)</code></pre>
+<p>It fit the model without a problem. Now to view the outputs:</p>
+<pre class="r"><code>print(fit_real, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
+<pre><code>## Inference for Stan model: stan_mult_linear_regression.
+## 2 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=2000.
+## 
+##          mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
+## beta[1] -3.43    0.05 1.24 -5.95 -3.43 -1.12   683    1
+## beta[2] -0.02    0.00 0.01 -0.04 -0.02  0.00   921    1
+## 
+## Samples were drawn using NUTS(diag_e) at Fri Jan 25 07:38:19 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<p>The <span class="math inline">\(\hat{R}\)</span> are at one so it doesn’t look too bad. Of course a better practice would be to run this model a little longer and supply strong priors because the effect number of samples is somewhat small. But another model nonetheless.</p>
+<p>We can also visualise the outputs using the <code>bayesplot</code> package</p>
+<pre class="r"><code>posterior &lt;- as.array(fit_real)
+
+bayesplot::mcmc_intervals(posterior, pars = c(&quot;beta[1]&quot;,&quot;beta[2]&quot;, &quot;sigma&quot;))</code></pre>
+<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 
   <br>
