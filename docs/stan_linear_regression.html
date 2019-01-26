@@ -450,6 +450,12 @@ div.tocify {
     <li>
       <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
     </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -481,7 +487,8 @@ div.tocify {
 <h2>Linear Regression</h2>
 <p>Linear regression is pretty much the cornerstone of models, so it is a good place to start.</p>
 <p>I’m going to go ahead and load <code>rstan</code> for use in this example</p>
-<pre class="r"><code>library(rstan)</code></pre>
+<pre class="r"><code>library(rstan)
+rstan_options(auto_write = TRUE)</code></pre>
 </div>
 <div id="generate-some-fake-data" class="section level2">
 <h2>Generate Some Fake Data</h2>
@@ -524,10 +531,10 @@ model {
 ## 2 chains, each with iter=1000; warmup=500; thin=1; 
 ## post-warmup draws per chain=500, total post-warmup draws=1000.
 ## 
-##      mean se_mean   sd 2.5% 50% 97.5% n_eff Rhat
-## beta  0.5       0 0.04 0.43 0.5  0.57   362    1
+##      mean se_mean   sd 2.5%  50% 97.5% n_eff Rhat
+## beta 0.52       0 0.04 0.45 0.52  0.59   485    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Jan 25 17:07:44 2019.
+## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:26:42 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>

@@ -450,6 +450,12 @@ div.tocify {
     <li>
       <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
     </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -514,7 +520,8 @@ model {
 <div id="model-the-fake-data" class="section level2">
 <h2>Model the Fake Data</h2>
 <p>Now we bring in our favourite package <code>rstan</code>.</p>
-<pre class="r"><code>library(rstan)</code></pre>
+<pre class="r"><code>library(rstan)
+rstan_options(auto_write = TRUE)</code></pre>
 <p>Compile our code</p>
 <pre class="r"><code>robust_reg &lt;- stan_model(&quot;stan_robust_linear_regression.stan&quot;)</code></pre>
 <p>Prep our data for the model:</p>
@@ -528,9 +535,9 @@ model {
 ## post-warmup draws per chain=500, total post-warmup draws=1000.
 ## 
 ##      mean se_mean   sd 2.5%  50% 97.5% n_eff Rhat
-## beta 5.03       0 0.08 4.87 5.03  5.19   437 1.01
+## beta 5.07       0 0.09  4.9 5.07  5.26   441    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Jan 25 17:09:49 2019.
+## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:28:23 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -545,15 +552,15 @@ model {
 <pre><code>## 
 ## Call: rlm(formula = y ~ x, data = data)
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2.2522 -0.5856 -0.2182  0.6172  6.5840 
+##      Min       1Q   Median       3Q      Max 
+## -7.04562 -0.81029 -0.01356  0.86174  4.46824 
 ## 
 ## Coefficients:
 ##             Value   Std. Error t value
-## (Intercept) -0.2160  0.4565    -0.4732
-## x            5.0537  0.0853    59.2436
+## (Intercept) -0.4708  0.4441    -1.0602
+## x            5.1116  0.0803    63.6728
 ## 
-## Residual standard error: 0.9073 on 48 degrees of freedom</code></pre>
+## Residual standard error: 1.256 on 48 degrees of freedom</code></pre>
 <p>So we achieved basically the same estimates for beta, which is good!</p>
 </div>
 

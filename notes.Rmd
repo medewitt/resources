@@ -1,5 +1,5 @@
 ---
-title: "Syllabus"
+title: "Notes"
 ---
 
 ```{r, child="_setup.Rmd"}

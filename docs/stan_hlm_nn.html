@@ -11,7 +11,7 @@
 
 
 
-<title>Multiple Linear Regression in Stan</title>
+<title>A Normal- Normal Hierarchical Model</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -474,124 +474,165 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Multiple Linear Regression in Stan</h1>
+<h1 class="title toc-ignore">A Normal- Normal Hierarchical Model</h1>
 
 </div>
 
 
-<div id="multiple-linear-regression" class="section level2">
-<h2>Multiple Linear Regression</h2>
-<p>In this example I am going to practice multiple linear regression. Now I will add a second predictor to the model.</p>
-<p>I’m going to go ahead and load <code>rstan</code> for use in this example</p>
-<pre class="r"><code>library(rstan)
-rstan_options(auto_write = TRUE)
-library(dplyr)</code></pre>
+<p>This is an example taken from Jeff Gill’s Bayesian Methods: A Social and Behavioural Sciences Approach <span class="citation">(Gill 2008)</span>. I wanted to re-implment the existing BUGS code into Stan and see if I could arrive at the same results.</p>
+<div id="our-data" class="section level2">
+<h2>Our Data</h2>
+<p>The example in the book utilises data from the US Department of Commerce’s Survey of Current Business. The data contain information by quarter from 1979 to 1989. After some hunting I found that Dr Gill graciously put the data to this book in the <code>BaM</code> package which I subsequently downloaded from CRAN.</p>
+<pre class="r"><code>data_sales &lt;- BaM::retail.sales</code></pre>
+<p>And we can inspect it a little more:</p>
+<pre class="r"><code>data_sales</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["TIME"],"name":[1],"type":["int"],"align":["right"]},{"label":["DSB"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["EMP"],"name":[3],"type":["int"],"align":["right"]},{"label":["BDG"],"name":[4],"type":["int"],"align":["right"]},{"label":["CAR"],"name":[5],"type":["int"],"align":["right"]},{"label":["FRN"],"name":[6],"type":["int"],"align":["right"]},{"label":["GMR"],"name":[7],"type":["int"],"align":["right"]}],"data":[{"1":"1","2":"1193.3","3":"87973","4":"9392","5":"42960","6":"9203","7":"30363"},{"1":"2","2":"1217.3","3":"90021","4":"13637","5":"47516","6":"10174","7":"25812"},{"1":"3","2":"1254.4","3":"90120","4":"14392","5":"43888","6":"11078","7":"26026"},{"1":"4","2":"1284.7","3":"91180","4":"13301","5":"40298","6":"12334","7":"38081"},{"1":"5","2":"1319.8","3":"89832","4":"10411","5":"40016","6":"10228","7":"21909"},{"1":"6","2":"1335.1","3":"90668","4":"13057","5":"39073","6":"10394","7":"26615"},{"1":"7","2":"1360.1","3":"89850","4":"13621","5":"40484","6":"11246","7":"27039"},{"1":"8","2":"1411.6","3":"91276","4":"13354","5":"38703","6":"13071","7":"40170"},{"1":"9","2":"1451.7","3":"89964","4":"11056","5":"41919","6":"10954","7":"23641"},{"1":"10","2":"1478.1","3":"91566","4":"14559","5":"45398","6":"11410","7":"30477"},{"1":"11","2":"1512.6","3":"91405","4":"14067","5":"46635","6":"11892","7":"30065"},{"1":"12","2":"1530.6","3":"91691","4":"12286","5":"39970","6":"13204","7":"43805"},{"1":"13","2":"1542.7","3":"89341","4":"9658","5":"41554","6":"10439","7":"24256"},{"1":"14","2":"1563.9","3":"90310","4":"13659","5":"48384","6":"11148","7":"30976"},{"1":"15","2":"1579.8","3":"89324","4":"12351","5":"46041","6":"11556","7":"30579"},{"1":"16","2":"1586.0","3":"89436","4":"12307","5":"46411","6":"13370","7":"45471"},{"1":"17","2":"1610.7","3":"88815","4":"10508","5":"47558","6":"11114","7":"25891"},{"1":"18","2":"1643.5","3":"89920","4":"16287","5":"59342","6":"12043","7":"33050"},{"1":"19","2":"1671.3","3":"90480","4":"16697","5":"57487","6":"13165","7":"33385"},{"1":"20","2":"1715.4","3":"92367","4":"15523","5":"57165","6":"15534","7":"50311"},{"1":"21","2":"1755.8","3":"91637","4":"13540","5":"62200","6":"13002","7":"29177"},{"1":"22","2":"1793.1","3":"94256","4":"19190","5":"74678","6":"14602","7":"36855"},{"1":"23","2":"1819.5","3":"95021","4":"18827","5":"69074","6":"15684","7":"35418"},{"1":"24","2":"1847.7","3":"96547","4":"17215","5":"67030","6":"19088","7":"53126"},{"1":"25","2":"1882.7","3":"95450","4":"13848","5":"70453","6":"15436","7":"30325"},{"1":"26","2":"1939.8","3":"97657","4":"20319","5":"85102","6":"16117","7":"37977"},{"1":"27","2":"1976.0","3":"97985","4":"20403","5":"85142","6":"16782","7":"37028"},{"1":"28","2":"2012.8","3":"99383","4":"19179","5":"71203","6":"20491","7":"54369"},{"1":"29","2":"2044.1","3":"98213","4":"16790","5":"73380","6":"16383","7":"31594"},{"1":"30","2":"2069.8","3":"99850","4":"24400","5":"88139","6":"18180","7":"37617"},{"1":"31","2":"2097.9","3":"99877","4":"24215","5":"92899","6":"19782","7":"36297"},{"1":"32","2":"2128.4","3":"101169","4":"22042","5":"81838","6":"23605","7":"52457"},{"1":"33","2":"2163.2","3":"99922","4":"18182","5":"75122","6":"18483","7":"30718"},{"1":"34","2":"2211.9","3":"102186","4":"22670","5":"90515","6":"19659","7":"41090"},{"1":"35","2":"2265.1","3":"102657","4":"21204","5":"89907","6":"21042","7":"40706"},{"1":"36","2":"2325.0","3":"104522","4":"19746","5":"77163","6":"24203","7":"60491"},{"1":"37","2":"2358.7","3":"103445","4":"16656","5":"84508","6":"20242","7":"34723"},{"1":"38","2":"2405.6","3":"106050","4":"24552","5":"99279","6":"22143","7":"42871"},{"1":"39","2":"2452.2","3":"105963","4":"23775","5":"94556","6":"22870","7":"42072"},{"1":"40","2":"2505.1","3":"107644","4":"22449","5":"87039","6":"27486","7":"64101"},{"1":"41","2":"2560.7","3":"106425","4":"18145","5":"87696","6":"22399","7":"36516"},{"1":"42","2":"2572.9","3":"108741","4":"26344","5":"102934","6":"22412","7":"46782"},{"1":"43","2":"2586.6","3":"108897","4":"25278","5":"102095","6":"22223","7":"47006"},{"1":"44","2":"2612.7","3":"110260","4":"22511","5":"84497","6":"25648","7":"69966"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div id="generate-some-fake-data" class="section level2">
-<h2>Generate Some Fake Data</h2>
-<p>Again, It is a good practice to generate some fake data to ensure that the model is behaving as expected.</p>
-<pre class="r"><code>x &lt;- rnorm(40, 10, 5)
-z &lt;- rnorm(40, 0, 1)
-pred &lt;- data.frame(x = x, y = y)
-noise &lt;- rnorm(40,0,1)
-y &lt;- x*.5 + z * 0.25 + noise
+<p>To describe the data further:</p>
+<ul>
+<li>DSB - National Wage and Incime Disbursements (Billions)</li>
+<li>EMP - Employees on non-agricultural payrolls (thousands)</li>
+<li>BDG - building dealer sales (millions)</li>
+<li>CAR - car dealer sales (millions)</li>
+<li>FRN - home furnishings dealer sales (millions)</li>
+<li>GRM - general merchanise sales in millions</li>
+</ul>
+</div>
+<div id="generative-model" class="section level2">
+<h2>Generative Model</h2>
+<p>In the case of the model for the data it is specified as</p>
+<p><span class="math display">\[y_{i,j}  \sim N(\beta_0[i]+\beta_1[i]x_j, \tau)\]</span> <span class="math display">\[\beta_0[i] \sim N(\mu_{\beta.0},\tau_{\beta.0})\]</span> <span class="math display">\[\beta_1[i] \sim N(\mu_{\beta.1},\tau_{\beta.1})\]</span> <span class="math display">\[\tau\sim\Gamma(0.01, 0.01)\]</span></p>
+</div>
+<div id="now-to-stan" class="section level2">
+<h2>Now to Stan</h2>
+<p>To implement the above model we would need to do the following:</p>
+<pre><code>// Normal Normal Model
 
-data &lt;- list( x= as.matrix(pred), y = y, N = length(x), K = 2L)</code></pre>
-</div>
-<div id="specify-the-model" class="section level2">
-<h2>Specify the Model</h2>
-<p>The below Stan code models the familiar <span class="math inline">\(y = \beta_1*x + \beta_2*x + \alpha + \epsilon\)</span></p>
-<p>Or more formally:</p>
-<p><span class="math display">\[y_n \sim N(\alpha + \beta X_n,\sigma)\]</span></p>
-<pre><code>//multiple linear regression code
 data {
-  int&lt;lower=0&gt; N;   // number of data items
-  int&lt;lower=0&gt; K;   // number of predictors
-  matrix[N, K] x;   // predictor matrix
-  vector[N] y;      // outcome vector
-}
-// this step does some transformations to the data
-transformed data {
-  matrix[N, K] Q_ast;
-  matrix[K, K] R_ast;
-  matrix[K, K] R_ast_inverse;
-  // thin and scale the QR decomposition
-  Q_ast = qr_Q(x)[, 1:K] * sqrt(N - 1);
-  R_ast = qr_R(x)[1:K, ] / sqrt(N - 1);
-  R_ast_inverse = inverse(R_ast);
+  int&lt;lower=0&gt; J;   // number of data items
+  int&lt;lower=0&gt; I;   // number of predictors
+  vector[J] x; // depdent variable
+  matrix[J, I] y;   // predictor matrix
 }
 parameters {
-  real alpha;           // intercept
-  vector[K] theta;      // coefficients on Q_ast
-  real&lt;lower=0&gt; sigma;  // error scale
+  vector[I] beta0; //vector of beta0s
+  vector[I] beta1; //vector of beta1s
+  real mu_beta0; //average value of beta0
+  real mu_beta1; //average value of beta1
+  real tau;
+  real tau_beta1;
+  real tau_beta0;
+  
+}
+
+transformed parameters{
+  real xbar;
+  xbar = mean(x); // calculate the average value of x
+  
 }
 model {
-  y ~ normal(Q_ast * theta + alpha, sigma);  // likelihood
+  // priors
+  tau ~ gamma(.01, .01); 
+  mu_beta0 ~ normal(0, 10);
+  tau_beta0 ~ gamma( .01, .01);
+  mu_beta1 ~ normal(0, 10);
+  tau_beta1 ~ gamma( .01, .01);
+  
+  //group effects for each indicator
+  for(i in 1:I){
+  beta0[i] ~ normal(mu_beta0, tau_beta0);
+  beta1[i] ~ normal(mu_beta1, tau_beta1);
+  }
+  
+  //model
+  for(j in 1:J){
+    y[j]~ normal(beta0 + beta1*(x[j]-xbar), tau);
+  }
+  
 }
-// converts the quantities back to the original scale
-generated quantities {
-  vector[K] beta;
-  beta = R_ast_inverse * theta; // coefficients on x
-}</code></pre>
-</div>
-<div id="modeling-the-fake-data" class="section level2">
-<h2>Modeling the Fake Data</h2>
-<p>So now we need to compile the Stan code. This takes a little while….</p>
-<pre class="r"><code>mult_linear_regression &lt;- stan_model(&quot;stan_mult_linear_regression.stan&quot;)</code></pre>
-<p>One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).</p>
-<pre class="r"><code>fit1 &lt;- sampling(mult_linear_regression, data = data, chains = 2, iter = 2000, refresh = 0)</code></pre>
-<p>Now we can look at the model outputs with the <code>summary</code> which prints a lot of information or just look at the parameters one by one. I’m interested in if it could detect the true slope, in this case 0.5:</p>
-<pre class="r"><code>print(fit1, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
-<pre><code>## Inference for Stan model: stan_mult_linear_regression.
+</code></pre>
+<p>Now we can make sure that the model compiles.</p>
+<pre class="r"><code>library(rstan)
+rstan_options(auto_write = TRUE)
+nn_fit &lt;- stan_model(&quot;stan_hlm_nn.stan&quot;)</code></pre>
+<p>Format our data for the modelL</p>
+<pre class="r"><code>data &lt;- list(J = nrow(data_sales),
+             I = 6L,
+             x = data_sales$TIME,
+             y = as.matrix(data_sales[,-1])/1000)</code></pre>
+<p>And fit our model:</p>
+<pre class="r"><code>fit &lt;- sampling(nn_fit, data = data,  chains = 2, iter = 2000, refresh = 0)</code></pre>
+<p>Looking at the output from our model it matches that on page 405 in the second edition almost right on! Hooray!</p>
+<pre class="r"><code>print(fit, probs = c(0.025, 0.5, 0.975))</code></pre>
+<pre><code>## Inference for Stan model: stan_hlm_nn.
 ## 2 chains, each with iter=2000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##         mean se_mean   sd  2.5%  50% 97.5% n_eff Rhat
-## beta[1] 0.46       0 0.03  0.39 0.46  0.53  1367    1
-## beta[2] 0.05       0 0.08 -0.11 0.05  0.21   645    1
+##              mean se_mean    sd    2.5%     50%   97.5% n_eff Rhat
+## beta0[1]     1.85    0.01  0.75    0.37    1.84    3.32  3545    1
+## beta0[2]    96.34    0.01  0.77   94.81   96.33   97.87  3183    1
+## beta0[3]    17.09    0.01  0.76   15.58   17.08   18.57  2716    1
+## beta0[4]    66.08    0.01  0.78   64.58   66.09   67.56  2679    1
+## beta0[5]    16.16    0.01  0.78   14.61   16.16   17.69  2885    1
+## beta0[6]    37.86    0.01  0.74   36.41   37.87   39.31  3445    1
+## beta1[1]     0.04    0.00  0.06   -0.07    0.04    0.15  2978    1
+## beta1[2]     0.49    0.00  0.06    0.38    0.50    0.61  2668    1
+## beta1[3]     0.32    0.00  0.06    0.20    0.31    0.43  3205    1
+## beta1[4]     1.52    0.00  0.06    1.41    1.52    1.64  3653    1
+## beta1[5]     0.37    0.00  0.06    0.25    0.37    0.48  2753    1
+## beta1[6]     0.55    0.00  0.06    0.44    0.55    0.66  3290    1
+## mu_beta0     9.09    0.18  9.44  -10.00    9.25   26.98  2631    1
+## mu_beta1     0.54    0.01  0.25    0.05    0.55    1.04  1628    1
+## tau          4.97    0.00  0.22    4.57    4.96    5.40  2405    1
+## tau_beta1    0.61    0.01  0.23    0.32    0.56    1.18   640    1
+## tau_beta0   48.16    0.42 15.59   26.58   45.10   86.22  1360    1
+## xbar        22.50     NaN  0.00   22.50   22.50   22.50   NaN  NaN
+## lp__      -586.83    0.13  3.19 -594.59 -586.41 -581.86   637    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:27:28 2019.
+## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:30:55 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
 </div>
-<div id="model-checking" class="section level2">
-<h2>Model Checking</h2>
-<p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
-<p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
-<pre class="r"><code>traceplot(fit1)</code></pre>
-<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
-<pre class="r"><code>pairs(fit1)</code></pre>
-<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-</div>
-<div id="fit-on-actual-data" class="section level2">
-<h2>Fit on Actual Data</h2>
-<p>For the sake of illustration I am going to turn to our friend, <code>mtcars</code> to test this model. So first things first is to put our data into the correct format:</p>
-<pre class="r"><code>data &lt;- list(y = mtcars$mpg, x = as.matrix(select(mtcars, wt, disp)),
-             N = nrow(mtcars), K = 2L)</code></pre>
-<p>Now we can fit the model with our already compiled Stan code and let it run.</p>
-<pre class="r"><code>fit_real &lt;- sampling(mult_linear_regression, data = data, chains = 2, iter = 2000, refresh = 0)</code></pre>
-<p>It fit the model without a problem. Now to view the outputs:</p>
-<pre class="r"><code>print(fit_real, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
-<pre><code>## Inference for Stan model: stan_mult_linear_regression.
-## 2 chains, each with iter=2000; warmup=1000; thin=1; 
-## post-warmup draws per chain=1000, total post-warmup draws=2000.
-## 
-##          mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
-## beta[1] -3.37    0.05 1.18 -5.68 -3.33 -1.08   490    1
-## beta[2] -0.02    0.00 0.01 -0.04 -0.02  0.00   623    1
-## 
-## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:27:47 2019.
-## For each parameter, n_eff is a crude measure of effective sample size,
-## and Rhat is the potential scale reduction factor on split chains (at 
-## convergence, Rhat=1).</code></pre>
-<p>The <span class="math inline">\(\hat{R}\)</span> are at one so it doesn’t look too bad. Of course a better practice would be to run this model a little longer and supply strong priors because the effect number of samples is somewhat small. But another model nonetheless.</p>
-<p>We can also visualise the outputs using the <code>bayesplot</code> package</p>
-<pre class="r"><code>posterior &lt;- as.array(fit_real)
+<div id="posterior-model-checking" class="section level2">
+<h2>Posterior Model Checking</h2>
+<p>Thus we refit this model in Stan, but let’s check the trace plots and some posterior predictive checks to make sure we have a model that makes sense.</p>
+<pre class="r"><code>traceplot(fit, &quot;beta0&quot;)</code></pre>
+<p><img src="stan_hlm_nn_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>traceplot(fit, &quot;beta1&quot;)</code></pre>
+<p><img src="stan_hlm_nn_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>library(bayesplot)</code></pre>
+<pre><code>## This is bayesplot version 1.6.0</code></pre>
+<pre><code>## - Online documentation and vignettes at mc-stan.org/bayesplot</code></pre>
+<pre><code>## - bayesplot theme set to bayesplot::theme_default()</code></pre>
+<pre><code>##    * Does _not_ affect other ggplot2 plots</code></pre>
+<pre><code>##    * See ?bayesplot_theme_set for details on theme setting</code></pre>
+<pre class="r"><code>posterior &lt;- as.array(fit)
 
-bayesplot::mcmc_intervals(posterior, pars = c(&quot;beta[1]&quot;,&quot;beta[2]&quot;, &quot;sigma&quot;))</code></pre>
-<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+mcmc_areas(posterior,
+           pars = c(&quot;beta1[1]&quot;,&quot;beta1[2]&quot;,&quot;beta1[3]&quot;,&quot;beta1[4]&quot;,&quot;beta1[5]&quot;,&quot;beta1[6]&quot;),
+           prob = 0.8)</code></pre>
+<p><img src="stan_hlm_nn_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>posterior2 &lt;- extract(fit, inc_warmup = TRUE, permuted = FALSE)</code></pre>
+<pre class="r"><code>color_scheme_set(&quot;darkgray&quot;)
+mcmc_scatter(
+  as.matrix(fit),
+  pars = c(&quot;tau&quot;, &quot;beta1[1]&quot;), 
+  np = nuts_params(fit), 
+  np_style = scatter_style_np(div_color = &quot;green&quot;, div_alpha = 0.8)
+)</code></pre>
+<p><img src="stan_hlm_nn_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-gill_2008">
+<p>Gill, Jeff. 2008. <em>Bayesian Methods: A Social and Behavioral Sciences Approach</em>. 2nd ed. CRC Press; CRC Press. <a href="http://www.crcpress.com/product/isbn/9781584885627">http://www.crcpress.com/product/isbn/9781584885627</a>.</p>
+</div>
+</div>
 </div>
 
   <br>
