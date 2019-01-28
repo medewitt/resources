@@ -34,6 +34,10 @@ navbar:
       href: stan_hlm.html
     - text: "Normal- Normal Hierarchical Linear Model"
       href: stan_hlm_nn.html
+    - text: "Ideal Point Analysis"
+      href: stan_ideal_point.html
+    - text: "Instrumental Variable Regression"
+      href: stan_iv.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

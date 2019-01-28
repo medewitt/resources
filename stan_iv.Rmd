@@ -1,0 +1,84 @@
+---
+title: "Instrumental Variable Regression"
+bibiliography: "library.bib"
+---
+
+Instrumental Variables are often used in econometrics. The idea is that you may have 
+
+```{r}
+library(AER)
+```
+
+```{r}
+data("CigarettesSW")
+CigarettesSW$rprice <- with(CigarettesSW, price/cpi)
+CigarettesSW$rincome <- with(CigarettesSW, income/population/cpi)
+CigarettesSW$log_rincome <- with(CigarettesSW, log(rincome))
+CigarettesSW$tdiff <- with(CigarettesSW, (taxs - tax)/cpi)
+CigarettesSW$log_packs <- with(CigarettesSW, log(packs))
+CigarettesSW$log_rprice <- with(CigarettesSW, log(rprice))
+
+c1985 <- subset(CigarettesSW, year == "1985")
+c1995 <- subset(CigarettesSW, year == "1995")
+```
+
+```{r}
+fm_ivreg <- ivreg(log_packs ~ log_rprice +log_rincome +| tdiff+log_rincome, data = c1995)
+```
+
+```{r}
+hc1 <- function(x) vcovHC(x, type = "HC1")
+coeftest(fm_ivreg, vcov = hc1)
+```
+
+## Stan
+
+Now using the code that Jim Savage has written about [here](http://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html)
+
+```
+
+```
+
+## Model Fitting
+
+```{r}
+set.seed(42)
+# Load the stan library
+library(rstan)
+options(mc.cores = parallel::detectCores())
+
+# Compile the model
+compiled_model <- stan_model("stan_iv.stan")
+```
+
+### Data Prep
+
+```{r}
+N <- nrow(c1995) # Observations
+PX <- 1L # number of exogenous predictors
+PZ <- 1L # number of instruments
+PN <- nrow(c1985) # dimension of endogenous covariates
+
+# Exogenous variables (make them correlated with a random correlation matrix)
+X_exog <- c1995$log_rincome
+
+X_endog <- c1995$log_packs
+
+# Instruments
+Z <- c1995$tdiff
+
+# Outcome
+Y_outcome <- c1995$log_rprice
+
+data_list <- list(N = N, PX = PX, PZ = PZ,
+                  X_exog = X_exog, X_endog = X_endog, 
+                  Z = Z, Y_outcome = Y_outcome, 
+                  run_estimation = 1)
+
+```
+
+
+```{r}
+draws_from_model <- sampling(compiled_model, data = data_list, iter = 50, chains = 1)
+```
+
