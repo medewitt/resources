@@ -11,7 +11,7 @@
 
 
 
-<title>Robust Linear Regression in Stan</title>
+<title>Privacy Methods</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -480,94 +480,16 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Robust Linear Regression in Stan</h1>
+<h1 class="title toc-ignore">Privacy Methods</h1>
 
 </div>
 
 
-<div id="to-be-robust-or-to-not-be-robust" class="section level2">
-<h2>To be Robust or To Not Be Robust</h2>
-<p>One method often used in econometrics is to perform robust linear regression. This method tempers the problems with the presence of outliers in your data. Typically linear models assume normality of errors and as such can give you some wonky results if these assumptions are violated.</p>
-<p>This example will be using the <a href="https://mc-stan.org/docs/2_18/stan-users-guide/robust-noise-models.html">Stan manual</a> example.</p>
-</div>
-<div id="generate-some-data" class="section level2">
-<h2>Generate Some Data</h2>
-<p>As always, it is best to generate by specifying a generative model with what we expect to occur.</p>
-<pre class="r"><code># Independent Variable
-x &lt;- rnorm(50, 5, 2)
-
-#t- distributed noise
-noise &lt;- rt(50, 3)
-
-y &lt;- 5* x + noise</code></pre>
-</div>
-<div id="specify-the-model" class="section level2">
-<h2>Specify the Model</h2>
-<p>In this case we assume that:</p>
-<p><span class="math display">\[y\sim t(\nu, \beta X, \sigma)\]</span></p>
-<p>Here we have already specified the degrees of freedom of our randomly generated data, so the Stan code would look like that below:</p>
-<pre><code>// robust linear regression
-data {
-  int&lt;lower=0&gt; N; //number of samples
-  vector[N] x; //independent variable
-  vector[N] y; // depdent variable
-  real&lt;lower=0&gt; nu; //degrees of freedom
-}
-parameters {
-  real alpha;
-  real beta;
-  real&lt;lower=0&gt; sigma;
-}
-model {
-  y ~ student_t(nu, alpha + beta * x, sigma);
-}
-</code></pre>
-</div>
-<div id="model-the-fake-data" class="section level2">
-<h2>Model the Fake Data</h2>
-<p>Now we bring in our favourite package <code>rstan</code>.</p>
-<pre class="r"><code>library(rstan)
-rstan_options(auto_write = TRUE)</code></pre>
-<p>Compile our code</p>
-<pre class="r"><code>robust_reg &lt;- stan_model(&quot;stan_robust_linear_regression.stan&quot;)</code></pre>
-<p>Prep our data for the model:</p>
-<pre class="r"><code>data &lt;- list(x = x, y = y, N = length(x), nu = 3L)</code></pre>
-<p>And now we can fit out model.</p>
-<pre class="r"><code>robust_fit &lt;- sampling(robust_reg, data, chains = 2, iter = 1000, refresh = 0)</code></pre>
-<p>And we can inspect our our model fit our data.</p>
-<pre class="r"><code>print(robust_fit, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
-<pre><code>## Inference for Stan model: stan_robust_linear_regression.
-## 2 chains, each with iter=1000; warmup=500; thin=1; 
-## post-warmup draws per chain=500, total post-warmup draws=1000.
-## 
-##      mean se_mean   sd 2.5% 50% 98% n_eff Rhat
-## beta    5       0 0.08  4.9 5.1 5.2   463    1
-## 
-## Samples were drawn using NUTS(diag_e) at Wed Jan 30 13:09:33 2019.
-## For each parameter, n_eff is a crude measure of effective sample size,
-## and Rhat is the potential scale reduction factor on split chains (at 
-## convergence, Rhat=1).</code></pre>
-<p>The results look promising, but lets do a few other checks:</p>
-<pre class="r"><code>pairs(robust_fit)</code></pre>
-<p><img src="stan_robust_linear_regression_files/figure-html/pairs-1.png" width="672" /></p>
-<pre class="r"><code>traceplot(robust_fit)</code></pre>
-<p><img src="stan_robust_linear_regression_files/figure-html/trace-1.png" width="672" /></p>
-<p>Everything looks pretty good! However, just for comparison, it might be interesting to compare these results to the maximum liklihood estimator approach:</p>
-<pre class="r"><code>mle_fit &lt;- MASS::rlm(y ~ x, data = data)</code></pre>
-<pre class="r"><code>summary(mle_fit)</code></pre>
-<pre><code>## 
-## Call: rlm(formula = y ~ x, data = data)
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -5.5447 -0.6720 -0.0727  0.9021  3.5631 
-## 
-## Coefficients:
-##             Value  Std. Error t value
-## (Intercept) -0.448  0.468     -0.957 
-## x            5.049  0.087     57.936 
-## 
-## Residual standard error: 1.3 on 48 degrees of freedom</code></pre>
-<p>So we achieved basically the same estimates for beta, which is good!</p>
+<p>This page contains information regarding differential privacy, assessing the risk for disclosing microdata, and other methods used for preserving the privacy of data.</p>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<p><a href="differential_privacy.html">Differential Privacy</a></p>
+<p><a href="sdc_micro_example.html">microdata with sdcMicro</a></p>
 </div>
 
   <br>

@@ -411,6 +411,9 @@ div.tocify {
     <li>
       <a href="resources_stats.html">Statistics</a>
     </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -455,6 +458,9 @@ div.tocify {
     </li>
     <li>
       <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
     </li>
   </ul>
 </li>
@@ -545,7 +551,7 @@ hlm_model &lt;- stan_model(&quot;stan_hlm.stan&quot;)</code></pre>
              y = schools$estimate, 
              sigma = schools$sd)</code></pre>
 <pre class="r"><code>fit_hlm &lt;- sampling(hlm_model, data, chains = 2, iter = 2000, refresh = 0)</code></pre>
-<pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
+<pre><code>## Warning: There were 2 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
 <pre class="r"><code>print(fit_hlm, pars = &quot;theta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
@@ -553,17 +559,17 @@ hlm_model &lt;- stan_model(&quot;stan_hlm.stan&quot;)</code></pre>
 ## 2 chains, each with iter=2000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##           mean se_mean   sd   2.5%   50% 97.5% n_eff Rhat
-## theta[1] 11.21    0.23 8.07  -1.99 10.22 30.31  1194    1
-## theta[2]  7.93    0.16 6.44  -5.00  7.95 21.00  1534    1
-## theta[3]  6.21    0.19 7.88 -11.48  6.58 21.91  1657    1
-## theta[4]  7.58    0.16 6.45  -5.32  7.74 20.04  1600    1
-## theta[5]  5.04    0.15 6.10  -8.18  5.31 15.81  1649    1
-## theta[6]  6.34    0.16 6.70  -8.60  6.71 18.93  1834    1
-## theta[7] 10.42    0.18 6.76  -1.65  9.56 25.82  1387    1
-## theta[8]  8.58    0.21 8.07  -6.33  8.37 24.21  1489    1
+##          mean se_mean  sd   2.5%  50% 98% n_eff Rhat
+## theta[1] 11.2    0.22 7.8  -1.66 10.0  30  1210    1
+## theta[2]  7.8    0.13 6.0  -3.89  7.7  20  2127    1
+## theta[3]  6.4    0.18 7.4 -10.90  7.0  19  1688    1
+## theta[4]  7.8    0.13 6.1  -4.44  7.7  20  2128    1
+## theta[5]  5.2    0.15 6.4  -9.47  5.8  16  1763    1
+## theta[6]  6.2    0.16 6.6  -8.46  6.7  19  1798    1
+## theta[7] 10.5    0.17 6.7  -0.91  9.8  26  1622    1
+## theta[8]  8.7    0.18 7.6  -6.06  8.2  25  1806    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:26:07 2019.
+## Samples were drawn using NUTS(diag_e) at Wed Jan 30 13:05:27 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>

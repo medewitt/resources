@@ -411,6 +411,9 @@ div.tocify {
     <li>
       <a href="resources_stats.html">Statistics</a>
     </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -455,6 +458,9 @@ div.tocify {
     </li>
     <li>
       <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
     </li>
   </ul>
 </li>
@@ -546,11 +552,11 @@ generated quantities {
 ## 2 chains, each with iter=2000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##         mean se_mean   sd  2.5%  50% 97.5% n_eff Rhat
-## beta[1] 0.46       0 0.03  0.39 0.46  0.53  1367    1
-## beta[2] 0.05       0 0.08 -0.11 0.05  0.21   645    1
+##          mean se_mean   sd  2.5%   50%  98% n_eff Rhat
+## beta[1]  0.43       0 0.03  0.37  0.43 0.48  1286    1
+## beta[2] -0.08       0 0.05 -0.18 -0.08 0.01   965    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:27:28 2019.
+## Samples were drawn using NUTS(diag_e) at Wed Jan 30 13:09:12 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -560,15 +566,15 @@ generated quantities {
 <p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
 <p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
 <pre class="r"><code>traceplot(fit1)</code></pre>
-<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
 <pre class="r"><code>pairs(fit1)</code></pre>
-<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="fit-on-actual-data" class="section level2">
 <h2>Fit on Actual Data</h2>
 <p>For the sake of illustration I am going to turn to our friend, <code>mtcars</code> to test this model. So first things first is to put our data into the correct format:</p>
-<pre class="r"><code>data &lt;- list(y = mtcars$mpg, x = as.matrix(select(mtcars, wt, disp)),
+<pre class="r"><code>data &lt;- list(y = mtcars$mpg, x = as.matrix(dplyr::select(mtcars, wt, disp)),
              N = nrow(mtcars), K = 2L)</code></pre>
 <p>Now we can fit the model with our already compiled Stan code and let it run.</p>
 <pre class="r"><code>fit_real &lt;- sampling(mult_linear_regression, data = data, chains = 2, iter = 2000, refresh = 0)</code></pre>
@@ -578,11 +584,11 @@ generated quantities {
 ## 2 chains, each with iter=2000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##          mean se_mean   sd  2.5%   50% 97.5% n_eff Rhat
-## beta[1] -3.37    0.05 1.18 -5.68 -3.33 -1.08   490    1
-## beta[2] -0.02    0.00 0.01 -0.04 -0.02  0.00   623    1
+##          mean se_mean   sd  2.5%   50%   98% n_eff Rhat
+## beta[1] -3.26    0.05 1.29 -5.95 -3.23 -0.77   709    1
+## beta[2] -0.02    0.00 0.01 -0.04 -0.02  0.00   880    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:27:47 2019.
+## Samples were drawn using NUTS(diag_e) at Wed Jan 30 13:09:32 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -591,7 +597,7 @@ generated quantities {
 <pre class="r"><code>posterior &lt;- as.array(fit_real)
 
 bayesplot::mcmc_intervals(posterior, pars = c(&quot;beta[1]&quot;,&quot;beta[2]&quot;, &quot;sigma&quot;))</code></pre>
-<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="stan_mult_linear_regression_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 
   <br>

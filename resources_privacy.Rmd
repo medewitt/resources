@@ -1,0 +1,11 @@
+---
+title: "Privacy Methods"
+---
+
+This page contains information regarding differential privacy, assessing the risk for disclosing microdata, and other methods used for preserving the privacy of data.
+
+## Examples
+
+[Differential Privacy](differential_privacy.html)
+
+[microdata with sdcMicro](sdc_micro_example.html)

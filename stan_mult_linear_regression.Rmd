@@ -12,7 +12,7 @@ In this example I am going to practice multiple linear regression. Now I will ad
 
 I'm going to go ahead and load `rstan` for use in this example
 
-```{r}
+```{r mlr-stan}
 library(rstan)
 rstan_options(auto_write = TRUE)
 library(dplyr)
@@ -117,7 +117,7 @@ pairs(fit1)
 For the sake of illustration I am going to turn to our friend, `mtcars` to test this model. So first things first is to put our data into the correct format:
 
 ```{r}
-data <- list(y = mtcars$mpg, x = as.matrix(select(mtcars, wt, disp)),
+data <- list(y = mtcars$mpg, x = as.matrix(dplyr::select(mtcars, wt, disp)),
              N = nrow(mtcars), K = 2L)
 ```
 

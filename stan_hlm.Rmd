@@ -24,7 +24,7 @@ Which accounts for the error at the school level, the true population mean, $\mu
 The classic example of a Hierarchical Linear Model is of course the eight school problem. We have eight different school, with estimated treated effects and associated standard deviations for the treatment for that given school.
 
 
-```{r message=FALSE, warning=FALSE}
+```{r hlm-stan, message=FALSE, warning=FALSE}
 library(dplyr)
 (schools <- tribble(
   ~"school", ~"estimate", ~"sd",

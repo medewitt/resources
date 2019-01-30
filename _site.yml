@@ -13,6 +13,8 @@ navbar:
       href: resources_polisci.html
     - text: "Statistics"
       href: resources_stats.html
+    - text: "Privacy Methods"
+      href: resources_privacy.html
   - text: "Tutorials"
     icon: fa-book
     href: tutorials.html
@@ -36,8 +38,6 @@ navbar:
       href: stan_hlm_nn.html
     - text: "Ideal Point Analysis"
       href: stan_ideal_point.html
-    - text: "Instrumental Variable Regression"
-      href: stan_iv.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

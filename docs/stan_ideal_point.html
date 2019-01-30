@@ -411,6 +411,9 @@ div.tocify {
     <li>
       <a href="resources_stats.html">Statistics</a>
     </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -459,9 +462,6 @@ div.tocify {
     <li>
       <a href="stan_ideal_point.html">Ideal Point Analysis</a>
     </li>
-    <li>
-      <a href="stan_iv.html">Instrumental Variable Regression</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -489,19 +489,8 @@ div.tocify {
 <div id="generate-the-data" class="section level2">
 <h2>Generate the Data</h2>
 <p>Below is some of the data that was generated for simulation within a multiparty system. This is just a starting point.</p>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:car&#39;:
-## 
-##     recode</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>set.seed(1834)
+<pre class="r"><code>library(dplyr)
+set.seed(1834)
 # simulate data: 100 legislators, 150 votes
 N &lt;- 50
 M &lt;- 150
@@ -552,7 +541,7 @@ votes_data &lt;- data_frame(
     index = gsub(&quot;[A-Za-z_]*&quot;, &quot;&quot;, vote_id),
     index = as.numeric(index),
     year = ifelse(index &lt;= 75, &quot;2017&quot;, &quot;2018&quot;)) %&gt;% 
-  select(-index)
+  dplyr::select(-index)
 
 dimnames(m_votes)[[1]] &lt;- unique(votes_data$legislator_id)
 dimnames(m_votes)[[2]] &lt;- unique(votes_data$vote_id)
@@ -630,77 +619,67 @@ data &lt;- list(J = J, K = K, N = N, j = j, k = k, y = votes)</code></pre>
 ## 2 chains, each with iter=4000; warmup=2000; thin=1; 
 ## post-warmup draws per chain=2000, total post-warmup draws=4000.
 ## 
-##            mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## theta[1]   0.99    0.00 0.01  0.97  0.99  0.99  1.00  1.01    11 1.05
-## theta[2]  -0.99    0.01 0.01 -1.02 -1.00 -0.99 -0.99 -0.97     2 1.23
-## theta[3]  -0.51    1.23 1.24 -2.19 -1.73 -0.24  0.71  0.85     1 7.29
-## theta[4]  -0.82    1.76 1.77 -3.20 -2.56 -0.48  0.92  1.11     1 7.58
-## theta[5]  -0.74    1.58 1.59 -2.85 -2.30 -0.44  0.83  1.00     1 7.72
-## theta[6]  -0.63    1.41 1.42 -2.53 -2.01 -0.36  0.77  0.92     1 7.43
-## theta[7]  -0.51    1.24 1.24 -2.17 -1.73 -0.16  0.72  0.86     1 7.38
-## theta[8]  -0.60    1.37 1.38 -2.47 -1.95 -0.35  0.76  0.90     1 7.38
-## theta[9]  -0.66    1.46 1.47 -2.62 -2.11 -0.37  0.79  0.94     1 7.66
-## theta[10] -0.65    1.45 1.46 -2.59 -2.08 -0.35  0.79  0.95     1 7.54
-## theta[11] -0.44    1.14 1.15 -1.99 -1.57 -0.24  0.69  0.83     1 7.19
-## theta[12] -0.61    1.40 1.41 -2.51 -1.98 -0.33  0.79  0.93     1 7.34
-## theta[13] -0.55    1.29 1.30 -2.29 -1.82 -0.32  0.74  0.88     1 7.38
-## theta[14] -0.69    1.51 1.52 -2.71 -2.18 -0.40  0.81  0.96     1 7.64
-## theta[15] -0.58    1.34 1.35 -2.38 -1.91 -0.31  0.76  0.91     1 7.66
-## theta[16] -0.66    1.48 1.49 -2.69 -2.12 -0.40  0.81  0.95     1 7.31
-## theta[17] -0.46    1.16 1.17 -2.05 -1.61 -0.19  0.70  0.83     1 7.08
-## theta[18] -0.52    1.24 1.25 -2.19 -1.76 -0.25  0.71  0.86     1 7.45
-## theta[19] -0.66    1.46 1.47 -2.61 -2.11 -0.36  0.79  0.95     1 7.74
-## theta[20] -0.54    1.27 1.28 -2.24 -1.79 -0.29  0.72  0.86     1 7.59
-## theta[21]  0.01    0.47 0.48 -0.75 -0.45  0.15  0.47  0.59     1 4.09
-## theta[22] -0.11    0.63 0.64 -1.05 -0.73  0.09  0.51  0.63     1 5.08
-## theta[23] -0.06    0.56 0.57 -0.93 -0.61  0.11  0.50  0.62     1 4.67
-## theta[24] -0.10    0.63 0.63 -1.02 -0.72  0.09  0.52  0.64     1 5.23
-## theta[25] -0.02    0.51 0.52 -0.83 -0.51  0.14  0.48  0.60     1 4.28
-## theta[26] -0.06    0.56 0.57 -0.91 -0.61  0.18  0.49  0.61     1 4.64
-## theta[27] -0.19    0.75 0.75 -1.25 -0.92  0.02  0.55  0.67     1 5.96
-## theta[28] -0.11    0.65 0.65 -1.06 -0.75  0.07  0.53  0.64     1 5.39
-## theta[29] -0.07    0.58 0.59 -0.95 -0.64  0.09  0.51  0.63     1 4.76
-## theta[30] -0.05    0.56 0.57 -0.91 -0.59  0.10  0.50  0.61     1 4.62
-## theta[31] -0.06    0.56 0.57 -0.93 -0.60  0.08  0.50  0.62     1 4.67
-## theta[32] -0.16    0.72 0.73 -1.20 -0.86  0.04  0.55  0.67     1 5.48
-## theta[33]  0.67    0.51 0.52  0.04  0.17  0.42  1.16  1.54     1 3.59
-## theta[34]  0.53    0.31 0.33  0.12  0.24  0.40  0.83  1.15     1 2.54
-## theta[35]  0.68    0.53 0.54  0.04  0.17  0.46  1.19  1.56     1 3.76
-## theta[36]  0.69    0.54 0.55  0.03  0.16  0.47  1.20  1.59     1 3.74
-## theta[37]  0.58    0.38 0.40  0.09  0.22  0.41  0.95  1.29     1 2.92
-## theta[38]  0.45    0.20 0.23  0.14  0.26  0.37  0.62  0.95     1 1.76
-## theta[39]  0.58    0.38 0.40  0.09  0.21  0.41  0.95  1.29     1 2.92
-## theta[40]  0.52    0.29 0.31  0.13  0.25  0.40  0.79  1.12     1 2.36
-## theta[41]  0.74    0.61 0.62  0.01  0.14  0.52  1.33  1.69     1 4.27
-## theta[42]  0.62    0.44 0.46  0.06  0.19  0.41  1.05  1.39     1 3.25
-## theta[43]  0.74    0.62 0.63  0.00  0.13  0.46  1.34  1.74     1 4.08
-## theta[44]  0.74    0.62 0.63  0.00  0.14  0.53  1.34  1.73     1 4.26
-## theta[45]  0.71    0.57 0.58  0.02  0.15  0.50  1.26  1.61     1 4.07
-## theta[46] -0.56    1.31 1.32 -2.34 -1.86 -0.31  0.74  0.88     1 7.29
-## theta[47]  1.54    2.17 2.19 -0.99 -0.60  1.06  3.66  4.55     1 6.69
-## theta[48]  1.48    2.01 2.03 -0.86 -0.50  1.05  3.46  4.31     1 6.43
-## theta[49]  0.19    0.21 0.24 -0.29 -0.01  0.28  0.39  0.51     1 1.95
-## theta[50]  0.24    0.15 0.18 -0.16  0.12  0.30  0.39  0.50     2 1.51
+##            mean se_mean   sd  2.5%   25%   50%   75%   98% n_eff Rhat
+## theta[1]   0.99    0.00 0.01  0.97  0.99  0.99  1.00  1.01    11  1.1
+## theta[2]  -0.99    0.01 0.01 -1.02 -1.00 -0.99 -0.99 -0.97     2  1.2
+## theta[3]  -0.51    1.23 1.24 -2.19 -1.73 -0.24  0.71  0.85     1  7.3
+## theta[4]  -0.82    1.76 1.77 -3.20 -2.56 -0.48  0.92  1.11     1  7.6
+## theta[5]  -0.74    1.58 1.59 -2.85 -2.30 -0.44  0.83  1.00     1  7.7
+## theta[6]  -0.63    1.41 1.42 -2.53 -2.01 -0.36  0.77  0.92     1  7.4
+## theta[7]  -0.51    1.24 1.24 -2.17 -1.73 -0.16  0.72  0.86     1  7.4
+## theta[8]  -0.60    1.37 1.38 -2.47 -1.95 -0.35  0.76  0.90     1  7.4
+## theta[9]  -0.66    1.46 1.47 -2.62 -2.11 -0.37  0.79  0.94     1  7.7
+## theta[10] -0.65    1.45 1.46 -2.59 -2.08 -0.35  0.79  0.95     1  7.5
+## theta[11] -0.44    1.14 1.15 -1.99 -1.57 -0.24  0.69  0.83     1  7.2
+## theta[12] -0.61    1.40 1.41 -2.51 -1.98 -0.33  0.79  0.93     1  7.3
+## theta[13] -0.55    1.29 1.30 -2.29 -1.82 -0.32  0.74  0.88     1  7.4
+## theta[14] -0.69    1.51 1.52 -2.71 -2.18 -0.40  0.81  0.96     1  7.6
+## theta[15] -0.58    1.34 1.35 -2.38 -1.91 -0.31  0.76  0.91     1  7.7
+## theta[16] -0.66    1.48 1.49 -2.69 -2.12 -0.40  0.81  0.95     1  7.3
+## theta[17] -0.46    1.16 1.17 -2.05 -1.61 -0.19  0.70  0.83     1  7.1
+## theta[18] -0.52    1.24 1.25 -2.19 -1.76 -0.25  0.71  0.86     1  7.5
+## theta[19] -0.66    1.46 1.47 -2.61 -2.11 -0.36  0.79  0.95     1  7.7
+## theta[20] -0.54    1.27 1.28 -2.24 -1.79 -0.29  0.72  0.86     1  7.6
+## theta[21]  0.01    0.47 0.48 -0.75 -0.45  0.15  0.47  0.59     1  4.1
+## theta[22] -0.11    0.63 0.64 -1.05 -0.73  0.09  0.51  0.63     1  5.1
+## theta[23] -0.06    0.56 0.57 -0.93 -0.61  0.11  0.50  0.62     1  4.7
+## theta[24] -0.10    0.63 0.63 -1.02 -0.72  0.09  0.52  0.64     1  5.2
+## theta[25] -0.02    0.51 0.52 -0.83 -0.51  0.14  0.48  0.60     1  4.3
+## theta[26] -0.06    0.56 0.57 -0.91 -0.61  0.18  0.49  0.61     1  4.6
+## theta[27] -0.19    0.75 0.75 -1.25 -0.92  0.02  0.55  0.67     1  6.0
+## theta[28] -0.11    0.65 0.65 -1.06 -0.75  0.07  0.53  0.64     1  5.4
+## theta[29] -0.07    0.58 0.59 -0.95 -0.64  0.09  0.51  0.63     1  4.8
+## theta[30] -0.05    0.56 0.57 -0.91 -0.59  0.10  0.50  0.61     1  4.6
+## theta[31] -0.06    0.56 0.57 -0.93 -0.60  0.08  0.50  0.62     1  4.7
+## theta[32] -0.16    0.72 0.73 -1.20 -0.86  0.04  0.55  0.67     1  5.5
+## theta[33]  0.67    0.51 0.52  0.04  0.17  0.42  1.16  1.54     1  3.6
+## theta[34]  0.53    0.31 0.33  0.12  0.24  0.40  0.83  1.15     1  2.5
+## theta[35]  0.68    0.53 0.54  0.04  0.17  0.46  1.19  1.56     1  3.8
+## theta[36]  0.69    0.54 0.55  0.03  0.16  0.47  1.20  1.59     1  3.7
+## theta[37]  0.58    0.38 0.40  0.09  0.22  0.41  0.95  1.29     1  2.9
+## theta[38]  0.45    0.20 0.23  0.14  0.26  0.37  0.62  0.95     1  1.8
+## theta[39]  0.58    0.38 0.40  0.09  0.21  0.41  0.95  1.29     1  2.9
+## theta[40]  0.52    0.29 0.31  0.13  0.25  0.40  0.79  1.12     1  2.4
+## theta[41]  0.74    0.61 0.62  0.01  0.14  0.52  1.33  1.69     1  4.3
+## theta[42]  0.62    0.44 0.46  0.06  0.19  0.41  1.05  1.39     1  3.2
+## theta[43]  0.74    0.62 0.63  0.00  0.13  0.46  1.34  1.74     1  4.1
+## theta[44]  0.74    0.62 0.63  0.00  0.14  0.53  1.34  1.73     1  4.3
+## theta[45]  0.71    0.57 0.58  0.02  0.15  0.50  1.26  1.61     1  4.1
+## theta[46] -0.56    1.31 1.32 -2.34 -1.86 -0.31  0.74  0.88     1  7.3
+## theta[47]  1.54    2.17 2.19 -0.99 -0.60  1.06  3.66  4.55     1  6.7
+## theta[48]  1.48    2.01 2.03 -0.86 -0.50  1.05  3.46  4.31     1  6.4
+## theta[49]  0.19    0.21 0.24 -0.29 -0.01  0.28  0.39  0.51     1  1.9
+## theta[50]  0.24    0.15 0.18 -0.16  0.12  0.30  0.39  0.50     2  1.5
 ## 
-## Samples were drawn using NUTS(diag_e) at Mon Jan 28 04:57:39 2019.
+## Samples were drawn using NUTS(diag_e) at Wed Jan 30 13:09:00 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
 <p>Let’s just extract the parameters from the model.</p>
 <pre class="r"><code>posterior &lt;- rstan::extract(fit)[[&quot;theta&quot;]]</code></pre>
 <p>And graph them in the classic way (note that our anchors are diametrically opposed):</p>
-<pre class="r"><code>library(tidyverse, quietly = TRUE)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ tibble  1.4.2     ✔ purrr   0.2.5
-## ✔ tidyr   0.8.2     ✔ stringr 1.3.1
-## ✔ readr   1.3.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::extract() masks rstan::extract()
-## ✖ dplyr::filter()  masks stats::filter()
-## ✖ dplyr::lag()     masks stats::lag()
-## ✖ dplyr::recode()  masks car::recode()
-## ✖ purrr::some()    masks car::some()</code></pre>
-<pre class="r"><code>posterior %&gt;% 
+<pre class="r"><code>library(tidyverse, quietly = TRUE)
+posterior %&gt;% 
   as_data_frame() %&gt;% 
   set_names(sprintf(&quot;Legislator_%s&quot;, 1:50)) %&gt;% 
   gather(legislator_id, value) %&gt;% 
@@ -708,7 +687,7 @@ data &lt;- list(J = J, K = K, N = N, j = j, k = k, y = votes)</code></pre>
   summarise(med = median(value),
             q025 = quantile(value, 0.025),
             q975 = quantile(value, 0.975)) %&gt;% 
-  left_join(votes_data %&gt;% select(legislator_id, legislator_party) %&gt;% unique()) %&gt;% 
+  left_join(votes_data %&gt;% dplyr::select(legislator_id, legislator_party) %&gt;% unique()) %&gt;% 
   ggplot(aes(reorder(legislator_id, -med), color = legislator_party))+
   geom_point(aes(y = med))+
   geom_errorbar(aes(ymin = q025, ymax = q975))+
@@ -721,7 +700,7 @@ data &lt;- list(J = J, K = K, N = N, j = j, k = k, y = votes)</code></pre>
     color = &quot;Party&quot;
   )</code></pre>
 <pre><code>## Joining, by = &quot;legislator_id&quot;</code></pre>
-<p><img src="stan_ideal_point_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
+<p><img src="stan_ideal_point_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2>References</h2>

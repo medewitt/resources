@@ -411,6 +411,9 @@ div.tocify {
     <li>
       <a href="resources_stats.html">Statistics</a>
     </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -455,6 +458,9 @@ div.tocify {
     </li>
     <li>
       <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
     </li>
   </ul>
 </li>
@@ -531,10 +537,10 @@ model {
 ## 2 chains, each with iter=1000; warmup=500; thin=1; 
 ## post-warmup draws per chain=500, total post-warmup draws=1000.
 ## 
-##      mean se_mean   sd 2.5%  50% 97.5% n_eff Rhat
-## beta 0.52       0 0.04 0.45 0.52  0.59   485    1
+##      mean se_mean   sd 2.5%  50%  98% n_eff Rhat
+## beta 0.51       0 0.03 0.45 0.51 0.58   403    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Sat Jan 26 16:26:42 2019.
+## Samples were drawn using NUTS(diag_e) at Wed Jan 30 13:09:04 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -545,10 +551,10 @@ model {
 <p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
 <p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
 <pre class="r"><code>traceplot(fit1)</code></pre>
-<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
 <pre class="r"><code>pairs(fit1)</code></pre>
-<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>So, yahoo! first real model in Stan!</p>
 </div>
 

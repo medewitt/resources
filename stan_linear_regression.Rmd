@@ -16,7 +16,7 @@ Linear regression is pretty much the cornerstone of models, so it is a good plac
 
 I'm going to go ahead and load `rstan` for use in this example
 
-```{r}
+```{r stan-lr}
 library(rstan)
 rstan_options(auto_write = TRUE)
 ```

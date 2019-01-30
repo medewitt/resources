@@ -9,7 +9,7 @@ Ideal Point Modeling is useful when assessing political behaviour. I'm going to 
 
 Below is some of the data that was generated for simulation within a multiparty system. This is just a starting point.
 
-```{r}
+```{r stan-ideal}
 library(dplyr)
 set.seed(1834)
 # simulate data: 100 legislators, 150 votes
@@ -62,7 +62,7 @@ votes_data <- data_frame(
     index = gsub("[A-Za-z_]*", "", vote_id),
     index = as.numeric(index),
     year = ifelse(index <= 75, "2017", "2018")) %>% 
-  select(-index)
+  dplyr::select(-index)
 
 dimnames(m_votes)[[1]] <- unique(votes_data$legislator_id)
 dimnames(m_votes)[[2]] <- unique(votes_data$vote_id)
@@ -178,7 +178,7 @@ posterior %>%
   summarise(med = median(value),
             q025 = quantile(value, 0.025),
             q975 = quantile(value, 0.975)) %>% 
-  left_join(votes_data %>% select(legislator_id, legislator_party) %>% unique()) %>% 
+  left_join(votes_data %>% dplyr::select(legislator_id, legislator_party) %>% unique()) %>% 
   ggplot(aes(reorder(legislator_id, -med), color = legislator_party))+
   geom_point(aes(y = med))+
   geom_errorbar(aes(ymin = q025, ymax = q975))+
