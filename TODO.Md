@@ -13,3 +13,5 @@
 - Instrumental Variables
 
 - Prior Choices <https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations>
+
+https://github.com/sara-vanerp/bayesreg/tree/master/src/stan_files
