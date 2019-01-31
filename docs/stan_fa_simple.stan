@@ -1,0 +1,48 @@
+//
+// This Stan program defines a simple model, with a
+// vector of values 'y' modeled as normally distributed
+// with mean 'mu' and standard deviation 'sigma'.
+//
+// Learn more about model development with Stan at:
+//
+//    http://mc-stan.org/users/interfaces/rstan.html
+//    https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started
+//
+
+// The input data is a vector 'y' of length 'N'.
+data {
+  int<lower=0> N;  // number of data points
+  int<lower=1> J;  //parameters
+  matrix[N, J] y;  //outputs
+}
+
+// The parameters accepted by the model. Our model
+// accepts two parameters 'mu' and 'sigma'.
+parameters {
+  //latent variables
+  vector[N] xistar;
+  vector[N] sd_xistar;
+  vector[J] my_gamma;
+  vector[N] xi;
+  //
+}
+
+// The model to be estimated. We model the output
+// 'y' to be normally distributed with mean 'mu'
+// and standard deviation 'sigma'.
+model {
+  //latent variables
+  real mu_xistar;
+  xistar ~normal(0,1);
+  mu_xistar = mean(xistar);
+  
+  xi = (xistar-mu_xistar))/sd_xistar;
+  
+  //priors for measurement parameters
+  for(J in 1:J){
+    gamma
+  }
+  //model
+  y ~ normal(mu, sigma);
+}
+

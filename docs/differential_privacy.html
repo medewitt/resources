@@ -491,15 +491,18 @@ div.tocify {
 </div>
 <div id="epsilon" class="section level2">
 <h2>Epsilon</h2>
-<p>Epsilon is the privacy budget. If something is more sensitive the value of epsilon will be smaller. If the item is not senstive then the value is larger. ## Global Sensitivity</p>
+<p>Epsilon is the privacy budget. If something is more sensitive the value of epsilon will be smaller. If the item is not senstive then the value is larger.</p>
+</div>
+<div id="global-sensitivity" class="section level2">
+<h2>Global Sensitivity</h2>
 <p>Global sensitivity is how the L1 distance changes based on removing one person from the data.</p>
 <div id="gs" class="section level3">
 <h3>GS</h3>
 <ul>
 <li>counting <code>gs</code> = 1</li>
 <li>proportions <code>gs</code> = 1/n</li>
-<li>continuous <code>gs</code> <span class="math inline">\(\frac{b-a}{n}\)</span></li>
-<li>variance <code>gs</code> <span class="math inline">\(\frac{(b-a)^2}{n}\)</span></li>
+<li>continuous <code>gs</code> = <span class="math inline">\(\frac{b-a}{n}\)</span></li>
+<li>variance <code>gs</code> = <span class="math inline">\(\frac{(b-a)^2}{n}\)</span></li>
 </ul>
 <p>Where n is the total number of observations, a is the lower bound, and b is the lower bound of the data.</p>
 </div>

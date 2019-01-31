@@ -1,0 +1,34 @@
+---
+title: "Bayesian Factory Analysis"
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Data
+
+```{r}
+state.x77
+```
+
+
+## Hypothetical Model
+
+## Stan
+
+### Build Model
+
+### Prep Data
+
+
+
+### Compile Model
+
+## Fit Model
+
+## Examine Outputs
+

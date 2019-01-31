@@ -15,15 +15,17 @@ Release of aggregated data is always a challenge, especially when multiple cross
 ## Epsilon
 
 Epsilon is the privacy budget. If something is more sensitive the value of epsilon will be smaller. If the item is not senstive then the value is larger. 
+
 ## Global Sensitivity
 
 Global sensitivity is how the L1 distance changes based on removing one person from the data.
 
 ### GS
+
 - counting `gs` = 1
 - proportions `gs` = 1/n
-- continuous `gs` $\frac{b-a}{n}$
-- variance `gs` $\frac{(b-a)^2}{n}$
+- continuous `gs`  = $\frac{b-a}{n}$
+- variance `gs`  = $\frac{(b-a)^2}{n}$
 
 Where n is the total number of observations, a is the lower bound, and b is the lower bound of the data.
 
