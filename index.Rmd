@@ -2,6 +2,8 @@
 title: Welcome
 ---
 
-The purpose of this website is to provide a consolidated location for tools, tutorials, examples, and resources commonly used in my research. This includes items such as data sets to more complicated tests of models and methods. The purpose of this website is primarily as a personal tool to provide quick access to these items, but I wanted to make it available if anyone else sees a use in it.
+The purpose of this website is to provide a consolidated location for tools, tutorials, examples, and resources commonly used in my research (both professional and personal). This includes items such as data sets to more complicated tests of models and methods. The purpose of this website is primarily as a personal tool to provide quick access to these items, but I wanted to make it available if anyone else sees a use in it.
 
-All presentations, video, and supporting resources will be hosted here. IF you have any questions about the materials, please e-mail [me](mailto:dewittme@wfu.edu).
+This website was prepared or accomplished by Michael DeWitt in his personal capacity. The views, thoughts, and opinions expressed in this website are the author's own and not necessarily to the author’s employer, organization, committee or other group or individual.
+
+All presentations, video, and supporting resources will be hosted here. IF you have any questions about the materials, please e-mail [me](mailto:me.dewitt.jr@gmail.com).

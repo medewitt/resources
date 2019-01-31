@@ -11,7 +11,7 @@
 
 
 
-<title>Resources</title>
+<title>Bayesian Factory Analysis</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -480,20 +480,137 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Resources</h1>
+<h1 class="title toc-ignore">Bayesian Factory Analysis</h1>
 
 </div>
 
 
-<div class="jumbotron">
-<h1>
-Just a test
-</h1>
-<p>I wanted to test this feature</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<pre class="r"><code>state.x77</code></pre>
+<pre><code>##                Population Income Illiteracy Life Exp Murder HS Grad Frost
+## Alabama              3615   3624        2.1       69   15.1      41    20
+## Alaska                365   6315        1.5       69   11.3      67   152
+## Arizona              2212   4530        1.8       71    7.8      58    15
+## Arkansas             2110   3378        1.9       71   10.1      40    65
+## California          21198   5114        1.1       72   10.3      63    20
+## Colorado             2541   4884        0.7       72    6.8      64   166
+## Connecticut          3100   5348        1.1       72    3.1      56   139
+## Delaware              579   4809        0.9       70    6.2      55   103
+## Florida              8277   4815        1.3       71   10.7      53    11
+## Georgia              4931   4091        2.0       69   13.9      41    60
+## Hawaii                868   4963        1.9       74    6.2      62     0
+## Idaho                 813   4119        0.6       72    5.3      60   126
+## Illinois            11197   5107        0.9       70   10.3      53   127
+## Indiana              5313   4458        0.7       71    7.1      53   122
+## Iowa                 2861   4628        0.5       73    2.3      59   140
+## Kansas               2280   4669        0.6       73    4.5      60   114
+## Kentucky             3387   3712        1.6       70   10.6      38    95
+## Louisiana            3806   3545        2.8       69   13.2      42    12
+## Maine                1058   3694        0.7       70    2.7      55   161
+## Maryland             4122   5299        0.9       70    8.5      52   101
+## Massachusetts        5814   4755        1.1       72    3.3      58   103
+## Michigan             9111   4751        0.9       71   11.1      53   125
+## Minnesota            3921   4675        0.6       73    2.3      58   160
+## Mississippi          2341   3098        2.4       68   12.5      41    50
+## Missouri             4767   4254        0.8       71    9.3      49   108
+## Montana               746   4347        0.6       71    5.0      59   155
+## Nebraska             1544   4508        0.6       73    2.9      59   139
+## Nevada                590   5149        0.5       69   11.5      65   188
+## New Hampshire         812   4281        0.7       71    3.3      58   174
+## New Jersey           7333   5237        1.1       71    5.2      52   115
+## New Mexico           1144   3601        2.2       70    9.7      55   120
+## New York            18076   4903        1.4       71   10.9      53    82
+## North Carolina       5441   3875        1.8       69   11.1      38    80
+## North Dakota          637   5087        0.8       73    1.4      50   186
+## Ohio                10735   4561        0.8       71    7.4      53   124
+## Oklahoma             2715   3983        1.1       71    6.4      52    82
+## Oregon               2284   4660        0.6       72    4.2      60    44
+## Pennsylvania        11860   4449        1.0       70    6.1      50   126
+## Rhode Island          931   4558        1.3       72    2.4      46   127
+## South Carolina       2816   3635        2.3       68   11.6      38    65
+## South Dakota          681   4167        0.5       72    1.7      53   172
+## Tennessee            4173   3821        1.7       70   11.0      42    70
+## Texas               12237   4188        2.2       71   12.2      47    35
+## Utah                 1203   4022        0.6       73    4.5      67   137
+## Vermont               472   3907        0.6       72    5.5      57   168
+## Virginia             4981   4701        1.4       70    9.5      48    85
+## Washington           3559   4864        0.6       72    4.3      64    32
+## West Virginia        1799   3617        1.4       69    6.7      42   100
+## Wisconsin            4589   4468        0.7       72    3.0      54   149
+## Wyoming               376   4566        0.6       70    6.9      63   173
+##                  Area
+## Alabama         50708
+## Alaska         566432
+## Arizona        113417
+## Arkansas        51945
+## California     156361
+## Colorado       103766
+## Connecticut      4862
+## Delaware         1982
+## Florida         54090
+## Georgia         58073
+## Hawaii           6425
+## Idaho           82677
+## Illinois        55748
+## Indiana         36097
+## Iowa            55941
+## Kansas          81787
+## Kentucky        39650
+## Louisiana       44930
+## Maine           30920
+## Maryland         9891
+## Massachusetts    7826
+## Michigan        56817
+## Minnesota       79289
+## Mississippi     47296
+## Missouri        68995
+## Montana        145587
+## Nebraska        76483
+## Nevada         109889
+## New Hampshire    9027
+## New Jersey       7521
+## New Mexico     121412
+## New York        47831
+## North Carolina  48798
+## North Dakota    69273
+## Ohio            40975
+## Oklahoma        68782
+## Oregon          96184
+## Pennsylvania    44966
+## Rhode Island     1049
+## South Carolina  30225
+## South Dakota    75955
+## Tennessee       41328
+## Texas          262134
+## Utah            82096
+## Vermont          9267
+## Virginia        39780
+## Washington      66570
+## West Virginia   24070
+## Wisconsin       54464
+## Wyoming         97203</code></pre>
 </div>
-<div id="academic-writing" class="section level2">
-<h2>Academic Writing</h2>
-<p><a href="https://sites.google.com/site/amandayagan/writingadvice" class="uri">https://sites.google.com/site/amandayagan/writingadvice</a></p>
+<div id="hypothetical-model" class="section level2">
+<h2>Hypothetical Model</h2>
+</div>
+<div id="stan" class="section level2">
+<h2>Stan</h2>
+<div id="build-model" class="section level3">
+<h3>Build Model</h3>
+</div>
+<div id="prep-data" class="section level3">
+<h3>Prep Data</h3>
+</div>
+<div id="compile-model" class="section level3">
+<h3>Compile Model</h3>
+</div>
+</div>
+<div id="fit-model" class="section level2">
+<h2>Fit Model</h2>
+</div>
+<div id="examine-outputs" class="section level2">
+<h2>Examine Outputs</h2>
 </div>
 
   <br>

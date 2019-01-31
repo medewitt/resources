@@ -20,10 +20,17 @@ data {
 // accepts two parameters 'mu' and 'sigma'.
 parameters {
   //latent variables
+  matrix [N, J] mu;
   vector[N] xistar;
   vector[N] sd_xistar;
   vector[J] my_gamma;
   vector[N] xi;
+  
+  vector[J] gamma_0;
+  vector[J] gamma_1;
+  vector[J] tau;
+  
+  
   //
 }
 
@@ -36,13 +43,19 @@ model {
   xistar ~normal(0,1);
   mu_xistar = mean(xistar);
   
-  xi = (xistar-mu_xistar))/sd_xistar;
+  xi = (xistar-mu_xistar)/sd_xistar;
+
   
   //priors for measurement parameters
-  for(J in 1:J){
-    gamma
+  for(j in 1:J){
+    gamma_0[j] ~ normal(0, 10);
+    gamma_1[j] ~ normal(0, 10);
+    tau ~ gamma( 0.1, 0.1);
+    mu = gamma_0[j] + gamma_1[j]*xi;
   }
   //model
-  y ~ normal(mu, sigma);
+
+  
+  y ~ normal(mu, tau);
 }
 

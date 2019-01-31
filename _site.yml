@@ -56,9 +56,9 @@ output:
       after_body: footer.html
       in_header: GA.html
 instructor: "Michael DeWitt"
-address1: "Office of Institutional Research"
-address2: "309 Reynolda Hall"
-address3: "Winston- Salem, NC, 27106"
+address1: ""
+address2: ""
+address3: "Winston- Salem, NC"
 github: "medewitt"
-email: "dewittme.wfu.edu"
+email: "me.dewitt.jr@gmail.com"
 GA: "UA-117944166-1"
