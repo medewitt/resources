@@ -113,6 +113,6 @@ traceplot(stan_fit)
 Not too bad. Now we can review our parameters
 
 ```{r posterior}
-print(stan_fit, pars = c("betas", "fac_cor", "y_means", "y_noise"))
+print(stan_fit, pars = c("betas", "fac_cor"))
 ```
 
