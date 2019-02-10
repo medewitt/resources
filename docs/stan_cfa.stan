@@ -2,16 +2,12 @@
 data{
 	// n_subj: number of subjects
 	int n_subj ;
-	
 	// n_y: number of outcomes
 	int n_y ;
-	
 	// y: matrix of outcomes
 	matrix[n_subj,n_y] y ;
-	
 	// n_fac: number of latent factors
 	int n_fac ;
-	
 	// y_fac: list of which factor is associated with each outcome
 	int<lower=1,upper=n_fac> y_fac[n_y] ;
 }
@@ -26,7 +22,6 @@ parameters{
 	// normal01: a helper variable for more efficient non-centered multivariate
 	//  sampling of subj_facs
 	matrix[n_fac, n_subj] normal01;
-	
 	// fac_cor_helper: correlations (on cholesky factor scale) amongst latent
 	//  factors
 	cholesky_factor_corr[n_fac] fac_cor_helper ;

@@ -23,7 +23,6 @@ parameters {
   matrix [N, J] mu;
   vector[N] xistar;
   vector[N] sd_xistar;
-  vector[J] my_gamma;
   vector[N] xi;
   
   vector[J] gamma_0;
@@ -40,10 +39,14 @@ parameters {
 model {
   //latent variables
   real mu_xistar;
-  xistar ~normal(0,1);
-  mu_xistar = mean(xistar);
+  //real xi;
   
-  xi = (xistar-mu_xistar)/sd_xistar;
+  mu_xistar = mean(xistar);
+  for( n in 1:N){
+    xistar[n] ~normal(0,1);
+    xi = (xistar-mu_xistar) / sd_xistar;
+  }
+  
 
   
   //priors for measurement parameters

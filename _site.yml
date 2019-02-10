@@ -38,6 +38,8 @@ navbar:
       href: stan_hlm_nn.html
     - text: "Ideal Point Analysis"
       href: stan_ideal_point.html
+    - text: "Confirmatory Factor Analysis"
+      href: stan_cfa.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

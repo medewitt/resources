@@ -16,19 +16,21 @@ library(tidyverse)
 J <- 30 # Students
 K <- 10 # Questions
 N <- J * K
-alpha     <- runif(K,.5,2) #slopes
-beta     <- runif(K,-2,3) # intercepts
-theta.mu <- 0 # population mean of person ability
-theta.sig <- 1 # population sd of  person ability
-theta  <- rnorm(J,theta.mu,theta.sig) # generate 500 ability parameters
-slope.ability  <- outer(theta, alpha) # multiply the slope vector by the ability vector
-intercept      <- matrix(rep(beta, J), nrow=J, byrow=TRUE)
-Prob           <- plogis(intercept+slope.ability ) # 1/(1 + exp(.))
-data           <- ifelse(runif(N) < Prob,1,0) # generate matrix of Bernoulli 0-1 responses
+alpha <- runif(K, .5, 2) #slopes
+beta <- runif(K, -2, 3) # intercepts
+theta_mu <- 0 # population mean of person ability
+theta_sig <- 1 # population sd of  person ability
+theta <-
+  rnorm(J, theta_mu, theta_sig) # generate 500 ability parameters
+slope.ability <-
+  outer(theta, alpha) # multiply the slope vector by the ability vector
+intercept <- matrix(rep(beta, J), nrow = J, byrow = TRUE)
+prob <- plogis(intercept + slope.ability) # 1/(1 + exp(.))
+data <-
+  ifelse(runif(N) < prob, 1, 0) # generate matrix of Bernoulli 0-1 responses
 ```
 
 ```{r}
-
 tidy_data <- data %>% 
   as_tibble() %>% 
   mutate(person_id = row_number()) %>% 

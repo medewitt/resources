@@ -462,6 +462,9 @@ div.tocify {
     <li>
       <a href="stan_ideal_point.html">Ideal Point Analysis</a>
     </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -557,6 +560,8 @@ eps &lt;- 1</code></pre>
 <pre><code>## [1] 172.2229 163.8062</code></pre>
 <p>So we can look at the results side by side</p>
 <pre class="r"><code>data_frame(truth = true_height$mu_height, reported = reported)</code></pre>
+<pre><code>## Warning: `data_frame()` is deprecated, use `tibble()`.
+## This warning is displayed once per session.</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["truth"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["reported"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"176.6441","2":"172.2229"},{"1":"168.2273","2":"163.8062"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
