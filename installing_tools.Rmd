@@ -1,0 +1,40 @@
+---
+title: "Installing The Tool-Kit"
+---
+
+## Getting R, R Studio and Git
+
+- First step is to go to CRAN and download the base version of R for your operating system at <https://cran.r-project.org/>
+
+- Next download RStudio for your operating system. This can be done at <https://www.rstudio.com/products/rstudio/download/>. You want the open source RStudio Desktop. It's free. 
+
+-   Next install Git. Git is a version control system that also doubles down as a great way to share information and files (especially code). Atlassian has put together a nice "how-to" here <https://www.atlassian.com/git/tutorials/install-git> 
+
+- If you have a windows system go [here](https://gitforwindows.org/) 
+- If you have a MAC system you should already have git. If not then go [here](https://sourceforge.net/projects/git-osx-installer/files/) 
+
+After you have installed all of them (in that order) open up R Studio! This will be your IDE or integrated development environment. RStudio has done an amazing job with all the features and has really made R into an enterprise ready solution.
+
+## Some Critical Packages
+
+When you first open R Studio, go to the console:
+
+```{r console, echo=FALSE}
+knitr::include_graphics(here::here("figs", "console.png"))
+```
+
+Then type the following (or just copy an paste from below):
+
+```{r installs, eval=FALSE}
+
+install.packages(c("tidyverse", "rmarkdown", "bookdown", "kableExtra", "tidytex"))
+
+```
+
+This will initiate some package downloads (and it might take a while). You'll do it is finished when the `>` returns to the bottom of the console.
+
+Now just a few things, again in the console:
+
+```{r tinytext, eval=FALSE}
+library(tinytex)
+```
