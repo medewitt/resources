@@ -40,6 +40,10 @@ navbar:
       href: stan_ideal_point.html
     - text: "Confirmatory Factor Analysis"
       href: stan_cfa.html
+    - text: "Categorical Response Distribution"
+      href: stan_categorical_responses.html
+    - text: "2PL IRT"
+      href: stan_2pl.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

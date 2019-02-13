@@ -8,3 +8,5 @@ The motivated reason for this repo/ website is to help me keep all my resources 
 This template and website layout is inspired by [Steven V Miller](svmiller.com).
 
 <https://opportunityinsights.org/data/>
+
+discourse.org 

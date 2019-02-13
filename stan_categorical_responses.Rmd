@@ -1,0 +1,216 @@
+---
+title: "Distribution of Categorical Responses"
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+This post is adapted from Alex Hayes' post available [here](http://www.alexpghayes.com/blog/some-things-ive-learned-about-stan/). In it he reviews the ways one can use Stan to review the distribution of responses to categorical survey items and then use this to predict class probabilities. This is a neat way to look at survey items rather than converting responses to a numeric scale and treating them as continuous. Much more true to the data and a lot has been written about the dangers of using the continuous approach to catgorical data.
+
+## Motivating Example
+
+I do a good bit of survey analysis where often times we are trying to compare different response patterns of different groups. As such this provides an interesting way of seeing the distribution of answers across a variety of items.
+
+## Data Generating Process
+
+$$R_{i,j}|theta_j \sim Categorical(\theta_j)$$
+$$\theta_j|y_i \sim Dirichlet(4)$$
+Where $R_{i,j}$ is the response of the student ith to jth question with y representing class membership. 
+
+Additionaly, another important point for the prediction of class probability given predicted quantities we can use Bayes' Rule:
+
+$$P(yi = 0 | R_i,1,...,R_i,j)=\frac{\Pi_{j=1}^AP(R_{i,j}|y_i=0)}{\Pi_{j=1}^AP(R_{i,j}|y_i=0)+\Pi_{j=1}^AP(R_{i,j}|y_i=1)}$$
+
+Or more simply put:
+
+$$P(yi = 0 | R_i,1,...,R_i,j)=\frac{\Pi_{j=1}^A\theta_{j,0}}{Pi_{j=1}^A\theta_{j,0}+Pi_{j=1}^A\theta_{j,1}}$$
+
+Luckily Alex wrote a Stan function which computes this probability for us and can be specified both as a function and then used in the generated quanitities block.
+
+So now using 
+
+```{r}
+library(tidyverse)
+
+set.seed(336)
+
+Q <- 3 # Three Question (items)
+A <- 5 # 5 Possible responses
+
+alpha <- rep(4, A)
+
+theta_0 <- gtools::rdirichlet(Q, alpha)
+theta_1 <- gtools::rdirichlet(Q, alpha)
+```
+
+
+```{r}
+sample_one <- function(theta) {
+
+  R <- numeric(Q)
+
+  for (q in 1:Q)
+    R[q] <- sample(1:A, 1, prob = theta[q, ])
+
+  names(R) <- paste0("q", 1:Q)
+  as.list(R)
+}
+```
+
+```{r}
+sample_n <- function(theta, n, id) {
+  samples <- map_dfr(1:n, ~sample_one(theta))
+  samples <- add_column(samples, y = id, .before = TRUE)
+  mutate_all(samples, as.integer)
+}
+
+(df <- sample_n(theta_0, 35, id = 0) %>%
+  bind_rows(sample_n(theta_1, 35, id = 1)))
+```
+
+Additionally, we can add back in some data for prediction purposes, again predicting in our generated quantities block.
+
+```{r}
+new_df <- sample_n(theta_0, 35, id = 0) %>%
+  bind_rows(sample_n(theta_1, 35, id = 1))
+```
+
+
+## Stan Model
+
+```{r call-stan}
+library(rstan)
+rstan_options(auto_write = TRUE)
+```
+
+Based on our specified generative model we can write our Stan function
+
+```{r see-stan}
+writeLines(readLines("stan_categorical_responses.stan"))
+```
+
+
+
+## Format Data
+
+As per normal we need to do a little reformating of our data, but this isn't too crazy
+
+```{r dat-2}
+new_data <- list(
+  R = as.matrix(dplyr::select(df, -y)),
+  N = nrow(df),
+  y = df$y,
+  new_R = as.matrix(dplyr::select(new_df, -y)),
+  new_N = nrow(new_df),
+  Q = Q,
+  A = A,
+  alpha = alpha
+)
+```
+
+
+## Run Model
+
+```{r compile}
+model <- stan_model("stan_categorical_responses.stan")
+```
+
+Now we can run the fit:
+
+```{r run-mod, cache=TRUE}
+fit <- sampling(model, new_data, cores = 3, iter = 2000, chains = 3, refresh=0)
+```
+## Run Our Diagnostics
+
+Run our trace plots for diagnostics.
+
+```{r}
+traceplot(fit)
+```
+
+Additionally, [Michael Betancourt](https://betanalpha.github.io/) has assembled a few great utilities that can be used to diagnose a fit. Additionally, a neat trick learned from reading his blog is to souce specific functions into a local environment and then reference them explicitly.
+
+```{r}
+util <- new.env()
+source('stan_utilities.R', local=util)
+```
+
+Let's run the checks:
+
+```{r}
+util$check_all_diagnostics(fit)
+```
+
+Everything looks good! On to inferences.
+
+## Make Inferences
+
+```{r}
+library(bayesplot)
+library(tidybayes)
+```
+
+### Check the Parameters
+
+```{r}
+print(fit, pars = "theta_0")
+```
+
+```{r}
+print(fit, pars = "theta_1")
+```
+
+### Predictions
+
+```{r}
+pred <- fit %>%
+  spread_draws(new_pred[i]) %>%
+  median_qi(new_pred[i]) %>% 
+  mutate(.pred = if_else(`new_pred[i]` > 0.5, 0, 1))
+
+acc <- round(mean(pred$.pred == new_df$y), 2)
+cat("The classification accuracy is:", acc)
+```
+
+
+```{r}
+theta_0_draws <- fit %>%  
+  spread_draws(theta_0[i, j])
+
+theta_1_draws <- fit %>%  
+  spread_draws(theta_1[i, j])
+
+theta_draws <- theta_0_draws %>% 
+  left_join(theta_1_draws)
+```
+
+```{r}
+theta_draws %>% 
+  gather(group, theta, theta_0, theta_1) %>% 
+  mutate(
+    group = if_else(group == "theta_0", "Group 0", "Group 1"),
+    question = i,
+    response = j
+  ) %>% 
+  ggplot(aes(theta, fill = group, color = group)) +
+  geom_density(alpha = 0.5) +
+  facet_grid(
+    rows = vars(question),
+    cols = vars(response)
+  ) +
+  labs(
+    title = "Estimated probability of each response by question and group",
+    subtitle = "Columns correspond to response, rows to questions",
+    x = "Probability of response") +
+  theme(
+    legend.position = "none",
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  theme(panel.grid = element_blank(), 
+        panel.background = element_rect(fill="white"))
+```
+

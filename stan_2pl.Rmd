@@ -41,9 +41,31 @@ tidy_data <- data %>%
 
 ## Stan
 
+```{r}
+writeLines(readLines("stan_2pl.stan"))
+```
+
+
 ## Data Prep
 
 ## Modeling
+
+```{r}
+library(rstan)
+model <- stan_model("stan_2pl.stan")
+```
+
+
+## Model Checking
+
+```{r check-tools}
+util <- new.env()
+source('stan_utilities.R', local=util)
+```
+
+```{r checks, eval=FALSE}
+util$check_all_diagnostics(fit)
+```
 
 ## Inferences
 
