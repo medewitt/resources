@@ -19,6 +19,10 @@ Dean Eckles class:
 
 <https://docs.google.com/document/d/1x0EHydxvgk7p7rWg2Toj7zyOB3Aw_67qG_n0vNoumlE/edit>
 
+### Quant Politics with R
+
+<http://qpolr.com/>
+
 
 ### Lecture Notes for Advanced Quantitative Political Methodology
 

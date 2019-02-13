@@ -58,8 +58,20 @@ Holding all other variables fixed at their observed values - or *ceteris paribus
 Do it right...
 <https://www.fromthebottomoftheheap.net/2018/12/10/confidence-intervals-for-glms/>
 
+## Simon Jackmon Examples
+<https://jrnold.github.io/bugs-examples-in-stan/index.html> in Stan!
+
 ## Tidybayes Examples
+
+### Compose Stan for Stan
+
+<http://mjskay.github.io/tidybayes/reference/compose_data.html>
+
+### Recover Types
+
+<http://mjskay.github.io/tidybayes/reference/recover_types.html>
 
 ### Mixed Models
 
 <http://rpubs.com/tjmahr/tidybayes-on-a-mixed-model>
+

@@ -75,3 +75,33 @@ County-level jail data (1970-2015) and prison data (1983-2015)
 ### Refugee Resettlement
 
 <https://github.com/OWH-projects/refugees>
+
+### Global Flow
+
+<http://download.gsb.bund.de/BIB/global_flow/>
+
+### International Migration Database
+
+<https://stats.oecd.org/Index.aspx?DataSetCode=MIG>
+
+### U.S. Population Migration Data
+
+<https://www.irs.gov/statistics/soi-tax-stats-migration-data>
+
+## SWB
+World happiness report
+<http://worldhappiness.report/ed/2018/>
+
+## Transfer of Wealth
+
+### IRS
+
+#### State returns
+
+<https://www.irs.gov/statistics/soi-tax-stats-county-data-2016>
+
+### Federal Reserve
+
+#### Survey of Household Economics and Decisionmaking
+
+<https://www.federalreserve.gov/consumerscommunities/shed_data.htm>
