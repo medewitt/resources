@@ -17,7 +17,15 @@ biblio-style: apalike
 
 <https://github.com/MEDSL/constituency-returns>
 
+### the @unitedstates project
+
+<https://theunitedstates.io/>
+
 ## Poltical Survey Data
+
+### Database on Ideology, Money in Politics, and Elections: Public version
+
+<https://data.stanford.edu/dime>
 
 ### Cooperative Congressional Election Study
 
@@ -52,8 +60,16 @@ County-level jail data (1970-2015) and prison data (1983-2015)
 <https://openpolicing.stanford.edu/data/>
 
 ### SIPRI Arms Transfers Database
+- United States Bomb Data Center (USBDC)  
+- Listing of Federal Firearms Licensees  
+- Firearms Commerce Report in the United States  
+- Federal Firearms Licensee Statistics Theft / Loss Reports  
 
 <https://www.sipri.org/databases/armstransfers/background>
+
+## ATF Data
+
+<https://www.atf.gov/resource-center/data-statistics>
 
 ### Eviction Labs
 
@@ -105,3 +121,7 @@ World happiness report
 #### Survey of Household Economics and Decisionmaking
 
 <https://www.federalreserve.gov/consumerscommunities/shed_data.htm>
+
+### US Census
+
+[Population projections](https://www.census.gov/data/datasets/2017/demo/popproj/2017-popproj.html)
