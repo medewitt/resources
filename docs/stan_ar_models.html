@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Autoregressive Modeling in Stan</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'UA-117944166-1');
+      </script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research and Methods Resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-hand-paper"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources_econ.html">Economics</a>
+    </li>
+    <li>
+      <a href="resources_polisci.html">Political Science</a>
+    </li>
+    <li>
+      <a href="resources_stats.html">Statistics</a>
+    </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="tutorials.html">
+    <span class="fa fa-book"></span>
+     
+    Tutorials
+  </a>
+</li>
+<li>
+  <a href="notes.html">
+    <span class="fa fa-handshake"></span>
+     
+    My Notes
+  </a>
+</li>
+<li>
+  <a href="data_sources.html">
+    <span class="fa fa-paper-plane"></span>
+     
+    Data Sources
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Stan
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="stan_linear_regression.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
+    </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
+    <li>
+      <a href="stan_categorical_responses.html">Categorical Response Distribution</a>
+    </li>
+    <li>
+      <a href="stan_2pl.html">2PL IRT</a>
+    </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://michaeldewittjr.com">
+    <span class="fa fa-folder"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Autoregressive Modeling in Stan</h1>
+
+</div>
+
+
+<p>This post looks at modeling autoregressive models. Autoregression is typically important when dealing with time series analysis. The general idea is that the past value of a repeatedly measured item will be indicative of its future value. A good example is a stock. Today’s stock price could be modelled as a function of yesterday’s stock price. While this isn’t entirely true, it does approximate a decent model.</p>
+<div id="data-generating-process" class="section level2">
+<h2>Data Generating Process</h2>
+<p>In this case I am going to look at an AR(3) model. Thus the model form would take on the following data generating process:</p>
+<p><span class="math display">\[y_n \sim N(\alpha + \beta_1y_{n-1} + \beta_2y_{n-2} + \beta_3y_{n-3}, \sigma)\]</span></p>
+<p>And we can used a built in feature of R to help us simulate these data. Note that I have not specificed a moving average.</p>
+<pre class="r"><code>fake_data &lt;-arima.sim(n = 200, model = list(ar = c(.2, .5, .05)))</code></pre>
+<pre class="r"><code>ts.plot(fake_data, main = &quot;Time Series Plot of Our Fake Data&quot;)</code></pre>
+<p><img src="stan_ar_models_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="stan" class="section level2">
+<h2>Stan</h2>
+<div id="the-model" class="section level3">
+<h3>The Model</h3>
+<pre class="r"><code>writeLines(readLines(&quot;stan_ar_models.stan&quot;))</code></pre>
+<p>// From <a href="https://mc-stan.org/docs/2_18/stan-users-guide/autoregressive-section.html" class="uri">https://mc-stan.org/docs/2_18/stan-users-guide/autoregressive-section.html</a> // Allowing for flexible autoregression for time series modeling</p>
+<p>data { int&lt;lower=0&gt; K; // Order of Autoregression int&lt;lower=0&gt; N; // number of observations real y[N]; // Outcome } parameters { real alpha; real beta[K]; real sigma; } model { for (n in (K+1):N) { real mu = alpha; for (k in 1:K) mu += beta[k] * y[n-k]; y[n] ~ normal(mu, sigma); } }</p>
+</div>
+<div id="the-modeling-process" class="section level3">
+<h3>The Modeling Process</h3>
+<pre class="r"><code>library(rstan)
+
+rstan_options(auto_write = TRUE)
+model &lt;- stan_model(&quot;stan_ar_models.stan&quot;)</code></pre>
+<pre><code>## recompiling to avoid crashing R session</code></pre>
+</div>
+<div id="format-data" class="section level3">
+<h3>Format Data</h3>
+<p>Now we need to format our data for our Stan program:</p>
+<pre class="r"><code>stan_dat &lt;- list(
+  N = length(fake_data),
+  K = 3,
+  y = as.vector(fake_data)
+)</code></pre>
+</div>
+<div id="fit-the-model" class="section level3">
+<h3>Fit the Model</h3>
+<p>Let’s run our model with the usual conditions.</p>
+<pre class="r"><code>fit &lt;- sampling(model, stan_dat,
+                cores = 2, iter = 1000,
+                refresh = 0, chains = 2)</code></pre>
+</div>
+</div>
+<div id="model-checking" class="section level2">
+<h2>Model Checking</h2>
+<p>And as always special thanks to <a href="https://betanalpha.github.io/">Michael Betancourt</a> for these amazing tools for diagnostics.</p>
+<pre class="r"><code>util &lt;- new.env()
+source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
+<pre class="r"><code>util$check_all_diagnostics(fit)</code></pre>
+</div>
+<div id="inference" class="section level2">
+<h2>Inference</h2>
+<pre class="r"><code>print(fit, pars = &quot;beta&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_ar_models.
+## 2 chains, each with iter=1000; warmup=500; thin=1; 
+## post-warmup draws per chain=500, total post-warmup draws=1000.
+## 
+##         mean se_mean   sd  2.5%  25%  50%  75%  98% n_eff Rhat
+## beta[1] 0.15       0 0.07  0.00 0.10 0.16 0.21 0.29   842    1
+## beta[2] 0.59       0 0.06  0.49 0.55 0.59 0.63 0.72   829    1
+## beta[3] 0.06       0 0.07 -0.07 0.01 0.06 0.12 0.20   819    1
+## 
+## Samples were drawn using NUTS(diag_e) at Fri Feb 22 14:47:39 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+</div>
+
+  <br>
+    <hr>
+    
+    <div class="column-left">
+    <p>
+    <b>Research and Methods Resources</b><br>
+    <a href="mailto:me.dewitt.jr@gmail.com">me.dewitt.jr@gmail.com</a> <br>
+    </p>
+    </div>
+    
+    <div class="column-center">
+    <p>
+     <br>
+     <br>
+    Winston- Salem, NC<br>
+    </p>
+    
+    </div>
+    
+    <div class="column-right">
+    Michael DeWitt <br>
+    <a href="https://github.com/medewitt"><i class="fa fa-github"></i></a>
+    </div>
+    
+    <br>
+    <br>
+    <center>
+    <p>Copyright &copy; 2018 Michael DeWitt. All rights reserved.</p>
+    </center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

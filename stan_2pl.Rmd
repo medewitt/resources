@@ -2,7 +2,7 @@
 title: "Two Parameter IRT (2PL)"
 ---
 
-```{r echo=FALSE}
+```{r 2pl, echo=FALSE}
 library(tidyverse)
 ```
 
@@ -10,9 +10,14 @@ library(tidyverse)
 
 ## Motivations
 
+The motivation for this model is typically when dealing with survey data it is nice to be able to discriminate between the "student" difficulty ($\alpha$), the question difficulty ($\beta$) and the discrimination of the questions $\gamma$.
+
 ## Data Generating Process
 
-```{r}
+
+$$P(y_n = 1) = logit^{-1}(\gamma_{kk|n|}(\alpha_{jj|n|} -\beta_{kk|n|}))$$
+
+```{r data-gen}
 J <- 30 # Students
 K <- 10 # Questions
 N <- J * K
@@ -20,39 +25,63 @@ alpha <- runif(K, .5, 2) #slopes
 beta <- runif(K, -2, 3) # intercepts
 theta_mu <- 0 # population mean of person ability
 theta_sig <- 1 # population sd of  person ability
-theta <-
-  rnorm(J, theta_mu, theta_sig) # generate 500 ability parameters
-slope.ability <-
-  outer(theta, alpha) # multiply the slope vector by the ability vector
+theta <-rnorm(J, theta_mu, theta_sig) # generate 500 ability parameters
+slope.ability <-outer(theta, alpha) # multiply the slope vector by the ability vector
 intercept <- matrix(rep(beta, J), nrow = J, byrow = TRUE)
 prob <- plogis(intercept + slope.ability) # 1/(1 + exp(.))
-data <-
-  ifelse(runif(N) < prob, 1, 0) # generate matrix of Bernoulli 0-1 responses
+data <-ifelse(runif(N) < prob, 1, 0) # generate matrix of Bernoulli 0-1 responses
 ```
 
-```{r}
+Now we can format our data.
+
+```{r data-tidy}
 tidy_data <- data %>% 
   as_tibble() %>% 
   mutate(person_id = row_number()) %>% 
-  gather(item, reponse, -person_id)
+  gather(item, response, -person_id) %>% 
+  mutate(item = as.numeric(as.factor(item)))
 ```
 
 ## Model
 
+Now we can build our Stan model using [this reference](https://mc-stan.org/docs/2_18/stan-users-guide/item-response-models-section.html).
+
 ## Stan
 
-```{r}
+```{r results='asis'}
 writeLines(readLines("stan_2pl.stan"))
 ```
 
 
 ## Data Prep
 
-## Modeling
+Of course, we need to prepare our data for Stan.
 
 ```{r}
+stan_dat <- list(
+  J = length(unique(tidy_data[["person_id"]])),
+  K = length(unique(tidy_data[["item"]])),
+  N = nrow(tidy_data),
+  jj = tidy_data[["person_id"]],
+  kk = tidy_data[["item"]],
+  y = tidy_data[["response"]]
+)
+```
+
+
+## Modeling
+
+```{r compile-stan}
 library(rstan)
+rstan_options(auto_write = TRUE)
 model <- stan_model("stan_2pl.stan")
+```
+
+Now we can run our compiled model with our data:
+
+```{r fit-model}
+fit_2pl <- sampling(model, stan_dat, 
+                    cores = 2, chains = 2, iter = 2000, refresh = 0)
 ```
 
 
@@ -64,8 +93,66 @@ source('stan_utilities.R', local=util)
 ```
 
 ```{r checks, eval=FALSE}
-util$check_all_diagnostics(fit)
+util$check_all_diagnostics(fit_2pl)
 ```
 
+If this were for a more serious application I would also check the pair plot and the traces.
+
 ## Inferences
+
+First we can look at our question difficulties. If an item has a higher value then it requires a higher level of ability to get it "correct."
+
+```{r}
+print(fit_2pl, pars = "beta")
+```
+
+Similarlly we can look at our item $\gamma$s to check for discrimination.
+
+```{r}
+print(fit_2pl, pars = "gamma")
+```
+
+### Summarising with ICC
+
+Now we can pull out some of our valuess and plot the ICCs for the different items.
+
+```{r}
+library(tidybayes)
+
+difficulties <- extract(fit_2pl)["beta"][[1]] %>% 
+  as_tibble() %>% 
+  colMeans()
+
+discrimination <- extract(fit_2pl)["gamma"][[1]] %>% 
+  as_tibble() %>% 
+  colMeans()
+
+instrument <- tibble(difficulties = difficulties, discrimination = discrimination) %>% 
+  mutate(item_id = sprintf("Item %s", 1:length(difficulties)))
+
+ability_range <- seq(-4,4, .05)
+
+probs <- crossing(instrument, ability_range) %>% 
+  rowwise() %>% 
+  mutate(prob = arm::invlogit(discrimination*(ability_range-difficulties)))
+
+```
+
+And now we can look at our ICCs.
+
+```{r}
+probs %>% 
+  ggplot(aes(ability_range, prob, group = item_id, color = item_id))+
+  geom_line(se = FALSE)+
+  theme_minimal()
+```
+
+We could also take the time to look at our student abilities.
+
+```{r}
+extract(fit_2pl)["alpha"][[1]] %>% 
+  as_tibble() %>% 
+  colMeans() %>% 
+  hist(breaks = 30, main = "Histogram of Student Abilities")
+```
 

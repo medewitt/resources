@@ -471,6 +471,9 @@ div.tocify {
     <li>
       <a href="stan_2pl.html">2PL IRT</a>
     </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -560,7 +563,7 @@ hlm_model &lt;- stan_model(&quot;stan_hlm.stan&quot;)</code></pre>
              y = schools$estimate, 
              sigma = schools$sd)</code></pre>
 <pre class="r"><code>fit_hlm &lt;- sampling(hlm_model, data, chains = 2, iter = 2000, refresh = 0)</code></pre>
-<pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
+<pre><code>## Warning: There were 7 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
 <pre class="r"><code>print(fit_hlm, pars = &quot;theta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
@@ -569,16 +572,16 @@ hlm_model &lt;- stan_model(&quot;stan_hlm.stan&quot;)</code></pre>
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
 ##          mean se_mean  sd   2.5%  50% 98% n_eff Rhat
-## theta[1] 11.4    0.22 8.1  -2.37 10.3  31  1378    1
-## theta[2]  7.9    0.15 6.7  -5.77  7.9  22  2143    1
-## theta[3]  6.2    0.20 7.7 -10.74  6.8  20  1527    1
-## theta[4]  7.8    0.15 6.7  -5.90  7.9  21  2068    1
-## theta[5]  5.2    0.15 6.4  -8.85  5.7  17  1763    1
-## theta[6]  6.3    0.15 6.5  -6.92  6.5  19  1948    1
-## theta[7] 10.7    0.17 6.9  -0.87  9.8  26  1730    1
-## theta[8]  8.5    0.19 8.0  -7.26  8.1  25  1861    1
+## theta[1] 11.0    0.21 7.7  -1.50 10.0  29  1299    1
+## theta[2]  7.7    0.13 6.2  -5.01  7.5  20  2280    1
+## theta[3]  6.3    0.20 7.9 -12.05  7.0  21  1504    1
+## theta[4]  7.9    0.16 6.5  -5.22  7.9  21  1764    1
+## theta[5]  5.4    0.15 6.2  -8.99  5.8  17  1683    1
+## theta[6]  6.5    0.16 6.8  -7.69  6.7  19  1799    1
+## theta[7] 10.6    0.17 6.7  -0.67 10.2  26  1595    1
+## theta[8]  8.8    0.21 8.1  -7.83  8.5  26  1475    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Mon Feb 18 16:09:41 2019.
+## Samples were drawn using NUTS(diag_e) at Fri Feb 22 14:52:48 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>

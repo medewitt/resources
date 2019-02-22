@@ -14,16 +14,20 @@ parameters {
   vector[J] alpha;             // ability for j - mean
   vector[K] beta;              // difficulty for k
   vector<lower=0>[K] gamma;    // discrimination of k
-  real<lower=0> sigma_beta;    // scale of difficulties
-  real<lower=0> sigma_gamma;   // scale of log discrimination
+  //real<lower=0> sigma_beta;    // scale of difficulties
+  //real<lower=0> sigma_gamma;   // scale of log discrimination
 }
 
 model {
   alpha ~ std_normal(); // normal(y| 0,1)
-  beta ~ normal(0, sigma_beta);
-  gamma ~ lognormal(0, sigma_gamma);
+  //Can make these hierarchical priors if desired
+  //beta ~ normal(0, sigma_beta);
+  //gamma ~ lognormal(0, sigma_gamma);
+  beta ~ normal(0, 5);
+  gamma ~ lognormal(0, 2);
   mu_beta ~ cauchy(0, 5);
-  sigma_beta ~ cauchy(0, 5);
-  sigma_gamma ~ cauchy(0, 5);
+  //sigma_beta ~ cauchy(0, 5);
+  //sigma_gamma ~ cauchy(0, 5);
   y ~ bernoulli_logit(gamma[kk] .* (alpha[jj] - (beta[kk] + mu_beta)));
 }
+

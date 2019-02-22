@@ -32,7 +32,7 @@ Luckily Alex wrote a Stan function which computes this probability for us and ca
 
 So now using 
 
-```{r}
+```{r cat-resp}
 library(tidyverse)
 
 set.seed(336)

@@ -1,0 +1,43 @@
+---
+title: "Bayesian Structural Time Series"
+---
+
+```
+library('rstan')
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+
+```
+# Generate dummy data for model testing
+# model: y[t] = u[t] + b*x[t] + s_obs , s_* is sigma of noise
+#        u[t+1] = u[t] + v[t] + s_level
+#        v[t+1] = v[1] + s_slope
+```
+
+```{r}
+beta <- rnorm(250,1,0.1)
+v <- rep(-0.0001,250)
+u <- rep(0.0,250)
+s_slope <- rnorm(250,0,0.005)
+s_level <- rnorm(250,0,0.005)
+for (i in 2:250){
+  u[i] <- u[i-1] + v[i-1] + s_level[i-1]
+  v[i] <- v[i-1] + s_slope[i-1]
+}
+s_obs <- rnorm(250,0,1)
+x <- runif(250,0,1)
+y <- u + beta*x + s_obs
+n <- 250
+ytrain <- y[1:n]
+xtrain <- x[1:n]
+```
+
+```
+#Load stan model file, and fit to data
+fit <- stan(file = 'test.stan', data = list( T = length(ytrain), y = ytrain, x = xtrain) , iter=500, chains=4, control = list(max_treedepth = 10))
+
+```
+# Do pairs plot of different parameters
+pairs(fit,pars = c("s_slope","s_level","s_obs","beta"))

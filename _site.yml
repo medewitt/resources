@@ -44,6 +44,8 @@ navbar:
       href: stan_categorical_responses.html
     - text: "2PL IRT"
       href: stan_2pl.html
+    - text: "Autoregressive Models"
+      href: stan_ar_models.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

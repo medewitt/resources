@@ -471,6 +471,9 @@ div.tocify {
     <li>
       <a href="stan_2pl.html">2PL IRT</a>
     </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -690,7 +693,7 @@ rstan_options(auto_write = TRUE)</code></pre>
 <h2>Run Our Diagnostics</h2>
 <p>Run our trace plots for diagnostics.</p>
 <pre class="r"><code>traceplot(fit)</code></pre>
-<p><img src="stan_categorical_responses_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="stan_categorical_responses_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Additionally, <a href="https://betanalpha.github.io/">Michael Betancourt</a> has assembled a few great utilities that can be used to diagnose a fit. Additionally, a neat trick learned from reading his blog is to souce specific functions into a local environment and then reference them explicitly.</p>
 <pre class="r"><code>util &lt;- new.env()
 source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
@@ -804,7 +807,7 @@ theta_draws &lt;- theta_0_draws %&gt;%
     axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
   theme(panel.grid = element_blank(), 
         panel.background = element_rect(fill=&quot;white&quot;))</code></pre>
-<p><img src="stan_categorical_responses_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="stan_categorical_responses_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
 

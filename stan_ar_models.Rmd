@@ -1,0 +1,86 @@
+---
+title: "Autoregressive Modeling in Stan"
+---
+
+This post looks at modeling autoregressive models. Autoregression is typically important when dealing with time series analysis. The general idea is that the past value of a repeatedly measured item will be indicative of its future value. A good example is a stock. Today's stock price could be modelled as a function of yesterday's stock price. While this isn't entirely true, it does approximate a decent model.
+
+
+## Data Generating Process
+
+In this case I am going to look at an AR(3) model. Thus the model form would take on the following data generating process:
+
+$$y_n \sim N(\alpha + \beta_1y_{n-1} + \beta_2y_{n-2} + \beta_3y_{n-3}, \sigma)$$
+
+And we can used a built in feature of R to help us simulate these data. Note that I have not specificed a moving average. 
+
+```{r}
+fake_data <-arima.sim(n = 200, model = list(ar = c(.2, .5, .05)))
+```
+
+
+```{r}
+ts.plot(fake_data, main = "Time Series Plot of Our Fake Data")
+```
+
+
+## Stan
+
+### The Model
+
+```{r results='asis'}
+writeLines(readLines("stan_ar_models.stan"))
+```
+
+### The Modeling Process
+
+```{r}
+library(rstan)
+
+rstan_options(auto_write = TRUE)
+model <- stan_model("stan_ar_models.stan")
+
+```
+
+### Format Data
+
+Now we need to format our data for our Stan program:
+
+```{r}
+
+stan_dat <- list(
+  N = length(fake_data),
+  K = 3,
+  y = as.vector(fake_data)
+)
+
+```
+
+### Fit the Model
+
+Let's run our model with the usual conditions.
+
+```{r}
+fit <- sampling(model, stan_dat,
+                cores = 2, iter = 1000,
+                refresh = 0, chains = 2)
+```
+
+## Model Checking
+
+And as always special thanks to [Michael Betancourt](https://betanalpha.github.io/) for these amazing tools for diagnostics. 
+
+```{r check-tools}
+util <- new.env()
+source('stan_utilities.R', local=util)
+```
+
+```{r checks, eval=FALSE}
+util$check_all_diagnostics(fit)
+```
+
+## Inference
+
+```{r}
+print(fit, pars = "beta")
+```
+
