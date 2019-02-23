@@ -48,7 +48,7 @@ Now we can build our Stan model using [this reference](https://mc-stan.org/docs/
 
 ## Stan
 
-```{r results='asis'}
+```{r comment=""}
 writeLines(readLines("stan_2pl.stan"))
 ```
 

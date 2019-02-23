@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Two Parameter IRT (2PL)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'UA-117944166-1');
+      </script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research and Methods Resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-hand-paper"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources_econ.html">Economics</a>
+    </li>
+    <li>
+      <a href="resources_polisci.html">Political Science</a>
+    </li>
+    <li>
+      <a href="resources_stats.html">Statistics</a>
+    </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="tutorials.html">
+    <span class="fa fa-book"></span>
+     
+    Tutorials
+  </a>
+</li>
+<li>
+  <a href="notes.html">
+    <span class="fa fa-handshake"></span>
+     
+    My Notes
+  </a>
+</li>
+<li>
+  <a href="data_sources.html">
+    <span class="fa fa-paper-plane"></span>
+     
+    Data Sources
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Stan
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="stan_linear_regression.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
+    </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
+    <li>
+      <a href="stan_categorical_responses.html">Categorical Response Distribution</a>
+    </li>
+    <li>
+      <a href="stan_2pl.html">2PL IRT</a>
+    </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://michaeldewittjr.com">
+    <span class="fa fa-folder"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Two Parameter IRT (2PL)</h1>
+
+</div>
+
+
+<div id="motivations" class="section level2">
+<h2>Motivations</h2>
+<p>The motivation for this model is typically when dealing with survey data it is nice to be able to discriminate between the “student” difficulty (<span class="math inline">\(\alpha\)</span>), the question difficulty (<span class="math inline">\(\beta\)</span>) and the discrimination of the questions <span class="math inline">\(\gamma\)</span>.</p>
+</div>
+<div id="data-generating-process" class="section level2">
+<h2>Data Generating Process</h2>
+<p><span class="math display">\[P(y_n = 1) = logit^{-1}(\gamma_{kk|n|}(\alpha_{jj|n|} -\beta_{kk|n|}))\]</span></p>
+<pre class="r"><code>J &lt;- 30 # Students
+K &lt;- 10 # Questions
+N &lt;- J * K
+alpha &lt;- runif(K, .5, 2) #slopes
+beta &lt;- runif(K, -2, 3) # intercepts
+theta_mu &lt;- 0 # population mean of person ability
+theta_sig &lt;- 1 # population sd of  person ability
+theta &lt;-rnorm(J, theta_mu, theta_sig) # generate 500 ability parameters
+slope.ability &lt;-outer(theta, alpha) # multiply the slope vector by the ability vector
+intercept &lt;- matrix(rep(beta, J), nrow = J, byrow = TRUE)
+prob &lt;- plogis(intercept + slope.ability) # 1/(1 + exp(.))
+data &lt;-ifelse(runif(N) &lt; prob, 1, 0) # generate matrix of Bernoulli 0-1 responses</code></pre>
+<p>Now we can format our data.</p>
+<pre class="r"><code>tidy_data &lt;- data %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(person_id = row_number()) %&gt;% 
+  gather(item, response, -person_id) %&gt;% 
+  mutate(item = as.numeric(as.factor(item)))</code></pre>
+<pre><code>## Warning: `as_tibble.matrix()` requires a matrix with column names or a `.name_repair` argument. Using compatibility `.name_repair`.
+## This warning is displayed once per session.</code></pre>
+</div>
+<div id="model" class="section level2">
+<h2>Model</h2>
+<p>Now we can build our Stan model using <a href="https://mc-stan.org/docs/2_18/stan-users-guide/item-response-models-section.html">this reference</a>.</p>
+</div>
+<div id="stan" class="section level2">
+<h2>Stan</h2>
+<pre class="r"><code>writeLines(readLines(&quot;stan_2pl.stan&quot;))</code></pre>
+<pre><code>// 2PL IRT in Stan
+// Modified from the Stan Users Guide &lt;https://mc-stan.org/docs/&gt;
+data {
+  int&lt;lower=1&gt; J;              // number of students
+  int&lt;lower=1&gt; K;              // number of questions
+  int&lt;lower=1&gt; N;              // number of observations
+  int&lt;lower=1,upper=J&gt; jj[N];  // student for observation n
+  int&lt;lower=1,upper=K&gt; kk[N];  // question for observation n
+  int&lt;lower=0,upper=1&gt; y[N];   // correctness for observation n
+}
+
+parameters {
+  real mu_beta;                // mean question difficulty
+  vector[J] alpha;             // ability for j - mean
+  vector[K] beta;              // difficulty for k
+  vector&lt;lower=0&gt;[K] gamma;    // discrimination of k
+  //real&lt;lower=0&gt; sigma_beta;    // scale of difficulties
+  //real&lt;lower=0&gt; sigma_gamma;   // scale of log discrimination
+}
+
+model {
+  alpha ~ std_normal(); // normal(y| 0,1)
+  //Can make these hierarchical priors if desired
+  //beta ~ normal(0, sigma_beta);
+  //gamma ~ lognormal(0, sigma_gamma);
+  beta ~ normal(0, 5);
+  gamma ~ lognormal(0, 2);
+  mu_beta ~ cauchy(0, 5);
+  //sigma_beta ~ cauchy(0, 5);
+  //sigma_gamma ~ cauchy(0, 5);
+  y ~ bernoulli_logit(gamma[kk] .* (alpha[jj] - (beta[kk] + mu_beta)));
+}</code></pre>
+</div>
+<div id="data-prep" class="section level2">
+<h2>Data Prep</h2>
+<p>Of course, we need to prepare our data for Stan.</p>
+<pre class="r"><code>stan_dat &lt;- list(
+  J = length(unique(tidy_data[[&quot;person_id&quot;]])),
+  K = length(unique(tidy_data[[&quot;item&quot;]])),
+  N = nrow(tidy_data),
+  jj = tidy_data[[&quot;person_id&quot;]],
+  kk = tidy_data[[&quot;item&quot;]],
+  y = tidy_data[[&quot;response&quot;]]
+)</code></pre>
+</div>
+<div id="modeling" class="section level2">
+<h2>Modeling</h2>
+<pre class="r"><code>library(rstan)</code></pre>
+<pre><code>## Loading required package: StanHeaders</code></pre>
+<pre><code>## rstan (Version 2.18.2, GitRev: 2e1f913d3ca3)</code></pre>
+<pre><code>## For execution on a local, multicore CPU with excess RAM we recommend calling
+## options(mc.cores = parallel::detectCores()).
+## To avoid recompilation of unchanged Stan programs, we recommend calling
+## rstan_options(auto_write = TRUE)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rstan&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre class="r"><code>rstan_options(auto_write = TRUE)
+model &lt;- stan_model(&quot;stan_2pl.stan&quot;)</code></pre>
+<p>Now we can run our compiled model with our data:</p>
+<pre class="r"><code>fit_2pl &lt;- sampling(model, stan_dat, 
+                    cores = 2, chains = 2, iter = 2000, refresh = 0)</code></pre>
+<pre><code>## Warning: There were 114 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
+## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+</div>
+<div id="model-checking" class="section level2">
+<h2>Model Checking</h2>
+<pre class="r"><code>util &lt;- new.env()
+source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
+<pre class="r"><code>util$check_all_diagnostics(fit_2pl)</code></pre>
+<p>If this were for a more serious application I would also check the pair plot and the traces.</p>
+</div>
+<div id="inferences" class="section level2">
+<h2>Inferences</h2>
+<p>First we can look at our question difficulties. If an item has a higher value then it requires a higher level of ability to get it “correct.”</p>
+<pre class="r"><code>print(fit_2pl, pars = &quot;beta&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_2pl.
+## 2 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=2000.
+## 
+##           mean se_mean  sd   2.5%  25%   50%   75%   98% n_eff Rhat
+## beta[1]  -0.92    0.10 2.3  -6.30 -2.1 -0.64  0.47  3.05   531    1
+## beta[2]  -1.67    0.15 2.5  -8.08 -2.8 -1.28 -0.15  2.17   275    1
+## beta[3]  -1.81    0.14 2.9  -8.71 -3.4 -1.36  0.11  2.86   442    1
+## beta[4]  -4.40    0.10 2.8 -10.52 -6.1 -4.15 -2.40  0.46   752    1
+## beta[5]   3.41    0.13 2.5  -0.69  1.8  3.04  4.65  9.52   361    1
+## beta[6]   2.76    0.12 2.4  -1.26  1.3  2.52  4.00  8.23   396    1
+## beta[7]  -0.16    0.16 3.5  -8.99 -1.8  0.26  1.86  6.35   507    1
+## beta[8]   3.78    0.13 2.7  -0.73  2.0  3.51  5.21 10.02   435    1
+## beta[9]  -4.03    0.13 2.9 -10.77 -5.8 -3.74 -2.04  1.05   465    1
+## beta[10] -0.19    0.10 1.9  -4.55 -1.2 -0.07  0.98  3.25   395    1
+## 
+## Samples were drawn using NUTS(diag_e) at Sat Feb 23 13:39:35 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<p>Similarlly we can look at our item <span class="math inline">\(\gamma\)</span>s to check for discrimination.</p>
+<pre class="r"><code>print(fit_2pl, pars = &quot;gamma&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_2pl.
+## 2 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=2000.
+## 
+##            mean se_mean    sd 2.5%  25%  50%   75%   98% n_eff Rhat
+## gamma[1]   2.02    0.14  3.09 0.15 0.63 1.25  2.19 10.69   455    1
+## gamma[2]  10.14    2.99 32.52 0.28 1.02 2.31  5.77 68.10   118    1
+## gamma[3]   1.04    0.32  4.75 0.06 0.21 0.45  0.93  3.19   227    1
+## gamma[4]   0.34    0.01  0.22 0.10 0.19 0.28  0.42  0.86   604    1
+## gamma[5]   1.39    0.16  2.97 0.05 0.26 0.59  1.23  9.50   327    1
+## gamma[6]   1.43    0.18  2.79 0.02 0.26 0.65  1.54  7.52   254    1
+## gamma[7]   0.35    0.06  1.01 0.01 0.04 0.12  0.31  1.73   285    1
+## gamma[8]   0.52    0.04  0.61 0.03 0.17 0.36  0.65  2.15   247    1
+## gamma[9]   0.49    0.02  0.42 0.13 0.24 0.38  0.61  1.37   547    1
+## gamma[10] 11.84    1.45 20.90 0.31 2.37 4.96 12.34 67.95   209    1
+## 
+## Samples were drawn using NUTS(diag_e) at Sat Feb 23 13:39:35 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div id="summarising-with-icc" class="section level3">
+<h3>Summarising with ICC</h3>
+<p>Now we can pull out some of our valuess and plot the ICCs for the different items.</p>
+<pre class="r"><code>library(tidybayes)</code></pre>
+<pre><code>## NOTE: As of tidybayes version 1.0, several functions, arguments, and output column names
+##       have undergone significant name changes in order to adopt a unified naming scheme.
+##       See help(&#39;tidybayes-deprecated&#39;) for more information.</code></pre>
+<pre class="r"><code>difficulties &lt;- extract(fit_2pl)[&quot;beta&quot;][[1]] %&gt;% 
+  as_tibble() %&gt;% 
+  colMeans()
+
+discrimination &lt;- extract(fit_2pl)[&quot;gamma&quot;][[1]] %&gt;% 
+  as_tibble() %&gt;% 
+  colMeans()
+
+instrument &lt;- tibble(difficulties = difficulties, discrimination = discrimination) %&gt;% 
+  mutate(item_id = sprintf(&quot;Item %s&quot;, 1:length(difficulties)))
+
+ability_range &lt;- seq(-4,4, .05)
+
+probs &lt;- crossing(instrument, ability_range) %&gt;% 
+  rowwise() %&gt;% 
+  mutate(prob = arm::invlogit(discrimination*(ability_range-difficulties)))</code></pre>
+<p>And now we can look at our ICCs.</p>
+<pre class="r"><code>probs %&gt;% 
+  ggplot(aes(ability_range, prob, group = item_id, color = item_id))+
+  geom_line(se = FALSE)+
+  theme_minimal()</code></pre>
+<pre><code>## Warning: Ignoring unknown parameters: se</code></pre>
+<p><img src="stan_2pl_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>We could also take the time to look at our student abilities.</p>
+<pre class="r"><code>extract(fit_2pl)[&quot;alpha&quot;][[1]] %&gt;% 
+  as_tibble() %&gt;% 
+  colMeans() %&gt;% 
+  hist(breaks = 30, main = &quot;Histogram of Student Abilities&quot;)</code></pre>
+<p><img src="stan_2pl_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+</div>
+
+  <br>
+    <hr>
+    
+    <div class="column-left">
+    <p>
+    <b>Research and Methods Resources</b><br>
+    <a href="mailto:me.dewitt.jr@gmail.com">me.dewitt.jr@gmail.com</a> <br>
+    </p>
+    </div>
+    
+    <div class="column-center">
+    <p>
+     <br>
+     <br>
+    Winston- Salem, NC<br>
+    </p>
+    
+    </div>
+    
+    <div class="column-right">
+    Michael DeWitt <br>
+    <a href="https://github.com/medewitt"><i class="fa fa-github"></i></a>
+    </div>
+    
+    <br>
+    <br>
+    <center>
+    <p>Copyright &copy; 2018 Michael DeWitt. All rights reserved.</p>
+    </center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

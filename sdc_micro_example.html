@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>scd Micro Simulation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'UA-117944166-1');
+      </script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research and Methods Resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-hand-paper"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources_econ.html">Economics</a>
+    </li>
+    <li>
+      <a href="resources_polisci.html">Political Science</a>
+    </li>
+    <li>
+      <a href="resources_stats.html">Statistics</a>
+    </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="tutorials.html">
+    <span class="fa fa-book"></span>
+     
+    Tutorials
+  </a>
+</li>
+<li>
+  <a href="notes.html">
+    <span class="fa fa-handshake"></span>
+     
+    My Notes
+  </a>
+</li>
+<li>
+  <a href="data_sources.html">
+    <span class="fa fa-paper-plane"></span>
+     
+    Data Sources
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Stan
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="stan_linear_regression.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
+    </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
+    <li>
+      <a href="stan_categorical_responses.html">Categorical Response Distribution</a>
+    </li>
+    <li>
+      <a href="stan_2pl.html">2PL IRT</a>
+    </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://michaeldewittjr.com">
+    <span class="fa fa-folder"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">scd Micro Simulation</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The purpose of this simulation is to test the impact of statistical micro-discloure practices. Microdata are samples of the non-aggregated data (unit record) used for analysis. This is important in order to avoid the ecological inference problem<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<pre class="r"><code>library(tidyverse)
+library(sdcMicro)</code></pre>
+<pre><code>## --------
+## This is sdcMicro v5.3.0.
+## For references, please have a look at citation(&#39;sdcMicro&#39;)
+## Note: since version 5.0.0, the graphical user-interface is a shiny-app that can be started with sdcApp().
+## Please submit suggestions and bugs at: https://github.com/sdcTools/sdcMicro/issues
+## --------</code></pre>
+<pre class="r"><code>library(broom)</code></pre>
+<div id="generate-known-data" class="section level2">
+<h2>Generate Known Data</h2>
+<p>As with any simulation or modeling process it is important to simulate some data with known parameters in order to better test the methods.</p>
+<div id="population-parameters" class="section level3">
+<h3>Population Parameters</h3>
+<p>Now to develop some synthetic data with some known population parameters.</p>
+<pre class="r"><code>set.seed(100)
+gender_options &lt;- c(&quot;M&quot;, &quot;F&quot;)
+gender_probs &lt;- c(.4, .6)
+race_options &lt;- c(&quot;Asian&quot;, &quot;Black/ African American&quot;,&quot;Hispanic&quot;, &quot;White&quot;, &quot;Other&quot;)
+race_probs &lt;- c(.07, .15, .15, .6,.03)
+citizenship &lt;- c(&quot;Y&quot;, &quot;N&quot;, &quot;RA&quot;)
+citizenship_probs &lt;- c(.9, .07, .03)
+education &lt;- c(&quot;HS&quot;, &quot;Some College&quot;, &quot;College&quot;, &quot;Post-graduate&quot;)
+education_probs &lt;- c(.35, .35, .25, .05)</code></pre>
+</div>
+<div id="generate-the-data" class="section level3">
+<h3>Generate the Data</h3>
+<pre class="r"><code>dat_1 &lt;- data.frame(
+  gender = sample( 500, x = gender_options, replace = T, prob = gender_probs),
+  race = sample( 500, x = race_options, replace = T, prob = race_probs),
+  citizenship = sample(500, x = citizenship, replace = T, prob = citizenship_probs),
+  education = sample( 500, x = education, replace = T, prob = education_probs),
+  income = rbeta(500, shape1 = 1, 5)*100000,
+  debt = rnorm(500, mean = 20000, 5000)
+) %&gt;% 
+  mutate(id = row_number()) %&gt;% 
+  mutate_if(is.character, as.factor)
+
+dat_2 &lt;- dat_1 %&gt;% 
+  mutate(citizenship = fct_lump(citizenship, 1))</code></pre>
+</div>
+</div>
+<div id="examine-the-real-data-cross-tabs" class="section level2">
+<h2>Examine the Real Data Cross Tabs</h2>
+<pre class="r"><code>dat_1 %&gt;% 
+  group_by(gender, race) %&gt;% 
+  summarise(avg_income = mean(income)) %&gt;% 
+  spread(gender, avg_income)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["race"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["F"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["M"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Asian","2":"15807.90","3":"14379.07"},{"1":"Black/ African American","2":"14516.46","3":"22028.23"},{"1":"Hispanic","2":"17606.36","3":"16760.21"},{"1":"Other","2":"24550.06","3":"14221.34"},{"1":"White","2":"16669.94","3":"18012.91"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="statistical-disclosure-methods" class="section level2">
+<h2>Statistical Disclosure Methods</h2>
+<p>Now we can explore the <code>sdcMicro</code> package with some additional details.</p>
+<div id="assess-the-risk" class="section level3">
+<h3>Assess the Risk</h3>
+<p>I am going to declare the race, gender, citizenship, education, income and debt are all sensitive variables. I can then perform the <code>freqCalc</code> to see if there are unique and identifying combinations of these parameters in the data.</p>
+<pre class="r"><code>key_vars &lt;- c(&quot;race&quot;, &quot;gender&quot;, &quot;citizenship&quot;, &quot;education&quot;)
+conti_vars &lt;- c(&quot;income&quot;, &quot;debt&quot;)
+(initial_fc &lt;- freqCalc(dat_1, keyVars = key_vars))</code></pre>
+<pre><code>## 
+##  --------------------------
+## 28 obs. violate 2-anonymity 
+## 42 obs. violate 3-anonymity 
+##  --------------------------</code></pre>
+</div>
+<div id="now-make-the-sdcmicro-object" class="section level3">
+<h3>Now Make the sdcMicro Object</h3>
+<p>For best use of the package, it is important to create an Sdc object with the specified important or sensitive variables</p>
+<pre class="r"><code>sdc_micro &lt;- createSdcObj(dat_2, 
+                          keyVars = key_vars,
+                          numVars =conti_vars,
+                          pramVars = key_vars)</code></pre>
+<p>Now we can examine the outputted object:</p>
+<pre class="r"><code>sdc_micro</code></pre>
+<pre><code>## The input dataset consists of 500 rows and 7 variables.
+##   --&gt; Categorical key variables: race, gender, citizenship, education
+##   --&gt; Numerical key variables: income, debt
+## ----------------------------------------------------------------------
+## 
+## Information on categorical key variables:
+## 
+## Reported is the number, mean size and size of the smallest category for recoded variables.
+## In parenthesis, the same statistics are shown for the unmodified data.
+## Note: NA (missings) are counted as seperate categories!
+## 
+##  Key Variable Number of categories     Mean size          
+##          race                    5 (5)   100.000 (100.000)
+##        gender                    2 (2)   250.000 (250.000)
+##   citizenship                    2 (2)   250.000 (250.000)
+##     education                    4 (4)   125.000 (125.000)
+##  Size of smallest      
+##                18  (18)
+##               203 (203)
+##                56  (56)
+##                29  (29)
+## ---------------------------------------------------------------------- 
+## 
+## Infos on 2/3-Anonymity:
+## 
+## Number of observations violating
+##   - 2-anonymity: 18 (3.600%)
+##   - 3-anonymity: 36 (7.200%)
+##   - 5-anonymity: 67 (13.400%)
+## 
+## ----------------------------------------------------------------------
+## 
+## Numerical key variables: income, debt
+## 
+## Disclosure risk is currently between [0.00%; 100.00%]
+## 
+## Current Information Loss:
+##   - IL1: 0.00
+##   - Difference of Eigenvalues: 0.000%
+## ----------------------------------------------------------------------</code></pre>
+</div>
+<div id="handle-categorical" class="section level3">
+<h3>Handle Categorical</h3>
+<p>Now we can apply some methods to mask some of the categorical variables. Additionally, from the output one can gather how much the data has changed.</p>
+<pre class="r"><code>(clean_1 &lt;- sdcMicro::pram(sdc_micro))</code></pre>
+<pre><code>## Warning in pramX(obj = obj, variables = variables, strata_variables = strata_variables, : If pram is applied on key variables, the k-anonymity and risk assessment are not useful anymore.</code></pre>
+<pre><code>## The input dataset consists of 500 rows and 7 variables.
+##   --&gt; Categorical key variables: race, gender, citizenship, education
+##   --&gt; Numerical key variables: income, debt
+## ----------------------------------------------------------------------
+## 
+## Information on categorical key variables:
+## 
+## Reported is the number, mean size and size of the smallest category for recoded variables.
+## In parenthesis, the same statistics are shown for the unmodified data.
+## Note: NA (missings) are counted as seperate categories!
+## 
+##  Key Variable Number of categories     Mean size          
+##          race                    5 (5)   100.000 (100.000)
+##        gender                    2 (2)   250.000 (250.000)
+##   citizenship                    2 (2)   250.000 (250.000)
+##     education                    4 (4)   125.000 (125.000)
+##  Size of smallest      
+##                18  (18)
+##               198 (203)
+##                56  (56)
+##                27  (29)
+## ---------------------------------------------------------------------- 
+## 
+## Infos on 2/3-Anonymity:
+## 
+## Number of observations violating
+##   - 2-anonymity: 13 (2.600%) | in original data: 18 (3.600%)
+##   - 3-anonymity: 33 (6.600%) | in original data: 36 (7.200%)
+##   - 5-anonymity: 68 (13.600%) | in original data: 67 (13.400%)
+## 
+## ----------------------------------------------------------------------
+## 
+## Numerical key variables: income, debt
+## 
+## Disclosure risk (~100.00% in original data):
+##   modified data: [0.00%; 100.00%]
+## 
+## Current Information Loss in modified data (0.00% in original data):
+##   IL1: 0.00
+##   Difference of Eigenvalues: 0.000%
+## ----------------------------------------------------------------------
+## 
+## Post-Randomization (PRAM):
+## Variable: race 
+## --&gt; final Transition-Matrix:
+##                              Asian Black/ African American   Hispanic
+## Asian                   0.85218646             0.003204457 0.02664387
+## Black/ African American 0.00147028             0.923191882 0.01349424
+## Hispanic                0.01282853             0.014160620 0.87351742
+## Other                   0.01819908             0.019061417 0.05640076
+## White                   0.01542621             0.017738630 0.02542872
+##                               Other      White
+## Asian                   0.008399576 0.10956564
+## Black/ African American 0.004036535 0.05780706
+## Hispanic                0.012533501 0.08695993
+## Other                   0.714192700 0.19214605
+## White                   0.012486025 0.92892042
+## Variable: gender 
+## --&gt; final Transition-Matrix:
+##           F          M
+## F 0.9227536 0.07724644
+## M 0.1130157 0.88698428
+## Variable: citizenship 
+## --&gt; final Transition-Matrix:
+##               Y      Other
+## Y     0.9647225 0.03527748
+## Other 0.2797000 0.72029998
+## Variable: education 
+## --&gt; final Transition-Matrix:
+##                  College         HS Post-graduate Some College
+## College       0.96023128 0.02651010   0.006111854  0.007146767
+## HS            0.01786242 0.95667024   0.011635183  0.013832152
+## Post-graduate 0.02655495 0.07502687   0.890021347  0.008396827
+## Some College  0.00569932 0.01637097   0.001541190  0.976388525
+## 
+## Changed observations:
+##      variable nrChanges percChanges
+## 1        race        52        10.4
+## 2      gender        33         6.6
+## 3 citizenship        32         6.4
+## 4   education        16         3.2
+## ----------------------------------------------------------------------</code></pre>
+</div>
+<div id="handle-numeric" class="section level3">
+<h3>Handle Numeric</h3>
+<pre class="r"><code>(clean_2 &lt;- microaggregation(clean_1, method = &quot;rmd&quot;, aggr = 3))</code></pre>
+<pre><code>## The input dataset consists of 500 rows and 7 variables.
+##   --&gt; Categorical key variables: race, gender, citizenship, education
+##   --&gt; Numerical key variables: income, debt
+## ----------------------------------------------------------------------
+## 
+## Information on categorical key variables:
+## 
+## Reported is the number, mean size and size of the smallest category for recoded variables.
+## In parenthesis, the same statistics are shown for the unmodified data.
+## Note: NA (missings) are counted as seperate categories!
+## 
+##  Key Variable Number of categories     Mean size          
+##          race                    5 (5)   100.000 (100.000)
+##        gender                    2 (2)   250.000 (250.000)
+##   citizenship                    2 (2)   250.000 (250.000)
+##     education                    4 (4)   125.000 (125.000)
+##  Size of smallest      
+##                18  (18)
+##               198 (203)
+##                56  (56)
+##                27  (29)
+## ---------------------------------------------------------------------- 
+## 
+## Infos on 2/3-Anonymity:
+## 
+## Number of observations violating
+##   - 2-anonymity: 13 (2.600%) | in original data: 18 (3.600%)
+##   - 3-anonymity: 33 (6.600%) | in original data: 36 (7.200%)
+##   - 5-anonymity: 68 (13.600%) | in original data: 67 (13.400%)
+## 
+## ----------------------------------------------------------------------
+## 
+## Numerical key variables: income, debt
+## 
+## Disclosure risk (~100.00% in original data):
+##   modified data: [0.00%; 77.80%]
+## 
+## Current Information Loss in modified data (0.00% in original data):
+##   IL1: 11898.92
+##   Difference of Eigenvalues: 0.100%
+## ----------------------------------------------------------------------
+## 
+## Post-Randomization (PRAM):
+## Variable: race 
+## --&gt; final Transition-Matrix:
+##                              Asian Black/ African American   Hispanic
+## Asian                   0.85218646             0.003204457 0.02664387
+## Black/ African American 0.00147028             0.923191882 0.01349424
+## Hispanic                0.01282853             0.014160620 0.87351742
+## Other                   0.01819908             0.019061417 0.05640076
+## White                   0.01542621             0.017738630 0.02542872
+##                               Other      White
+## Asian                   0.008399576 0.10956564
+## Black/ African American 0.004036535 0.05780706
+## Hispanic                0.012533501 0.08695993
+## Other                   0.714192700 0.19214605
+## White                   0.012486025 0.92892042
+## Variable: gender 
+## --&gt; final Transition-Matrix:
+##           F          M
+## F 0.9227536 0.07724644
+## M 0.1130157 0.88698428
+## Variable: citizenship 
+## --&gt; final Transition-Matrix:
+##               Y      Other
+## Y     0.9647225 0.03527748
+## Other 0.2797000 0.72029998
+## Variable: education 
+## --&gt; final Transition-Matrix:
+##                  College         HS Post-graduate Some College
+## College       0.96023128 0.02651010   0.006111854  0.007146767
+## HS            0.01786242 0.95667024   0.011635183  0.013832152
+## Post-graduate 0.02655495 0.07502687   0.890021347  0.008396827
+## Some College  0.00569932 0.01637097   0.001541190  0.976388525
+## 
+## Changed observations:
+##      variable nrChanges percChanges
+## 1        race        52        10.4
+## 2      gender        33         6.6
+## 3 citizenship        32         6.4
+## 4   education        16         3.2
+## ----------------------------------------------------------------------</code></pre>
+<p>For the final step we can pull the new data out of the <code>sdc</code> object.</p>
+<pre class="r"><code>anon_data &lt;- extractManipData(clean_2)</code></pre>
+</div>
+</div>
+<div id="compare-new-data-with-true" class="section level2">
+<h2>Compare New Data with True</h2>
+<p>Now we can perform some regressions using the true data and the perturbed data to examine the different results.</p>
+<pre class="r"><code>options(digits =2)
+fit_1 &lt;- lm(income~ race + education + citizenship, data = dat_2)
+fit_2 &lt;- lm(income~ race + education + citizenship, data = anon_data)
+
+tidy(fit_1) %&gt;% 
+  dplyr::select(term, estimate) %&gt;% 
+  rename(original_data = estimate) %&gt;% 
+  cbind(tidy(fit_2) %&gt;% dplyr::select(estimate)) %&gt;% 
+  rename(anon_data = estimate) %&gt;% 
+  mutate(delta = original_data - anon_data) %&gt;% 
+  knitr::kable(digits = 2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">original_data</th>
+<th align="right">anon_data</th>
+<th align="right">delta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">13418</td>
+<td align="right">15949</td>
+<td align="right">-2531</td>
+</tr>
+<tr class="even">
+<td align="left">raceBlack/ African American</td>
+<td align="right">1982</td>
+<td align="right">309</td>
+<td align="right">1673</td>
+</tr>
+<tr class="odd">
+<td align="left">raceHispanic</td>
+<td align="right">2063</td>
+<td align="right">814</td>
+<td align="right">1250</td>
+</tr>
+<tr class="even">
+<td align="left">raceOther</td>
+<td align="right">4156</td>
+<td align="right">-583</td>
+<td align="right">4740</td>
+</tr>
+<tr class="odd">
+<td align="left">raceWhite</td>
+<td align="right">2096</td>
+<td align="right">-1002</td>
+<td align="right">3097</td>
+</tr>
+<tr class="even">
+<td align="left">educationHS</td>
+<td align="right">1778</td>
+<td align="right">1448</td>
+<td align="right">330</td>
+</tr>
+<tr class="odd">
+<td align="left">educationPost-graduate</td>
+<td align="right">1320</td>
+<td align="right">2467</td>
+<td align="right">-1147</td>
+</tr>
+<tr class="even">
+<td align="left">educationSome College</td>
+<td align="right">1786</td>
+<td align="right">1570</td>
+<td align="right">216</td>
+</tr>
+<tr class="odd">
+<td align="left">citizenshipOther</td>
+<td align="right">3324</td>
+<td align="right">3270</td>
+<td align="right">54</td>
+</tr>
+</tbody>
+</table>
+<p>In general the signs of the regression are all consistent. The magnitude of the effects have changed slightly. We can plot the outputs to get a better idea of these differences.</p>
+<pre class="r"><code>fit_1_broom &lt;- tidy(fit_1) %&gt;% 
+  mutate(id = &quot;original&quot;)
+fit_2_broom &lt;- tidy(fit_2) %&gt;% 
+  mutate(id = &quot;anon&quot;)
+
+combined_dat &lt;- bind_rows(fit_1_broom, fit_2_broom)
+
+combined_dat %&gt;% 
+  filter(!grepl(&quot;(Intercept)&quot;, term)) %&gt;% 
+  ggplot(aes(term, estimate, group = id, color = id))+
+  geom_point()+
+  geom_errorbar(aes(ymin = estimate - std.error, 
+                    ymax = estimate + std.error))+
+  theme_minimal()+
+  coord_flip()+
+  labs(
+    title = &quot;Comparison of OLS Estimated Parameters&quot;,
+    color = &quot;Data Source&quot;
+  )</code></pre>
+<p><img src="sdc_micro_example_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>sdcMicro::calcRisks(clean_2)</code></pre>
+<pre><code>## The input dataset consists of 500 rows and 7 variables.
+##   --&gt; Categorical key variables: race, gender, citizenship, education
+##   --&gt; Numerical key variables: income, debt
+## ----------------------------------------------------------------------
+## 
+## Information on categorical key variables:
+## 
+## Reported is the number, mean size and size of the smallest category for recoded variables.
+## In parenthesis, the same statistics are shown for the unmodified data.
+## Note: NA (missings) are counted as seperate categories!
+## 
+##  Key Variable Number of categories     Mean size          
+##          race                    5 (5)   100.000 (100.000)
+##        gender                    2 (2)   250.000 (250.000)
+##   citizenship                    2 (2)   250.000 (250.000)
+##     education                    4 (4)   125.000 (125.000)
+##  Size of smallest      
+##                18  (18)
+##               198 (203)
+##                56  (56)
+##                27  (29)
+## ---------------------------------------------------------------------- 
+## 
+## Infos on 2/3-Anonymity:
+## 
+## Number of observations violating
+##   - 2-anonymity: 13 (2.600%) | in original data: 18 (3.600%)
+##   - 3-anonymity: 33 (6.600%) | in original data: 36 (7.200%)
+##   - 5-anonymity: 68 (13.600%) | in original data: 67 (13.400%)
+## 
+## ----------------------------------------------------------------------
+## 
+## Numerical key variables: income, debt
+## 
+## Disclosure risk (~100.00% in original data):
+##   modified data: [0.00%; 77.80%]
+## 
+## Current Information Loss in modified data (0.00% in original data):
+##   IL1: 11898.92
+##   Difference of Eigenvalues: 0.100%
+## ----------------------------------------------------------------------
+## 
+## Post-Randomization (PRAM):
+## Variable: race 
+## --&gt; final Transition-Matrix:
+##                          Asian Black/ African American Hispanic  Other
+## Asian                   0.8522                  0.0032    0.027 0.0084
+## Black/ African American 0.0015                  0.9232    0.013 0.0040
+## Hispanic                0.0128                  0.0142    0.874 0.0125
+## Other                   0.0182                  0.0191    0.056 0.7142
+## White                   0.0154                  0.0177    0.025 0.0125
+##                         White
+## Asian                   0.110
+## Black/ African American 0.058
+## Hispanic                0.087
+## Other                   0.192
+## White                   0.929
+## Variable: gender 
+## --&gt; final Transition-Matrix:
+##      F     M
+## F 0.92 0.077
+## M 0.11 0.887
+## Variable: citizenship 
+## --&gt; final Transition-Matrix:
+##          Y Other
+## Y     0.96 0.035
+## Other 0.28 0.720
+## Variable: education 
+## --&gt; final Transition-Matrix:
+##               College    HS Post-graduate Some College
+## College        0.9602 0.027        0.0061       0.0071
+## HS             0.0179 0.957        0.0116       0.0138
+## Post-graduate  0.0266 0.075        0.8900       0.0084
+## Some College   0.0057 0.016        0.0015       0.9764
+## 
+## Changed observations:
+##      variable nrChanges percChanges
+## 1        race        52        10.4
+## 2      gender        33         6.6
+## 3 citizenship        32         6.4
+## 4   education        16         3.2
+## ----------------------------------------------------------------------</code></pre>
+</div>
+<div id="match-anon-data-back-to-original-data" class="section level2">
+<h2>Match Anon Data Back to Original Data</h2>
+<p>Now let’s see if I can match this data back. I’ll use the <code>fastLink</code> package to see if I can link some of the masked data back to the original data set. I’ll also use the original key values which represents the worst case where an intruder would have access to all of these key variables.</p>
+<pre class="r"><code>library(fastLink)
+
+matching_test &lt;- fastLink(dfA = anon_data,
+                          dfB = dat_1,
+                          varnames = key_vars, n.cores = 3, verbose = FALSE)</code></pre>
+<pre><code>## 
+## ==================== 
+## fastLink(): Fast Probabilistic Record Linkage
+## ==================== 
+## 
+## Calculating matches for each variable.
+## Getting counts for parameter estimation.
+##     Parallelizing calculation using OpenMP. 1 threads out of 4 are used.
+## Running the EM algorithm.
+## Getting the indices of estimated matches.
+##     Parallelizing calculation using OpenMP. 1 threads out of 4 are used.
+## Deduping the estimated matches.
+## Getting the match patterns for each estimated match.</code></pre>
+<p>Now let’s returned the matched data frame. I will use a 95% confidence level for returning matches.</p>
+<pre class="r"><code>matched_dfs &lt;- getMatches(
+  dfA = anon_data, dfB = dat_1, 
+  fl.out = matching_test, threshold.match = 0.95
+)</code></pre>
+<p>We can then see our accuracy at matching</p>
+<pre class="r"><code>options(digits = 2)
+df &lt;- matching_test$matches
+
+mean(df[[&quot;inds.a&quot;]] == df[[&quot;inds.b&quot;]])</code></pre>
+<pre><code>## [1] 0.065</code></pre>
+<p>Thus only 6.5% were actually identified. Of those we can see how many were uniquely matched</p>
+<pre class="r"><code>df %&gt;% 
+  count(inds.b) %&gt;% 
+  left_join(filter(df, inds.a==inds.b)) %&gt;% 
+  filter(!is.na(inds.a), n == 1)</code></pre>
+<pre><code>## Joining, by = &quot;inds.b&quot;</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["inds.b"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]},{"label":["inds.a"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"15","2":"1","3":"15"},{"1":"20","2":"1","3":"20"},{"1":"63","2":"1","3":"63"},{"1":"69","2":"1","3":"69"},{"1":"108","2":"1","3":"108"},{"1":"183","2":"1","3":"183"},{"1":"213","2":"1","3":"213"},{"1":"242","2":"1","3":"242"},{"1":"247","2":"1","3":"247"},{"1":"292","2":"1","3":"292"},{"1":"434","2":"1","3":"434"},{"1":"461","2":"1","3":"461"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Therefore 17 out of 500 or 3.4% were uniquely identified. Now more modifications could be done to improve the masking of the data.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>see <a href="https://en.wikipedia.org/wiki/Ecological_fallacy" class="uri">https://en.wikipedia.org/wiki/Ecological_fallacy</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+  <br>
+    <hr>
+    
+    <div class="column-left">
+    <p>
+    <b>Research and Methods Resources</b><br>
+    <a href="mailto:me.dewitt.jr@gmail.com">me.dewitt.jr@gmail.com</a> <br>
+    </p>
+    </div>
+    
+    <div class="column-center">
+    <p>
+     <br>
+     <br>
+    Winston- Salem, NC<br>
+    </p>
+    
+    </div>
+    
+    <div class="column-right">
+    Michael DeWitt <br>
+    <a href="https://github.com/medewitt"><i class="fa fa-github"></i></a>
+    </div>
+    
+    <br>
+    <br>
+    <center>
+    <p>Copyright &copy; 2018 Michael DeWitt. All rights reserved.</p>
+    </center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

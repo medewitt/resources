@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Distribution of Categorical Responses</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'UA-117944166-1');
+      </script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research and Methods Resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-hand-paper"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources_econ.html">Economics</a>
+    </li>
+    <li>
+      <a href="resources_polisci.html">Political Science</a>
+    </li>
+    <li>
+      <a href="resources_stats.html">Statistics</a>
+    </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="tutorials.html">
+    <span class="fa fa-book"></span>
+     
+    Tutorials
+  </a>
+</li>
+<li>
+  <a href="notes.html">
+    <span class="fa fa-handshake"></span>
+     
+    My Notes
+  </a>
+</li>
+<li>
+  <a href="data_sources.html">
+    <span class="fa fa-paper-plane"></span>
+     
+    Data Sources
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Stan
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="stan_linear_regression.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
+    </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
+    <li>
+      <a href="stan_categorical_responses.html">Categorical Response Distribution</a>
+    </li>
+    <li>
+      <a href="stan_2pl.html">2PL IRT</a>
+    </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://michaeldewittjr.com">
+    <span class="fa fa-folder"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Distribution of Categorical Responses</h1>
+
+</div>
+
+
+<p>This post is adapted from Alex Hayes’ post available <a href="http://www.alexpghayes.com/blog/some-things-ive-learned-about-stan/">here</a>. In it he reviews the ways one can use Stan to review the distribution of responses to categorical survey items and then use this to predict class probabilities. This is a neat way to look at survey items rather than converting responses to a numeric scale and treating them as continuous. Much more true to the data and a lot has been written about the dangers of using the continuous approach to catgorical data.</p>
+<div id="motivating-example" class="section level2">
+<h2>Motivating Example</h2>
+<p>I do a good bit of survey analysis where often times we are trying to compare different response patterns of different groups. As such this provides an interesting way of seeing the distribution of answers across a variety of items.</p>
+</div>
+<div id="data-generating-process" class="section level2">
+<h2>Data Generating Process</h2>
+<p><span class="math display">\[R_{i,j}|theta_j \sim Categorical(\theta_j)\]</span> <span class="math display">\[\theta_j|y_i \sim Dirichlet(4)\]</span> Where <span class="math inline">\(R_{i,j}\)</span> is the response of the student ith to jth question with y representing class membership.</p>
+<p>Additionaly, another important point for the prediction of class probability given predicted quantities we can use Bayes’ Rule:</p>
+<p><span class="math display">\[P(yi = 0 | R_i,1,...,R_i,j)=\frac{\Pi_{j=1}^AP(R_{i,j}|y_i=0)}{\Pi_{j=1}^AP(R_{i,j}|y_i=0)+\Pi_{j=1}^AP(R_{i,j}|y_i=1)}\]</span></p>
+<p>Or more simply put:</p>
+<p><span class="math display">\[P(yi = 0 | R_i,1,...,R_i,j)=\frac{\Pi_{j=1}^A\theta_{j,0}}{Pi_{j=1}^A\theta_{j,0}+Pi_{j=1}^A\theta_{j,1}}\]</span></p>
+<p>Luckily Alex wrote a Stan function which computes this probability for us and can be specified both as a function and then used in the generated quanitities block.</p>
+<p>So now using</p>
+<pre class="r"><code>library(tidyverse)
+
+set.seed(336)
+
+Q &lt;- 3 # Three Question (items)
+A &lt;- 5 # 5 Possible responses
+
+alpha &lt;- rep(4, A)
+
+theta_0 &lt;- gtools::rdirichlet(Q, alpha)
+theta_1 &lt;- gtools::rdirichlet(Q, alpha)</code></pre>
+<pre class="r"><code>sample_one &lt;- function(theta) {
+
+  R &lt;- numeric(Q)
+
+  for (q in 1:Q)
+    R[q] &lt;- sample(1:A, 1, prob = theta[q, ])
+
+  names(R) &lt;- paste0(&quot;q&quot;, 1:Q)
+  as.list(R)
+}</code></pre>
+<pre class="r"><code>sample_n &lt;- function(theta, n, id) {
+  samples &lt;- map_dfr(1:n, ~sample_one(theta))
+  samples &lt;- add_column(samples, y = id, .before = TRUE)
+  mutate_all(samples, as.integer)
+}
+
+(df &lt;- sample_n(theta_0, 35, id = 0) %&gt;%
+  bind_rows(sample_n(theta_1, 35, id = 1)))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["y"],"name":[1],"type":["int"],"align":["right"]},{"label":["q1"],"name":[2],"type":["int"],"align":["right"]},{"label":["q2"],"name":[3],"type":["int"],"align":["right"]},{"label":["q3"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"0","2":"2","3":"5","4":"2"},{"1":"0","2":"3","3":"5","4":"3"},{"1":"0","2":"1","3":"3","4":"1"},{"1":"0","2":"2","3":"4","4":"3"},{"1":"0","2":"4","3":"1","4":"4"},{"1":"0","2":"1","3":"2","4":"1"},{"1":"0","2":"5","3":"2","4":"1"},{"1":"0","2":"5","3":"2","4":"3"},{"1":"0","2":"2","3":"5","4":"3"},{"1":"0","2":"2","3":"2","4":"1"},{"1":"0","2":"1","3":"2","4":"2"},{"1":"0","2":"4","3":"5","4":"2"},{"1":"0","2":"2","3":"3","4":"2"},{"1":"0","2":"2","3":"3","4":"3"},{"1":"0","2":"1","3":"3","4":"3"},{"1":"0","2":"1","3":"4","4":"5"},{"1":"0","2":"2","3":"3","4":"2"},{"1":"0","2":"2","3":"3","4":"2"},{"1":"0","2":"3","3":"1","4":"3"},{"1":"0","2":"1","3":"1","4":"1"},{"1":"0","2":"3","3":"2","4":"3"},{"1":"0","2":"1","3":"3","4":"4"},{"1":"0","2":"1","3":"3","4":"3"},{"1":"0","2":"1","3":"5","4":"1"},{"1":"0","2":"1","3":"3","4":"5"},{"1":"0","2":"5","3":"1","4":"2"},{"1":"0","2":"1","3":"2","4":"5"},{"1":"0","2":"4","3":"1","4":"1"},{"1":"0","2":"1","3":"3","4":"4"},{"1":"0","2":"1","3":"3","4":"3"},{"1":"0","2":"3","3":"3","4":"5"},{"1":"0","2":"5","3":"5","4":"5"},{"1":"0","2":"4","3":"5","4":"5"},{"1":"0","2":"2","3":"3","4":"1"},{"1":"0","2":"1","3":"5","4":"2"},{"1":"1","2":"4","3":"1","4":"1"},{"1":"1","2":"1","3":"1","4":"1"},{"1":"1","2":"5","3":"1","4":"1"},{"1":"1","2":"5","3":"1","4":"4"},{"1":"1","2":"5","3":"1","4":"2"},{"1":"1","2":"5","3":"1","4":"5"},{"1":"1","2":"1","3":"1","4":"1"},{"1":"1","2":"4","3":"1","4":"5"},{"1":"1","2":"3","3":"1","4":"3"},{"1":"1","2":"3","3":"1","4":"5"},{"1":"1","2":"4","3":"4","4":"2"},{"1":"1","2":"1","3":"2","4":"2"},{"1":"1","2":"2","3":"1","4":"2"},{"1":"1","2":"1","3":"1","4":"2"},{"1":"1","2":"2","3":"4","4":"4"},{"1":"1","2":"1","3":"1","4":"4"},{"1":"1","2":"1","3":"5","4":"3"},{"1":"1","2":"5","3":"1","4":"5"},{"1":"1","2":"1","3":"3","4":"5"},{"1":"1","2":"4","3":"1","4":"5"},{"1":"1","2":"4","3":"4","4":"3"},{"1":"1","2":"1","3":"1","4":"3"},{"1":"1","2":"4","3":"3","4":"3"},{"1":"1","2":"1","3":"3","4":"4"},{"1":"1","2":"5","3":"1","4":"1"},{"1":"1","2":"4","3":"1","4":"3"},{"1":"1","2":"1","3":"1","4":"2"},{"1":"1","2":"1","3":"1","4":"5"},{"1":"1","2":"4","3":"1","4":"2"},{"1":"1","2":"3","3":"1","4":"4"},{"1":"1","2":"5","3":"1","4":"2"},{"1":"1","2":"1","3":"4","4":"2"},{"1":"1","2":"2","3":"1","4":"2"},{"1":"1","2":"1","3":"1","4":"4"},{"1":"1","2":"1","3":"1","4":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Additionally, we can add back in some data for prediction purposes, again predicting in our generated quantities block.</p>
+<pre class="r"><code>new_df &lt;- sample_n(theta_0, 35, id = 0) %&gt;%
+  bind_rows(sample_n(theta_1, 35, id = 1))</code></pre>
+</div>
+<div id="stan-model" class="section level2">
+<h2>Stan Model</h2>
+<pre class="r"><code>library(rstan)
+rstan_options(auto_write = TRUE)</code></pre>
+<p>Based on our specified generative model we can write our Stan function</p>
+<pre class="r"><code>writeLines(readLines(&quot;stan_categorical_responses.stan&quot;))</code></pre>
+<pre><code>// adapted from 
+
+functions {
+
+  /**
+   * class_prob
+   *
+   * Given an array of responses and probabilities for each response
+   *  for class 0 and class 1, calculate the probability that each
+   *  respondent is in class 0 via Bayes rule. In the training set,
+   *  the actual class of respondent `i` is given by `y[i]`.
+   *
+   * We assume that responses to different questions are independent
+   *  and that each class is equally likely. That is, we take
+   *  P(y=1) = P(y=0) = 0.5, and thus these terms cancel.
+   *
+   * @param R A 2-array of integers, where each row corresponds to a
+   *  a respondent, and each column corresponds to a question. Elements
+   *  can be 1, 2, ..., A.
+   *
+   * @param theta_0 A 2-array of response probabilities for class 0.
+   *  That is, `theta_0[q, r]` is the probability of (integer-valued)
+   *  response `r` to question number `q`.
+   *
+   * @param theta_1 A 2-array of response probabilities for class 1.
+   *
+   * @return A vector of probabilities that each user is in class 0.
+   *  This vector has the same number of elements as there are rows
+   *  in R.
+   */
+   
+  // note the type signatures here!
+  vector class_prob(int[,] R, vector[] theta_0, vector[] theta_1) {
+
+    real p_0;
+    real p_1;
+
+    int N = dims(R)[1];
+    int Q = dims(R)[2];
+
+    vector[N] p;
+
+    for (i in 1:N) {
+    
+      vector[Q] pr_0;
+      vector[Q] pr_1;
+
+      for (q in 1:Q) {
+
+        pr_0[q] = theta_0[q, R[i, q]];
+        pr_1[q] = theta_1[q, R[i, q]];
+
+      }
+
+      // take the product of probabilities across all questions
+      // since we assume responses to different questions are
+      // independent. work in log space for numerical stability
+
+      p_0 = exp(sum(log(pr_0)));
+      p_1 = exp(sum(log(pr_1)));
+
+      p[i] = p_0 / (p_0 + p_1);
+    }
+
+    return(p);
+  }
+}
+
+data {
+  int Q;      // number of questions
+  int A;      // number of possible answers to each question
+
+  int N;      // number of respondents
+  int new_N;  // number of unlabelled respondents
+
+  int&lt;lower=1, upper=5&gt; R[N, Q];          // responses to questions (train)
+  int&lt;lower=1, upper=5&gt; new_R[new_N, Q];  // responses to questions (test)
+
+  int&lt;lower=0, upper=1&gt; y[N];             // binary feature for user
+
+  vector&lt;lower=0&gt;[A] alpha;               // dirichlet prior parameter
+}
+
+parameters {
+  // response probabilities for each question
+  simplex[A] theta_0[Q];  // for group 0
+  simplex[A] theta_1[Q];  // for group 1
+}
+
+model {
+
+  for (q in 1:Q) {
+
+    theta_0[q] ~ dirichlet(alpha);
+    theta_1[q] ~ dirichlet(alpha);
+
+    for (i in 1:N) {
+
+      if (y[i] == 0) {
+        R[i, q] ~ categorical(theta_0[q]);
+      }
+
+      if (y[i] == 1) {
+        R[i, q] ~ categorical(theta_1[q]);
+      }
+    }
+  }
+}
+
+generated quantities {
+  vector[N] pred = class_prob(R, theta_0, theta_1);
+  vector[new_N] new_pred = class_prob(new_R, theta_0, theta_1);
+}</code></pre>
+</div>
+<div id="format-data" class="section level2">
+<h2>Format Data</h2>
+<p>As per normal we need to do a little reformating of our data, but this isn’t too crazy</p>
+<pre class="r"><code>new_data &lt;- list(
+  R = as.matrix(dplyr::select(df, -y)),
+  N = nrow(df),
+  y = df$y,
+  new_R = as.matrix(dplyr::select(new_df, -y)),
+  new_N = nrow(new_df),
+  Q = Q,
+  A = A,
+  alpha = alpha
+)</code></pre>
+</div>
+<div id="run-model" class="section level2">
+<h2>Run Model</h2>
+<pre class="r"><code>model &lt;- stan_model(&quot;stan_categorical_responses.stan&quot;)</code></pre>
+<p>Now we can run the fit:</p>
+<pre class="r"><code>fit &lt;- sampling(model, new_data, cores = 3, iter = 2000, chains = 3, refresh=0)</code></pre>
+</div>
+<div id="run-our-diagnostics" class="section level2">
+<h2>Run Our Diagnostics</h2>
+<p>Run our trace plots for diagnostics.</p>
+<pre class="r"><code>traceplot(fit)</code></pre>
+<p><img src="stan_categorical_responses_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Additionally, <a href="https://betanalpha.github.io/">Michael Betancourt</a> has assembled a few great utilities that can be used to diagnose a fit. Additionally, a neat trick learned from reading his blog is to souce specific functions into a local environment and then reference them explicitly.</p>
+<pre class="r"><code>util &lt;- new.env()
+source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
+<p>Let’s run the checks:</p>
+<pre class="r"><code>util$check_all_diagnostics(fit)</code></pre>
+<pre><code>## [1] &quot;n_eff / iter looks reasonable for all parameters&quot;
+## [1] &quot;Rhat looks reasonable for all parameters&quot;
+## [1] &quot;0 of 3000 iterations ended with a divergence (0%)&quot;
+## [1] &quot;0 of 3000 iterations saturated the maximum tree depth of 10 (0%)&quot;
+## [1] &quot;E-FMI indicated no pathological behavior&quot;</code></pre>
+<p>Everything looks good! On to inferences.</p>
+</div>
+<div id="make-inferences" class="section level2">
+<h2>Make Inferences</h2>
+<pre class="r"><code>library(bayesplot)
+library(tidybayes)</code></pre>
+<div id="check-the-parameters" class="section level3">
+<h3>Check the Parameters</h3>
+<pre class="r"><code>print(fit, pars = &quot;theta_0&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_categorical_responses.
+## 3 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=3000.
+## 
+##              mean se_mean   sd 2.5%  25%  50%  75%  98% n_eff Rhat
+## theta_0[1,1] 0.33       0 0.06 0.21 0.28 0.33 0.37 0.46  7854    1
+## theta_0[1,2] 0.24       0 0.06 0.13 0.20 0.23 0.27 0.36  7504    1
+## theta_0[1,3] 0.14       0 0.05 0.07 0.11 0.14 0.17 0.24  7228    1
+## theta_0[1,4] 0.15       0 0.05 0.07 0.11 0.14 0.17 0.25  6898    1
+## theta_0[1,5] 0.14       0 0.05 0.07 0.11 0.14 0.17 0.25  7480    1
+## theta_0[2,1] 0.16       0 0.05 0.08 0.13 0.16 0.19 0.27  7794    1
+## theta_0[2,2] 0.20       0 0.05 0.11 0.16 0.20 0.23 0.32  7952    1
+## theta_0[2,3] 0.31       0 0.06 0.20 0.27 0.31 0.35 0.44  7585    1
+## theta_0[2,4] 0.11       0 0.04 0.04 0.08 0.10 0.13 0.20  6893    1
+## theta_0[2,5] 0.22       0 0.06 0.12 0.18 0.21 0.25 0.33  6533    1
+## theta_0[3,1] 0.22       0 0.05 0.12 0.18 0.21 0.25 0.33  6973    1
+## theta_0[3,2] 0.22       0 0.05 0.12 0.18 0.22 0.25 0.33  6779    1
+## theta_0[3,3] 0.25       0 0.06 0.15 0.21 0.25 0.29 0.38  7537    1
+## theta_0[3,4] 0.13       0 0.04 0.05 0.10 0.12 0.15 0.23  6668    1
+## theta_0[3,5] 0.18       0 0.05 0.09 0.14 0.18 0.22 0.29  7994    1
+## 
+## Samples were drawn using NUTS(diag_e) at Wed Feb 13 06:58:04 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<pre class="r"><code>print(fit, pars = &quot;theta_1&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_categorical_responses.
+## 3 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=3000.
+## 
+##              mean se_mean   sd 2.5%  25%  50%  75%  98% n_eff Rhat
+## theta_1[1,1] 0.33       0 0.06 0.21 0.29 0.33 0.37 0.45  8631    1
+## theta_1[1,2] 0.13       0 0.05 0.05 0.09 0.12 0.15 0.23  7115    1
+## theta_1[1,3] 0.13       0 0.04 0.05 0.09 0.12 0.15 0.23  5467    1
+## theta_1[1,4] 0.22       0 0.05 0.12 0.18 0.21 0.25 0.33  7476    1
+## theta_1[1,5] 0.20       0 0.05 0.11 0.16 0.20 0.24 0.31  6973    1
+## theta_1[2,1] 0.55       0 0.07 0.42 0.50 0.55 0.59 0.67  7236    1
+## theta_1[2,2] 0.09       0 0.04 0.03 0.06 0.09 0.11 0.18  6654    1
+## theta_1[2,3] 0.13       0 0.04 0.06 0.09 0.12 0.15 0.23  5680    1
+## theta_1[2,4] 0.15       0 0.05 0.07 0.11 0.14 0.17 0.25  6202    1
+## theta_1[2,5] 0.09       0 0.04 0.03 0.06 0.09 0.11 0.18  5211    1
+## theta_1[3,1] 0.18       0 0.05 0.10 0.14 0.18 0.21 0.29  7474    1
+## theta_1[3,2] 0.25       0 0.06 0.15 0.21 0.25 0.29 0.37  7686    1
+## theta_1[3,3] 0.18       0 0.05 0.09 0.15 0.18 0.21 0.29  7503    1
+## theta_1[3,4] 0.18       0 0.05 0.09 0.14 0.18 0.22 0.29  7837    1
+## theta_1[3,5] 0.20       0 0.05 0.11 0.16 0.20 0.24 0.31  9464    1
+## 
+## Samples were drawn using NUTS(diag_e) at Wed Feb 13 06:58:04 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+</div>
+<div id="predictions" class="section level3">
+<h3>Predictions</h3>
+<pre class="r"><code>pred &lt;- fit %&gt;%
+  spread_draws(new_pred[i]) %&gt;%
+  median_qi(new_pred[i]) %&gt;% 
+  mutate(.pred = if_else(`new_pred[i]` &gt; 0.5, 0, 1))
+
+acc &lt;- round(mean(pred$.pred == new_df$y), 2)
+cat(&quot;The classification accuracy is:&quot;, acc)</code></pre>
+<pre><code>## The classification accuracy is: 0.66</code></pre>
+<pre class="r"><code>theta_0_draws &lt;- fit %&gt;%  
+  spread_draws(theta_0[i, j])
+
+theta_1_draws &lt;- fit %&gt;%  
+  spread_draws(theta_1[i, j])
+
+theta_draws &lt;- theta_0_draws %&gt;% 
+  left_join(theta_1_draws)</code></pre>
+<pre class="r"><code>theta_draws %&gt;% 
+  gather(group, theta, theta_0, theta_1) %&gt;% 
+  mutate(
+    group = if_else(group == &quot;theta_0&quot;, &quot;Group 0&quot;, &quot;Group 1&quot;),
+    question = i,
+    response = j
+  ) %&gt;% 
+  ggplot(aes(theta, fill = group, color = group)) +
+  geom_density(alpha = 0.5) +
+  facet_grid(
+    rows = vars(question),
+    cols = vars(response)
+  ) +
+  labs(
+    title = &quot;Estimated probability of each response by question and group&quot;,
+    subtitle = &quot;Columns correspond to response, rows to questions&quot;,
+    x = &quot;Probability of response&quot;) +
+  theme(
+    legend.position = &quot;none&quot;,
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  theme(panel.grid = element_blank(), 
+        panel.background = element_rect(fill=&quot;white&quot;))</code></pre>
+<p><img src="stan_categorical_responses_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+
+  <br>
+    <hr>
+    
+    <div class="column-left">
+    <p>
+    <b>Research and Methods Resources</b><br>
+    <a href="mailto:me.dewitt.jr@gmail.com">me.dewitt.jr@gmail.com</a> <br>
+    </p>
+    </div>
+    
+    <div class="column-center">
+    <p>
+     <br>
+     <br>
+    Winston- Salem, NC<br>
+    </p>
+    
+    </div>
+    
+    <div class="column-right">
+    Michael DeWitt <br>
+    <a href="https://github.com/medewitt"><i class="fa fa-github"></i></a>
+    </div>
+    
+    <br>
+    <br>
+    <center>
+    <p>Copyright &copy; 2018 Michael DeWitt. All rights reserved.</p>
+    </center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

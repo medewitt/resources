@@ -27,7 +27,7 @@ ts.plot(fake_data, main = "Time Series Plot of Our Fake Data")
 
 ### The Model
 
-```{r results='asis'}
+```{r comment=""}
 writeLines(readLines("stan_ar_models.stan"))
 ```
 
