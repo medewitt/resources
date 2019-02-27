@@ -58,7 +58,7 @@ summary(cfa_fit, fit.measures=TRUE)
 
 Now first to write the Stan code:
 
-```{r stan-1}
+```{r comment=""}
 library(rstan)
 rstan_options(auto_write = TRUE)
 writeLines(readLines("stan_cfa.stan"))
@@ -97,7 +97,7 @@ stan_dat <- list(
 
 Then run the model
 
-```{r run-stan}
+```{r run-stan, cache=TRUE}
 stan_fit <- sampling(stan_cfa_model, stan_dat, 
                      cores = 3, chains = 3, iter = 4000,
                      refresh = 0)

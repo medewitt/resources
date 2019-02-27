@@ -147,7 +147,7 @@ data <- list(J = J, K = K, N = N, j = j, k = k, y = votes)
 
 Now we can fit the model:
 
-```{r}
+```{r cache=TRUE}
 
 fit <- sampling(id_fit, 
                  data = data, iter = 4000, 

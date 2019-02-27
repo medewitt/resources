@@ -71,7 +71,7 @@ linear_regression <- stan_model("stan_linear_regression.stan")
 
 One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).
 
-```{r}
+```{r cache=TRUE}
 fit1 <- sampling(linear_regression, data = data, chains = 2, iter = 1000, refresh = 0)
 ```
 

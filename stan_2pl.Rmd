@@ -48,7 +48,7 @@ Now we can build our Stan model using [this reference](https://mc-stan.org/docs/
 
 ## Stan
 
-```{r results='asis'}
+```{r comment=""}
 writeLines(readLines("stan_2pl.stan"))
 ```
 
@@ -79,7 +79,7 @@ model <- stan_model("stan_2pl.stan")
 
 Now we can run our compiled model with our data:
 
-```{r fit-model}
+```{r fit-model, cache=TRUE}
 fit_2pl <- sampling(model, stan_dat, 
                     cores = 2, chains = 2, iter = 2000, refresh = 0)
 ```

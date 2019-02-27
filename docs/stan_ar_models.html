@@ -474,6 +474,9 @@ div.tocify {
     <li>
       <a href="stan_ar_models.html">Autoregressive Models</a>
     </li>
+    <li>
+      <a href="stan_nowcast.html">Nowcasting in Stan</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -512,8 +515,27 @@ div.tocify {
 <div id="the-model" class="section level3">
 <h3>The Model</h3>
 <pre class="r"><code>writeLines(readLines(&quot;stan_ar_models.stan&quot;))</code></pre>
-<p>// From <a href="https://mc-stan.org/docs/2_18/stan-users-guide/autoregressive-section.html" class="uri">https://mc-stan.org/docs/2_18/stan-users-guide/autoregressive-section.html</a> // Allowing for flexible autoregression for time series modeling</p>
-<p>data { int&lt;lower=0&gt; K; // Order of Autoregression int&lt;lower=0&gt; N; // number of observations real y[N]; // Outcome } parameters { real alpha; real beta[K]; real sigma; } model { for (n in (K+1):N) { real mu = alpha; for (k in 1:K) mu += beta[k] * y[n-k]; y[n] ~ normal(mu, sigma); } }</p>
+<pre><code>// From https://mc-stan.org/docs/2_18/stan-users-guide/autoregressive-section.html
+// Allowing for flexible autoregression for time series modeling
+
+data {
+  int&lt;lower=0&gt; K;  // Order of Autoregression
+  int&lt;lower=0&gt; N; // number of observations
+  real y[N];      // Outcome
+}
+parameters {
+  real alpha;
+  real beta[K];
+  real sigma;
+}
+model {
+  for (n in (K+1):N) {
+    real mu = alpha;
+    for (k in 1:K)
+      mu += beta[k] * y[n-k];
+    y[n] ~ normal(mu, sigma);
+  }
+}</code></pre>
 </div>
 <div id="the-modeling-process" class="section level3">
 <h3>The Modeling Process</h3>
@@ -521,7 +543,6 @@ div.tocify {
 
 rstan_options(auto_write = TRUE)
 model &lt;- stan_model(&quot;stan_ar_models.stan&quot;)</code></pre>
-<pre><code>## recompiling to avoid crashing R session</code></pre>
 </div>
 <div id="format-data" class="section level3">
 <h3>Format Data</h3>
@@ -555,11 +576,11 @@ source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
 ## post-warmup draws per chain=500, total post-warmup draws=1000.
 ## 
 ##         mean se_mean   sd  2.5%  25%  50%  75%  98% n_eff Rhat
-## beta[1] 0.15       0 0.07  0.00 0.10 0.16 0.21 0.29   842    1
-## beta[2] 0.59       0 0.06  0.49 0.55 0.59 0.63 0.72   829    1
-## beta[3] 0.06       0 0.07 -0.07 0.01 0.06 0.12 0.20   819    1
+## beta[1] 0.14       0 0.08 -0.01 0.09 0.14 0.19 0.29   575    1
+## beta[2] 0.59       0 0.06  0.47 0.54 0.59 0.63 0.70   851    1
+## beta[3] 0.08       0 0.07 -0.05 0.03 0.08 0.13 0.22   687    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Feb 22 14:47:39 2019.
+## Samples were drawn using NUTS(diag_e) at Tue Feb 26 21:29:41 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>

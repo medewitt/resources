@@ -46,6 +46,8 @@ navbar:
       href: stan_2pl.html
     - text: "Autoregressive Models"
       href: stan_ar_models.html
+    - text: "Nowcasting in Stan"
+      href: stan_nowcast.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com

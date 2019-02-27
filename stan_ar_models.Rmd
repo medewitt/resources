@@ -27,7 +27,7 @@ ts.plot(fake_data, main = "Time Series Plot of Our Fake Data")
 
 ### The Model
 
-```{r results='asis'}
+```{r comment=""}
 writeLines(readLines("stan_ar_models.stan"))
 ```
 
@@ -59,7 +59,7 @@ stan_dat <- list(
 
 Let's run our model with the usual conditions.
 
-```{r}
+```{r cache=TRUE}
 fit <- sampling(model, stan_dat,
                 cores = 2, iter = 1000,
                 refresh = 0, chains = 2)

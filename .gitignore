@@ -2,3 +2,14 @@
 .Rhistory
 .RData
 .Ruserdata
+*.RData
+*.rbd
+*.rdx
+stan_nowcast_cache/
+stan_linear_regression_cache/
+stan_2pl_cache/
+stan_categorical_responses_cache/
+stan_ideal_point_cache/
+stan_mult_linear_regression_cache/
+stan_ar_models_cache/
+stan_cfa_cache/

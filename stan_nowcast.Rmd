@@ -1,0 +1,156 @@
+---
+title: "Nowcasting in Stan"
+---
+
+The purpose of this post is to implement "Nowcasting" in Stan using a state-space model. This post is originally inspired from Jim Savage's gist located [here](https://github.com/khakieconomics/nowcasting_in_stan/blob/master/Nowcasting_with_stan.R).
+
+## Motivation
+
+## Data Generating Process
+
+$$y_t \sim N(x_t + \epsilon_t, \sigma_{\epsilon})$$
+
+$$x_t \sim N(x_{t-1}+Z_t\gamma_t + \eta_t, \sigma_{\eta})$$
+
+In the case of this model we only observe the values of $y$ at time $t$.
+
+## Build Fake Data
+
+First we'll bring in our packages.
+
+```{r message=FALSE, warning=FALSE}
+library(rstan)
+suppressPackageStartupMessages(library(tidyverse))
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+set.seed(336)
+```
+
+Then we will generate the required data. In this case we will generate the entire DPG, then for our simulation will remove those data points that do not coincide with our measurement frequency.
+
+```{r fake-data}
+# Set up DGP
+n <- 300 # number of data points
+freq <- 28
+# High frequency helpers
+z1 <- rnorm(n, 0, 3);
+z2 <- rnorm(n, 0, 3)
+
+# Set up "real" state
+x <- rep(NA, n)
+x[1] <- 1
+for(i in 2:n){
+  x[i] <- x[i-1] + 0.4*z1[i] + -0.3*z2[i] + rnorm(1, 0, 0.2)
+}
+
+# Set up y that is only recorded once for every "freq" values of x (set freq above)
+y <- x + rnorm(n, 0, 1)
+
+y[!(1:n%%freq==0)] <- NA
+
+# Have a look at the data to make sure you know what's happening
+dat <-data.frame(y, z1, z2) 
+```
+
+Format the data for stan.
+
+```{r prep-stan}
+# y is now just the observed values of y
+y <- dat$y[!is.na(dat$y)]
+
+model_list <- list(N1 = length(y), 
+                   N2 = n, 
+                   freq = freq, 
+                   y = y, 
+                   z1 = z1, 
+                   z2 = z2)
+```
+
+## Build the Model
+
+```{r comment = ''}
+writeLines(readLines("stan_nowcast.stan"))
+```
+
+Now we have to compile our model.
+
+```{r compile-nowcast}
+model <- stan_model("stan_nowcast.stan")
+```
+
+## Fit the model
+
+```{r samp-nowcast, cache=TRUE}
+fit <- sampling(model, model_list, iter = 2000, 
+                chains = 2, refresh = 0,
+                control = list(adapt_delta = .95,
+                               max_treedepth = 15))
+```
+
+## Model Checking
+
+And as always special thanks to [Michael Betancourt](https://betanalpha.github.io/) for these amazing tools for diagnostics. 
+
+```{r check-tools}
+util <- new.env()
+source('stan_utilities.R', local=util)
+```
+
+```{r checks, eval=FALSE}
+util$check_all_diagnostics(fit)
+```
+
+So it appears that this model needs a little more work! 
+
+## Now some inferences
+
+So while our model parameterisation isn't perfect the coefficients in the data generating process have been sussed out of the data by our model. So this isn't a complete loss!
+
+```{r inference}
+print(fit, pars = c("gamma"))
+```
+
+```{r}
+stan_plot(fit, pars = "gamma")
+```
+
+## Make the Graph
+
+```{r}
+# Extract the estimates of the state
+x_mod <- extract(fit, pars = "x", permuted = F)
+x_mod <- plyr::adply(x_mod, 2)
+
+# Summarise the parameters
+yy <- dat$y
+x_summarise <- x_mod %>% 
+  dplyr::select(-chains) %>% 
+  gather(variable, value) %>%
+  mutate(obs = str_extract(variable, "[0-9]{1,4}") %>% as.numeric) %>%
+  group_by(obs) %>%
+  summarise(Median = median(value),
+            Lower = quantile(value, 0.025),
+            Upper = quantile(value, 0.975)) %>%
+  mutate(Actual = x,
+         Signal = yy)
+```
+
+Now to the graph, but first we can check how often a result occured outside of our confidence interval (technically highest density interval).
+
+```{r}
+mean(x_summarise$Actual<x_summarise$Lower | x_summarise$Actual>x_summarise$Upper) %>% 
+  scales::percent()
+```
+
+```{r message=FALSE, warning=FALSE}
+x_summarise %>% 
+  ggplot(aes(x = obs)) +
+  geom_ribbon(aes(ymin = Lower, ymax = Upper), fill = "orange", alpha = 0.5) +
+  geom_line(aes(y = Median)) +
+  geom_line(aes(y = Actual), colour = "red") +
+  geom_point(aes(y = Signal), size = 2, color = "blue") +
+  labs(title = "Points are low-frequency observations\nRed is actual underlying (hf) series\nblack and orange are our estimate bounds")+
+  theme_minimal()
+
+```
+
