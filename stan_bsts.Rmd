@@ -2,7 +2,9 @@
 title: "Bayesian Structural Time Series"
 ---
 
-```
+This post is inspired by these two posts, [Fitting Bayesian structural time series with the bsts R package](http://www.unofficialgoogledatascience.com/2017/07/fitting-bayesian-structural-time-series.html) and a subsequent post on the Stan help page [here](https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256).
+
+```{r}
 library('rstan')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -16,7 +18,25 @@ options(mc.cores = parallel::detectCores())
 #        v[t+1] = v[1] + s_slope
 ```
 
+## Data Generating Process
+
+Regression State
+$$y_t = \mu_t + \tau_t + \beta^Tx_t + \epsilon_t
+$$
+Trend State
+
+$$\mu_{t+1}=\mu_t+\delta_t+\eta_{0t}
+$$
+
+Seasonal Pattern
+
+$$\tau_{t+1}=-\Sigma_{s=1}^{s-1}\tau_t+\eta_{2t}
+$$
+
+
+
 ```{r}
+set.seed(336)
 beta <- rnorm(250,1,0.1)
 v <- rep(-0.0001,250)
 u <- rep(0.0,250)
@@ -32,12 +52,53 @@ y <- u + beta*x + s_obs
 n <- 250
 ytrain <- y[1:n]
 xtrain <- x[1:n]
-```
+
+plot(y)
 
 ```
+
+## Stan
+
+Develop the Stan model
+
+```{r stan-bsts, comment=""}
+writeLines(readLines("stan_bsts.stan"))
+```
+
+
+```{r}
+stan_dat = list( t = length(ytrain), 
+                 y = ytrain, 
+                 x = xtrain)
+```
+
+Compile the Stan model.
+
+```{r}
+model_bsts <- stan_model("stan_bsts.stan")
+```
+
+The run the model with our data.
+
+```{r}
 #Load stan model file, and fit to data
-fit <- stan(file = 'test.stan', data = list( T = length(ytrain), y = ytrain, x = xtrain) , iter=500, chains=4, control = list(max_treedepth = 10))
+fit <- sampling(model_bsts , stan_dat,
+                iter=100, 
+                chains=3, 
+                control = list(max_treedepth = 10), refresh =0)
 
 ```
+
 # Do pairs plot of different parameters
+
+```{r}
 pairs(fit,pars = c("s_slope","s_level","s_obs","beta"))
+
+```
+
+## Inference
+
+```{r}
+print(fit, pars = "beta")
+```
+
