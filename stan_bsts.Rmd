@@ -8,15 +8,9 @@ This post is inspired by these two posts, [Fitting Bayesian structural time seri
 library('rstan')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
+library(dplyr)
 ```
 
-
-```
-# Generate dummy data for model testing
-# model: y[t] = u[t] + b*x[t] + s_obs , s_* is sigma of noise
-#        u[t+1] = u[t] + v[t] + s_level
-#        v[t+1] = v[1] + s_slope
-```
 
 ## Data Generating Process
 
@@ -156,18 +150,17 @@ for (i in 2:250){
   v[i] <- v[i-1] + s_slope[i-1]
 }
 
-m <- 200
-library(dplyr)
+# Seasonal Component with freq = 12
+t <- seq(0,1, by = 1/250)
 
-tau <- ts(rnorm(n) + 
-            (1:n)%%100/30, f=12) %>% as.vector()
+tau <-vector()
 
-plot(tau)
-tau <- 1:250%%100/30
+tau<- 1*sin(12*pi*t*2)
+
 plot(tau)
 s_obs <- rnorm(250,0,1)
 x <- runif(250,0,1)
-y <- u + 5*x1 + 1*x2 + -.75*x3+ s_obs + tau
+y <- u + 5*x1 + 1*x2 + -.75*x3+ s_obs + tau[-251]
 n <- 250
 x <- as.matrix(preds)
 k <- ncol(preds)
@@ -179,23 +172,33 @@ plot(y)
 
 ## Stan Model
 
+```{r stan-bsts, comment=""}
+writeLines(readLines("stan_bsts_seasonal.stan"))
+```
+
+Now let's compule the model:
+
 ```{r}
 model_season <- stan_model("stan_bsts_seasonal.stan")
 ```
+
+Prepare the data  for Stan.
 
 ```{r}
 stan_dat_seasonal = list( t = length(ytrain), 
                  y = ytrain, 
                  x = xtrain,
                  K = k,
-                 Lambda = 12)
+                 frequency = 12)
 ```
 
+Then fit the model.
 
 ```{r}
 fit <-sampling(model_season, stan_dat_seasonal, 
-               iter = 1500, cores = 2, chain = 2,
-               control = list(max_treedepth = 15))
+               iter = 1000, cores = 2, chain = 2,
+               control = list(max_treedepth = 15, adapt_delta = .99), 
+               refresh = 0)
 ```
 
 ```{r checks, eval=FALSE}
@@ -205,5 +208,9 @@ util$check_all_diagnostics(fit)
 
 ```{r}
 print(fit, "beta")
+```
+
+```{r}
+pairs(fit, pars = c("beta", "s_obs", "s_season"))
 ```
 
