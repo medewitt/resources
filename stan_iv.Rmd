@@ -13,7 +13,7 @@ library(dplyr)
 ```
 
 ```{r eval=FALSE}
-data("CigarettesSW")
+data("CigarettesSW", package = "AER")
 CigarettesSW$rprice <- with(CigarettesSW, price/cpi)
 CigarettesSW$rincome <- with(CigarettesSW, income/population/cpi)
 CigarettesSW$log_rincome <- with(CigarettesSW, log(rincome))
@@ -49,7 +49,7 @@ set.seed(42)
 # Load the stan library
 library(rstan)
 options(mc.cores = parallel::detectCores())
-
+rstan_options(auto_write = TRUE)
 # Compile the model
 compiled_model <- stan_model("stan_iv.stan")
 ```
