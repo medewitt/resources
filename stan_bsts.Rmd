@@ -8,36 +8,27 @@ This post is inspired by these two posts, [Fitting Bayesian structural time seri
 library('rstan')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
+library(dplyr)
 ```
 
-
-```
-# Generate dummy data for model testing
-# model: y[t] = u[t] + b*x[t] + s_obs , s_* is sigma of noise
-#        u[t+1] = u[t] + v[t] + s_level
-#        v[t+1] = v[1] + s_slope
-```
 
 ## Data Generating Process
 
 Regression State
-$$y_t = \mu_t + \tau_t + \beta^Tx_t + \epsilon_t
-$$
+$$y_t = \mu_t + \beta^Tx_t + \epsilon_t$$
+
 Trend State
 
-$$\mu_{t+1}=\mu_t+\delta_t+\eta_{0t}
-$$
-
-Seasonal Pattern
-
-$$\tau_{t+1}=-\Sigma_{s=1}^{s-1}\tau_t+\eta_{2t}
-$$
-
+$$\mu_{t+1}=\mu_t+\delta_t+\eta_{0t}$$
 
 
 ```{r}
 set.seed(336)
-beta <- rnorm(250,1,0.1)
+x1 <- rnorm(250,1,0.1)
+x2 <- rnorm(250, 0, 1)
+x3 <- rnorm(250, 1, .5)
+
+preds <- data.frame(x1 = x1, x2 = x2, x3 = x3)
 v <- rep(-0.0001,250)
 u <- rep(0.0,250)
 s_slope <- rnorm(250,0,0.005)
@@ -46,12 +37,15 @@ for (i in 2:250){
   u[i] <- u[i-1] + v[i-1] + s_level[i-1]
   v[i] <- v[i-1] + s_slope[i-1]
 }
+
 s_obs <- rnorm(250,0,1)
 x <- runif(250,0,1)
-y <- u + beta*x + s_obs
+y <- u + 5*x1 + 1*x2 + -.75*x3+ s_obs
 n <- 250
+x <- as.matrix(preds)
+k <- ncol(preds)
 ytrain <- y[1:n]
-xtrain <- x[1:n]
+xtrain <- x[1:n,]
 
 plot(y)
 
@@ -69,7 +63,8 @@ writeLines(readLines("stan_bsts.stan"))
 ```{r}
 stan_dat = list( t = length(ytrain), 
                  y = ytrain, 
-                 x = xtrain)
+                 x = xtrain,
+                 K = k)
 ```
 
 Compile the Stan model.
@@ -83,22 +78,139 @@ The run the model with our data.
 ```{r}
 #Load stan model file, and fit to data
 fit <- sampling(model_bsts , stan_dat,
-                iter=100, 
+                iter=1000, 
                 chains=3, 
-                control = list(max_treedepth = 10), refresh =0)
+                control = list(max_treedepth = 15,
+                               adapt_delta = .95), refresh =0)
 
 ```
 
-# Do pairs plot of different parameters
+## Model Checking
+
+And as always special thanks to [Michael Betancourt](https://betanalpha.github.io/) for these amazing tools for diagnostics. 
+
+```{r check-tools}
+util <- new.env()
+source('stan_utilities.R', local=util)
+```
+
+```{r checks, eval=FALSE}
+util$check_all_diagnostics(fit)
+```
+
+### Do pairs plot of different parameters
 
 ```{r}
 pairs(fit,pars = c("s_slope","s_level","s_obs","beta"))
 
 ```
 
+```{r}
+traceplot(fit, pars = "beta")
+```
+
+
 ## Inference
 
 ```{r}
 print(fit, pars = "beta")
+```
+
+## Add Seasonality?
+
+### Data Generating Process
+
+Regression State
+$$y_t = \mu_t + \tau_t + \beta^Tx_t + \epsilon_t$$
+
+Trend State
+
+$$\mu_{t+1}=\mu_t+\delta_t+\eta_{0t}$$
+
+Seasonal Pattern
+
+$$\tau_{t+1}=-\Sigma_{s=1}^{s-1}\tau_t+\eta_{2t}$$
+
+## Generate Fake Data
+
+```{r}
+set.seed(336)
+x1 <- rnorm(250,1,0.1)
+x2 <- rnorm(250, 1, .1)
+x3 <- rnorm(250, 1, .5)
+
+preds <- data.frame(x1 = x1, x2 = x2, x3 = x3)
+v <- rep(-0.0001,250)
+u <- rep(0.0,250)
+s_slope <- rnorm(250,0,0.005)
+s_level <- rnorm(250,0,0.005)
+
+for (i in 2:250){
+  u[i] <- u[i-1] + v[i-1] + s_level[i-1]
+  v[i] <- v[i-1] + s_slope[i-1]
+}
+
+# Seasonal Component with freq = 12
+t <- seq(0,1, by = 1/250)
+
+tau <-vector()
+
+tau<- 1*sin(12*pi*t*2)
+
+plot(tau)
+s_obs <- rnorm(250,0,1)
+x <- runif(250,0,1)
+y <- u + 5*x1 + 1*x2 + -.75*x3+ s_obs + tau[-251]
+n <- 250
+x <- as.matrix(preds)
+k <- ncol(preds)
+ytrain <- y[1:n]
+xtrain <- x[1:n,]
+
+plot(y)
+```
+
+## Stan Model
+
+```{r stan-bsts, comment=""}
+writeLines(readLines("stan_bsts_seasonal.stan"))
+```
+
+Now let's compule the model:
+
+```{r}
+model_season <- stan_model("stan_bsts_seasonal.stan")
+```
+
+Prepare the data  for Stan.
+
+```{r}
+stan_dat_seasonal = list( t = length(ytrain), 
+                 y = ytrain, 
+                 x = xtrain,
+                 K = k,
+                 frequency = 12)
+```
+
+Then fit the model.
+
+```{r}
+fit <-sampling(model_season, stan_dat_seasonal, 
+               iter = 1000, cores = 2, chain = 2,
+               control = list(max_treedepth = 15, adapt_delta = .99), 
+               refresh = 0)
+```
+
+```{r checks, eval=FALSE}
+util$check_all_diagnostics(fit)
+```
+
+
+```{r}
+print(fit, "beta")
+```
+
+```{r}
+pairs(fit, pars = c("beta", "s_obs", "s_season"))
 ```
 
