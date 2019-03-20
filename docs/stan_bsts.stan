@@ -1,14 +1,14 @@
 // From https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256
 
 data {
-  int <lower=0> T;
-  vector[T] x;
-  vector[T] y;
+  int <lower=0> t;
+  vector[t] x;
+  vector[t] y;
 }
 
 parameters {
-  vector[T] u_err; //Slope innovation
-  vector[T] v_err; //Level innovation
+  vector[t] u_err; //Slope innovation
+  vector[t] v_err; //Level innovation
   real beta;
   real <lower=0> s_obs;
   real <lower=0> s_slope;
@@ -16,13 +16,13 @@ parameters {
 }
 
 transformed parameters {
-  vector[T] u; //Level
-  vector[T] v; //Slope
+  vector[t] u; //Level
+  vector[t] v; //Slope
   u[1] = u_err[1];
   v[1] = v_err[1];
-  for (t in 2:T) {
-    u[t] = u[t-1] + v[t-1] + s_level * u_err[t];
-    v[t] = v[t-1] + s_slope * v_err[t];
+  for (i in 2:t) {
+    u[i] = u[i-1] + v[i-1] + s_level * u_err[i];
+    v[i] = v[i-1] + s_slope * v_err[i];
   }
 }
 

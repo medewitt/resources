@@ -41,6 +41,13 @@ biblio-style: apalike
 
 <http://www.people-press.org/2017/10/24/political-typology-reveals-deep-fissures-on-the-right-and-left/>
 
+## Politicians
+
+### Wikipedia Data on Political Elite
+>legislatoR is a data package for the software environment R. It comprises political, sociodemographic, and Wikipedia-related data on elected politicians across the globe. This version (0.1.0) includes 32,533 current and former elected politicians from nine countries' legislatures.
+
+<https://github.com/saschagobel/legislatoR>
+
 ## Criminal Justice
 
 ### Incarceration
