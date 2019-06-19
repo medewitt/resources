@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: Political Science Resources
 bibliography: library.bib
@@ -48,3 +49,70 @@ For the tidyverse
 Dean Eckles class:
 
 <https://docs.google.com/document/d/1x0EHydxvgk7p7rWg2Toj7zyOB3Aw_67qG_n0vNoumlE/edit>
+=======
+---
+title: Political Science Resources
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+## Methodology
+
+### International Methods Colloquium
+
+<https://www.methods-colloquium.com/>
+
+### Research Design
+
+Dean Eckles class:
+
+<https://docs.google.com/document/d/1x0EHydxvgk7p7rWg2Toj7zyOB3Aw_67qG_n0vNoumlE/edit>
+
+### Quant Politics with R
+
+<http://qpolr.com/>
+
+
+### Lecture Notes for Advanced Quantitative Political Methodology
+
+<https://projects.iq.harvard.edu/gov2001/book/lecture-notes-advanced-quantitative-political-methodology>
+
+### MRP Papers
+
+<http://www.misterp.org/papers.html>
+
+## Quantitative Social Sciences
+
+For the tidyverse 
+
+<https://jrnold.github.io/qss-tidy/>
+
+---
+
+## Probabilistic Forecasting
+
+### How the Probabilistic Horse Race Demobilizes the Public
+
+<https://solomonmg.github.io/projects/1_project/>
+
+---
+
+## Policy Analysis
+
+### The Varying Effect of Belief in Discrimination Against Whites by Congressional District
+
+<https://github.com/svmiller/dfp-white-discrimination/blob/master/scrape-clean-upshot-polls.R>
+
+## Ideal Point and IRT
+
+<https://github.com/RobertMyles/IRT/blob/master/scripts/1d_model_Stan.R>
+
+<https://cran.r-project.org/web/packages/brms/vignettes/brms_nonlinear.html>
+
+<http://caughey.mit.edu/sites/default/files/documents/CaugheyWarshaw_DIRT140803.pdf>
+
+---
+>>>>>>> 8cdd775ca7755eef45a317b3876cbd72933a73db

@@ -21,3 +21,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Coloring for Colorblindness
 
 <https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D>
+
+[Financial Times Story Playbook](https://github.com/ft-interactive/story-playbook/blob/master/README.md)
+
+[Urban Institute Graphics](https://ui-research.github.io/r-at-urban/graphics-guide.html)
+
+[ggplot2 at the BBC](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535)
+
+[Datatypes in R](https://www.trafforddatalab.io/graphics_companion/index.html#deviation)
+
+## Power BI
+
+[Python Machine Learning in Power BI](https://www.absentdata.com/power-bi/python-machine-learning-in-power-bi/)
+
+## Graphics
+
+[multivariate dot-density chart](https://www.cultureofinsight.com/blog/2018/05/02/2018-04-08-multivariate-dot-density-maps-in-r-with-sf-ggplot2/)
+
+[Visual Vocabulary Financial Times](https://github.com/ft-interactive/chart-doctor/blob/master/visual-vocabulary/README.md)

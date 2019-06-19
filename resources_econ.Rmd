@@ -15,6 +15,15 @@ This is a course offered by the Econ Department at Harvard titled:
 
 [Topics in Econometrics: Advances in Causality and Foundations of Machine Learning](https://maxkasy.github.io/home/TopicsInEconometrics2019/)
 
+
+[U of Chicago Empirical Analysis III](http://jenni.uchicago.edu/econ312/Slides/index.htm)
+
+[Eurozone GDP](https://github.com/mantoniou/Blog/blob/master/content/post/2018-08-forecasting-arima-gdp-eurozone.Rmd)
+
+### Bayesian Econometrics
+
+[NBER-NSF SBIES Conference](http://apps.olin.wustl.edu/conf/SBIES/home/Default.aspx?pid=4)
+
 ### Introduction to Econometrics with R
 
 SciencesPo Course 
@@ -45,3 +54,9 @@ BYU MPA course
 ASSA by David Autor
 
 <https://events7.mediasite.com/mediasite/Play/0c28325473ab4b72b75b0a63a829be9d1d?playFrom=16711&autoStart=true>
+
+## Econ Ark
+
+>The Econ-ARK project provides open-source toolkits for researchers trying to understand how economic and social outcomes result from the actions of heterogeneous individuals.
+
+<https://econ-ark.org/notebooks/>

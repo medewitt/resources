@@ -1,0 +1,159 @@
+---
+title: "Differential Privacy"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(smoothmest)
+```
+
+Release of aggregated data is always a challenge, especially when multiple cross tabulations are provided. Analysis has shown that in some instances de-identified data can still be matched back to the original data owner. This is where _Differential PRivacy_ comes in. It provides a methodology to add noise into aggregate figures in order to better protect privacy. It provides a mathematical approach to securing aggregated data.
+
+## Privacy Budget
+
+## Epsilon
+
+Epsilon is the privacy budget. If something is more sensitive the value of epsilon will be smaller. If the item is not senstive then the value is larger. 
+
+## Global Sensitivity
+
+Global sensitivity is how the L1 distance changes based on removing one person from the data.
+
+### GS
+
+- counting `gs` = 1
+- proportions `gs` = 1/n
+- continuous `gs`  = $\frac{b-a}{n}$
+- variance `gs`  = $\frac{(b-a)^2}{n}$
+
+Where n is the total number of observations, a is the lower bound, and b is the lower bound of the data.
+
+
+## Laplace Transformation
+
+If global sensitivity is larger or budget is lower, then more noise is added. If global sensitivity is smaller or the budget is lower, then less noise is added.
+
+## A Motivating Example
+
+Supposed that we work for the Imperial Census Bureau. While we may not agree with the empire it is important for what remains of the Galactic Senate to have proper representation.  Thus we have our data:
+
+```{r}
+starwars
+```
+
+Let's also say that we have some sensitive data (aka allegiance to the Rebel cause)
+
+```{r}
+set.seed(5251977)
+(starwars <- starwars %>% 
+   mutate(allegiance = ifelse(rbinom(nrow(.), 1, prob = .3)>0, 1, 0)))
+```
+
+
+## Applying the Continuous Measures
+
+Now let's say we want to look at the height of the different species by allegance. Perhaps the Empire is setting up a height screening tool to try to detect and re-identify beings. We certainly don't want to give away too much data so let's test the aggregate.
+
+So the true value would be
+
+```{r}
+(starwars %>% 
+  group_by(allegiance) %>% 
+  summarise(mu_height = mean(height, na.rm=TRUE))->true_height)
+```
+
+
+### Setting the Budget
+
+### GS of a Mean
+
+```{r}
+n <- nrow(starwars)
+a <- max(starwars$height, na.rm = T)
+b <- min(starwars$height, na.rm = T)
+gs.mean <- (a-b)/n
+eps <- 1
+```
+
+Thus the simulated value would be:
+
+```{r}
+(reported <-rdoublex(1, true_height$mu_height, gs.mean / eps))
+```
+
+So we can look at the results side by side
+
+```{r}
+data_frame(truth = true_height$mu_height, reported = reported)
+```
+
+
+## Applying to Proportions
+
+Now say we wanted to look at the proportion of people who supported the Empire. We could calculate the true value by looking at the following:
+
+```{r}
+(starwars %>% 
+  count(species, allegiance) %>% 
+  mutate(perc = n/sum(n)) %>% 
+  filter(allegiance==1, species=="Human") %>% 
+  pull(perc) -> perc_support)
+```
+
+Ok, so only `r scales::percent(perc_support)`. This might be identifable...
+
+```{r}
+# Number of Observations
+n <- nrow(filter(starwars, species == "Human"))
+```
+
+Now we set our privacy budget:
+
+```{r}
+# Set Value of Epsilon
+eps <- 0.1
+```
+
+Now we can set the global sensitivity
+
+```{r}
+# GS of Proportion
+gs.prop <- 1 / n
+```
+
+Now the differential privacy number that we would report would be:
+
+```{r}
+# Noisey Value
+(reported <- rdoublex(1,perc_support, gs.prop / eps) %>% max(0))
+```
+
+And looking at the two values side by side:
+
+```{r}
+data_frame(truth = perc_support, reported = reported)
+```
+
+
+## Applying to Counts
+
+Now we will look at those people will blue eyes:
+
+```{r}
+starwars %>% 
+  count(eye_color) %>% 
+  filter(eye_color == "blue") %>% 
+  pull(n)
+  
+```
+
+So the true answer is 19.  Let's add our differential privacy.
+
+```{r}
+data_frame(true = 19, eps = c(0.01, .1, 1, 10, 100), gs.count = 1) %>% 
+  rowwise() %>% 
+  mutate(noisey_value = round(rdoublex(1, 19, gs.count/eps)))
+```
+
+Thus you can see the effect that DP has on the reported noisey value. 

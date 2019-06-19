@@ -13,6 +13,16 @@ navbar:
       href: resources_polisci.html
     - text: "Statistics"
       href: resources_stats.html
+    - text: "Privacy Methods"
+      href: resources_privacy.html
+    - text: "Data Viz"
+      href: data_viz.html
+    - text: "Command Line Tools"
+      href: resources_clt.html
+    - text: "Causal Inference"
+      href: resources_causal_inference.html
+    - text: "Presentation and Writing"
+      href: academic_writing.html
   - text: "Tutorials"
     icon: fa-book
     href: tutorials.html
@@ -22,6 +32,30 @@ navbar:
   - text: "Data Sources"
     icon: fa-paper-plane
     href: data_sources.html
+  - text: "Stan"
+    menu:
+    - text: "Simple Linear Regression"
+      href: stan_linear_regression.html
+    - text: "Multiple Linear Regression"
+      href: stan_mult_linear_regression.html
+    - text: "Robust Linear Regression"
+      href: stan_robust_linear_regression.html
+    - text: "Hierarchical Linear Model"
+      href: stan_hlm.html
+    - text: "Normal- Normal Hierarchical Linear Model"
+      href: stan_hlm_nn.html
+    - text: "Ideal Point Analysis"
+      href: stan_ideal_point.html
+    - text: "Confirmatory Factor Analysis"
+      href: stan_cfa.html
+    - text: "Categorical Response Distribution"
+      href: stan_categorical_responses.html
+    - text: "2PL IRT"
+      href: stan_2pl.html
+    - text: "Autoregressive Models"
+      href: stan_ar_models.html
+    - text: "Nowcasting in Stan"
+      href: stan_nowcast.html
   - text: "Home"
     icon: fa-folder
     href: https://michaeldewittjr.com
@@ -40,9 +74,9 @@ output:
       after_body: footer.html
       in_header: GA.html
 instructor: "Michael DeWitt"
-address1: "Office of Institutional Research"
-address2: "309 Reynolda Hall"
-address3: "Winston- Salem, NC, 27106"
+address1: ""
+address2: ""
+address3: "Winston- Salem, NC"
 github: "medewitt"
-email: "dewittme.wfu.edu"
+email: "me.dewitt.jr@gmail.com"
 GA: "UA-117944166-1"

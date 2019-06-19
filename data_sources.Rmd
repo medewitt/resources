@@ -9,11 +9,25 @@ biblio-style: apalike
 
 ## Election Data
 
+[manifesto political preferences](https://manifesto-project.wzb.eu/datasets)
+
 ### 2018 General Election
 
 <https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/UYSHST>
 
+### Election Data
+
+<https://github.com/MEDSL/constituency-returns>
+
+### the unitedstates project
+
+<https://theunitedstates.io/>
+
 ## Poltical Survey Data
+
+### Database on Ideology, Money in Politics, and Elections: Public version
+
+<https://data.stanford.edu/dime>
 
 ### Cooperative Congressional Election Study
 
@@ -29,6 +43,13 @@ biblio-style: apalike
 
 <http://www.people-press.org/2017/10/24/political-typology-reveals-deep-fissures-on-the-right-and-left/>
 
+## Politicians
+
+### Wikipedia Data on Political Elite
+>legislatoR is a data package for the software environment R. It comprises political, sociodemographic, and Wikipedia-related data on elected politicians across the globe. This version (0.1.0) includes 32,533 current and former elected politicians from nine countries' legislatures.
+
+<https://github.com/saschagobel/legislatoR>
+
 ## Criminal Justice
 
 ### Incarceration
@@ -42,6 +63,22 @@ County-level jail data (1970-2015) and prison data (1983-2015)
 >The Washington Post is compiling a database of every fatal shooting in the United States by a police officer in the line of duty since Jan. 1, 2015.
 
 <https://github.com/washingtonpost/data-police-shootings>
+
+### Police Stops Data
+
+<https://openpolicing.stanford.edu/data/>
+
+### SIPRI Arms Transfers Database
+- United States Bomb Data Center (USBDC)  
+- Listing of Federal Firearms Licensees  
+- Firearms Commerce Report in the United States  
+- Federal Firearms Licensee Statistics Theft / Loss Reports  
+
+<https://www.sipri.org/databases/armstransfers/background>
+
+## ATF Data
+
+<https://www.atf.gov/resource-center/data-statistics>
 
 ### Eviction Labs
 
@@ -63,3 +100,49 @@ County-level jail data (1970-2015) and prison data (1983-2015)
 ### Refugee Resettlement
 
 <https://github.com/OWH-projects/refugees>
+
+### Global Flow
+
+<http://download.gsb.bund.de/BIB/global_flow/>
+
+<https://github.com/mathewhauer/IRS-migration-data/blob/master/README.md>
+
+### International Migration Database
+
+<https://stats.oecd.org/Index.aspx?DataSetCode=MIG>
+
+### U.S. Population Migration Data
+
+<https://www.irs.gov/statistics/soi-tax-stats-migration-data>
+
+## SWB
+World happiness report
+<http://worldhappiness.report/ed/2018/>
+
+## Transfer of Wealth
+
+### IRS
+
+#### State returns
+
+<https://www.irs.gov/statistics/soi-tax-stats-county-data-2016>
+
+### Federal Reserve
+
+#### Survey of Household Economics and Decisionmaking
+
+<https://www.federalreserve.gov/consumerscommunities/shed_data.htm>
+
+### US Census
+
+[Population projections](https://www.census.gov/data/datasets/2017/demo/popproj/2017-popproj.html)
+
+## Financial
+
+[FannieMae API](https://developer.fanniemae.com/fv7ui/#/home)
+
+[Opportunity Insights](https://opportunityinsights.org/paper/land-of-opportunity/)
+
+## Example jsons
+
+<https://github.com/jdorfman/awesome-json-datasets/blob/master/README.md>

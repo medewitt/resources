@@ -1,0 +1,118 @@
+---
+title: "Confirmatory Factor Analysis in Stan"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse, quietly = T)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+The motivation for this post is to learn how to perform [onfirmatory factor analysis](https://en.wikipedia.org/wiki/Confirmatory_factor_analysis)(CFA) in Stan (and thus in a Bayesian way). These measures are typically noisey so Bayes, in my opinion, lends itself well to these kind of constructs. Additionaly, the gold standard for CFA in R is `lavaan`. This is nice because it provides a decent benchmark for the output of the Bayesian version. This post is largely inspired by the work done by Mike Lawrence on this topic [here](https://gist.github.com/mike-lawrence/dd2435f290a567bd1fd03370ee669688).
+
+## Data
+
+The data that will be used will be that from the `HolzingerSwineford1939` dataset that is part of the `lavaan` package.
+
+```{r}
+library(lavaan)
+
+HolzingerSwineford1939
+```
+
+
+## Hypothesis Testing
+
+CFA differs from exploratory factor analysis (EFA) in the fact that one has a hypothesis for how the _factors_ of a latent trait form. So the first step is to develop the hypothesised model:
+
+```{r sem-plot, echo=FALSE}
+cfa_model <- ' visual  =~ x1 + x2 + x3 
+              textual =~ x4 + x5 + x6
+speed   =~ x7 + x8 + x9 '
+
+cfa_fit <- cfa(cfa_model, HolzingerSwineford1939)
+semPlot::semPaths(cfa_fit)
+```
+
+## Implmentation
+
+### Maximum Likelihood
+
+Just to give the reference, first we will conduct the analysis in `lavaan`
+
+```{r mle-cfa-fit}
+cfa_model <- ' visual  =~ x1 + x2 + x3 
+              textual =~ x4 + x5 + x6
+speed   =~ x7 + x8 + x9 '
+
+cfa_fit <- cfa(cfa_model, HolzingerSwineford1939)
+```
+
+And we can examine the outputs:
+
+```{r mle-cfa-sum}
+summary(cfa_fit, fit.measures=TRUE)
+```
+
+## Bayesian Version
+
+Now first to write the Stan code:
+
+```{r comment=""}
+library(rstan)
+rstan_options(auto_write = TRUE)
+writeLines(readLines("stan_cfa.stan"))
+```
+
+Then compile the model:
+
+```{r compile}
+stan_cfa_model <- stan_model("stan_cfa.stan")
+```
+
+
+### Prep the Data
+
+Of course with Stan we have to format our data. One note here is that we have to specify the parameters for our latent traits as well.
+
+```{r prep-data}
+HolzingerSwineford1939 %>%
+	dplyr::select(
+		x1,x2,x3,x4,x5,x6,x7,x8,x9
+	) -> dat
+
+stan_dat <- list(
+	# n_y: number of outcomes
+	n_y = ncol(dat)
+	# n_subj: number of subjects
+	, n_subj = nrow(dat)
+	# y: matrix of outcomes
+	, y = as.matrix(dat)
+	# n_fac: number of latent factors
+	, n_fac = 3
+	# y_fac: list of which factor is associated with each outcome
+	, y_fac = c(1,1,1,2,2,2,3,3,3)
+)
+```
+
+Then run the model
+
+```{r run-stan, cache=TRUE}
+stan_fit <- sampling(stan_cfa_model, stan_dat, 
+                     cores = 3, chains = 3, iter = 4000,
+                     refresh = 0)
+```
+
+Let's examine the convergence to make sure that enough iterations have been run.
+
+```{r checks}
+traceplot(stan_fit)
+```
+
+
+Not too bad. Now we can review our parameters
+
+```{r posterior}
+print(stan_fit, pars = c("betas", "fac_cor"))
+```
+

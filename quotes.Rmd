@@ -12,5 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 >— Sir Isaac Newton
 
+>The idea of turning economics into a true empirical science, where core theories can be rejected, is a BIG, revolutionary idea.
+> Alan Kruegar
+
+
 ## On Causality
 

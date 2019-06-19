@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Differential Privacy</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'UA-117944166-1');
+      </script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research and Methods Resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-hand-paper"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources_econ.html">Economics</a>
+    </li>
+    <li>
+      <a href="resources_polisci.html">Political Science</a>
+    </li>
+    <li>
+      <a href="resources_stats.html">Statistics</a>
+    </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="tutorials.html">
+    <span class="fa fa-book"></span>
+     
+    Tutorials
+  </a>
+</li>
+<li>
+  <a href="notes.html">
+    <span class="fa fa-handshake"></span>
+     
+    My Notes
+  </a>
+</li>
+<li>
+  <a href="data_sources.html">
+    <span class="fa fa-paper-plane"></span>
+     
+    Data Sources
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Stan
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="stan_linear_regression.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
+    </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
+    <li>
+      <a href="stan_categorical_responses.html">Categorical Response Distribution</a>
+    </li>
+    <li>
+      <a href="stan_2pl.html">2PL IRT</a>
+    </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
+    <li>
+      <a href="stan_nowcast.html">Nowcasting in Stan</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://michaeldewittjr.com">
+    <span class="fa fa-folder"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Differential Privacy</h1>
+
+</div>
+
+
+<p>Release of aggregated data is always a challenge, especially when multiple cross tabulations are provided. Analysis has shown that in some instances de-identified data can still be matched back to the original data owner. This is where <em>Differential PRivacy</em> comes in. It provides a methodology to add noise into aggregate figures in order to better protect privacy. It provides a mathematical approach to securing aggregated data.</p>
+<div id="privacy-budget" class="section level2">
+<h2>Privacy Budget</h2>
+</div>
+<div id="epsilon" class="section level2">
+<h2>Epsilon</h2>
+<p>Epsilon is the privacy budget. If something is more sensitive the value of epsilon will be smaller. If the item is not senstive then the value is larger.</p>
+</div>
+<div id="global-sensitivity" class="section level2">
+<h2>Global Sensitivity</h2>
+<p>Global sensitivity is how the L1 distance changes based on removing one person from the data.</p>
+<div id="gs" class="section level3">
+<h3>GS</h3>
+<ul>
+<li>counting <code>gs</code> = 1</li>
+<li>proportions <code>gs</code> = 1/n</li>
+<li>continuous <code>gs</code> = <span class="math inline">\(\frac{b-a}{n}\)</span></li>
+<li>variance <code>gs</code> = <span class="math inline">\(\frac{(b-a)^2}{n}\)</span></li>
+</ul>
+<p>Where n is the total number of observations, a is the lower bound, and b is the lower bound of the data.</p>
+</div>
+</div>
+<div id="laplace-transformation" class="section level2">
+<h2>Laplace Transformation</h2>
+<p>If global sensitivity is larger or budget is lower, then more noise is added. If global sensitivity is smaller or the budget is lower, then less noise is added.</p>
+</div>
+<div id="a-motivating-example" class="section level2">
+<h2>A Motivating Example</h2>
+<p>Supposed that we work for the Imperial Census Bureau. While we may not agree with the empire it is important for what remains of the Galactic Senate to have proper representation. Thus we have our data:</p>
+<pre class="r"><code>starwars</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hair_color"],"name":[4],"type":["chr"],"align":["left"]},{"label":["skin_color"],"name":[5],"type":["chr"],"align":["left"]},{"label":["eye_color"],"name":[6],"type":["chr"],"align":["left"]},{"label":["birth_year"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["gender"],"name":[8],"type":["chr"],"align":["left"]},{"label":["homeworld"],"name":[9],"type":["chr"],"align":["left"]},{"label":["species"],"name":[10],"type":["chr"],"align":["left"]},{"label":["films"],"name":[11],"type":["list"],"align":["right"]},{"label":["vehicles"],"name":[12],"type":["list"],"align":["right"]},{"label":["starships"],"name":[13],"type":["list"],"align":["right"]}],"data":[{"1":"Luke Skywalker","2":"172","3":"77.0","4":"blond","5":"fair","6":"blue","7":"19.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [5]>","12":"<chr [2]>","13":"<chr [2]>"},{"1":"C-3PO","2":"167","3":"75.0","4":"NA","5":"gold","6":"yellow","7":"112.0","8":"NA","9":"Tatooine","10":"Droid","11":"<chr [6]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"R2-D2","2":"96","3":"32.0","4":"NA","5":"white, blue","6":"red","7":"33.0","8":"NA","9":"Naboo","10":"Droid","11":"<chr [7]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Darth Vader","2":"202","3":"136.0","4":"none","5":"white","6":"yellow","7":"41.9","8":"male","9":"Tatooine","10":"Human","11":"<chr [4]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Leia Organa","2":"150","3":"49.0","4":"brown","5":"light","6":"brown","7":"19.0","8":"female","9":"Alderaan","10":"Human","11":"<chr [5]>","12":"<chr [1]>","13":"<chr [0]>"},{"1":"Owen Lars","2":"178","3":"120.0","4":"brown, grey","5":"light","6":"blue","7":"52.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Beru Whitesun lars","2":"165","3":"75.0","4":"brown","5":"light","6":"blue","7":"47.0","8":"female","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"R5-D4","2":"97","3":"32.0","4":"NA","5":"white, red","6":"red","7":"NA","8":"NA","9":"Tatooine","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Biggs Darklighter","2":"183","3":"84.0","4":"black","5":"light","6":"brown","7":"24.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Obi-Wan Kenobi","2":"182","3":"77.0","4":"auburn, white","5":"fair","6":"blue-gray","7":"57.0","8":"male","9":"Stewjon","10":"Human","11":"<chr [6]>","12":"<chr [1]>","13":"<chr [5]>"},{"1":"Anakin Skywalker","2":"188","3":"84.0","4":"blond","5":"fair","6":"blue","7":"41.9","8":"male","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [2]>","13":"<chr [3]>"},{"1":"Wilhuff Tarkin","2":"180","3":"NA","4":"auburn, grey","5":"fair","6":"blue","7":"64.0","8":"male","9":"Eriadu","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Chewbacca","2":"228","3":"112.0","4":"brown","5":"unknown","6":"blue","7":"200.0","8":"male","9":"Kashyyyk","10":"Wookiee","11":"<chr [5]>","12":"<chr [1]>","13":"<chr [2]>"},{"1":"Han Solo","2":"180","3":"80.0","4":"brown","5":"fair","6":"brown","7":"29.0","8":"male","9":"Corellia","10":"Human","11":"<chr [4]>","12":"<chr [0]>","13":"<chr [2]>"},{"1":"Greedo","2":"173","3":"74.0","4":"NA","5":"green","6":"black","7":"44.0","8":"male","9":"Rodia","10":"Rodian","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Jabba Desilijic Tiure","2":"175","3":"1358.0","4":"NA","5":"green-tan, brown","6":"orange","7":"600.0","8":"hermaphrodite","9":"Nal Hutta","10":"Hutt","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Wedge Antilles","2":"170","3":"77.0","4":"brown","5":"fair","6":"hazel","7":"21.0","8":"male","9":"Corellia","10":"Human","11":"<chr [3]>","12":"<chr [1]>","13":"<chr [1]>"},{"1":"Jek Tono Porkins","2":"180","3":"110.0","4":"brown","5":"fair","6":"blue","7":"NA","8":"male","9":"Bestine IV","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Yoda","2":"66","3":"17.0","4":"white","5":"green","6":"brown","7":"896.0","8":"male","9":"NA","10":"Yoda's species","11":"<chr [5]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Palpatine","2":"170","3":"75.0","4":"grey","5":"pale","6":"yellow","7":"82.0","8":"male","9":"Naboo","10":"Human","11":"<chr [5]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Boba Fett","2":"183","3":"78.2","4":"black","5":"fair","6":"brown","7":"31.5","8":"male","9":"Kamino","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"IG-88","2":"200","3":"140.0","4":"none","5":"metal","6":"red","7":"15.0","8":"none","9":"NA","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Bossk","2":"190","3":"113.0","4":"none","5":"green","6":"red","7":"53.0","8":"male","9":"Trandosha","10":"Trandoshan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Lando Calrissian","2":"177","3":"79.0","4":"black","5":"dark","6":"brown","7":"31.0","8":"male","9":"Socorro","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Lobot","2":"175","3":"79.0","4":"none","5":"light","6":"blue","7":"37.0","8":"male","9":"Bespin","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Ackbar","2":"180","3":"83.0","4":"none","5":"brown mottle","6":"orange","7":"41.0","8":"male","9":"Mon Cala","10":"Mon Calamari","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Mon Mothma","2":"150","3":"NA","4":"auburn","5":"fair","6":"blue","7":"48.0","8":"female","9":"Chandrila","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Arvel Crynyd","2":"NA","3":"NA","4":"brown","5":"fair","6":"brown","7":"NA","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Wicket Systri Warrick","2":"88","3":"20.0","4":"brown","5":"brown","6":"brown","7":"8.0","8":"male","9":"Endor","10":"Ewok","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Nien Nunb","2":"160","3":"68.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"Sullust","10":"Sullustan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Qui-Gon Jinn","2":"193","3":"89.0","4":"brown","5":"fair","6":"blue","7":"92.0","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [0]>"},{"1":"Nute Gunray","2":"191","3":"90.0","4":"none","5":"mottled green","6":"red","7":"NA","8":"male","9":"Cato Neimoidia","10":"Neimodian","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Finis Valorum","2":"170","3":"NA","4":"blond","5":"fair","6":"blue","7":"91.0","8":"male","9":"Coruscant","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Jar Jar Binks","2":"196","3":"66.0","4":"none","5":"orange","6":"orange","7":"52.0","8":"male","9":"Naboo","10":"Gungan","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Roos Tarpals","2":"224","3":"82.0","4":"none","5":"grey","6":"orange","7":"NA","8":"male","9":"Naboo","10":"Gungan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Rugor Nass","2":"206","3":"NA","4":"none","5":"green","6":"orange","7":"NA","8":"male","9":"Naboo","10":"Gungan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Ric Olié","2":"183","3":"NA","4":"brown","5":"fair","6":"blue","7":"NA","8":"male","9":"Naboo","10":"NA","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Watto","2":"137","3":"NA","4":"black","5":"blue, grey","6":"yellow","7":"NA","8":"male","9":"Toydaria","10":"Toydarian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Sebulba","2":"112","3":"40.0","4":"none","5":"grey, red","6":"orange","7":"NA","8":"male","9":"Malastare","10":"Dug","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Quarsh Panaka","2":"183","3":"NA","4":"black","5":"dark","6":"brown","7":"62.0","8":"male","9":"Naboo","10":"NA","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Shmi Skywalker","2":"163","3":"NA","4":"black","5":"fair","6":"brown","7":"72.0","8":"female","9":"Tatooine","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Darth Maul","2":"175","3":"80.0","4":"none","5":"red","6":"yellow","7":"54.0","8":"male","9":"Dathomir","10":"Zabrak","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [1]>"},{"1":"Bib Fortuna","2":"180","3":"NA","4":"none","5":"pale","6":"pink","7":"NA","8":"male","9":"Ryloth","10":"Twi'lek","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Ayla Secura","2":"178","3":"55.0","4":"none","5":"blue","6":"hazel","7":"48.0","8":"female","9":"Ryloth","10":"Twi'lek","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Dud Bolt","2":"94","3":"45.0","4":"none","5":"blue, grey","6":"yellow","7":"NA","8":"male","9":"Vulpter","10":"Vulptereen","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Gasgano","2":"122","3":"NA","4":"none","5":"white, blue","6":"black","7":"NA","8":"male","9":"Troiken","10":"Xexto","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Ben Quadinaros","2":"163","3":"65.0","4":"none","5":"grey, green, yellow","6":"orange","7":"NA","8":"male","9":"Tund","10":"Toong","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Mace Windu","2":"188","3":"84.0","4":"none","5":"dark","6":"brown","7":"72.0","8":"male","9":"Haruun Kal","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Ki-Adi-Mundi","2":"198","3":"82.0","4":"white","5":"pale","6":"yellow","7":"92.0","8":"male","9":"Cerea","10":"Cerean","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Kit Fisto","2":"196","3":"87.0","4":"none","5":"green","6":"black","7":"NA","8":"male","9":"Glee Anselm","10":"Nautolan","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Eeth Koth","2":"171","3":"NA","4":"black","5":"brown","6":"brown","7":"NA","8":"male","9":"Iridonia","10":"Zabrak","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Adi Gallia","2":"184","3":"50.0","4":"none","5":"dark","6":"blue","7":"NA","8":"female","9":"Coruscant","10":"Tholothian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Saesee Tiin","2":"188","3":"NA","4":"none","5":"pale","6":"orange","7":"NA","8":"male","9":"Iktotch","10":"Iktotchi","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Yarael Poof","2":"264","3":"NA","4":"none","5":"white","6":"yellow","7":"NA","8":"male","9":"Quermia","10":"Quermian","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Plo Koon","2":"188","3":"80.0","4":"none","5":"orange","6":"black","7":"22.0","8":"male","9":"Dorin","10":"Kel Dor","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Mas Amedda","2":"196","3":"NA","4":"none","5":"blue","6":"blue","7":"NA","8":"male","9":"Champala","10":"Chagrian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Gregar Typho","2":"185","3":"85.0","4":"black","5":"dark","6":"brown","7":"NA","8":"male","9":"Naboo","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Cordé","2":"157","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"female","9":"Naboo","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Cliegg Lars","2":"183","3":"NA","4":"brown","5":"fair","6":"blue","7":"82.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Poggle the Lesser","2":"183","3":"80.0","4":"none","5":"green","6":"yellow","7":"NA","8":"male","9":"Geonosis","10":"Geonosian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Luminara Unduli","2":"170","3":"56.2","4":"black","5":"yellow","6":"blue","7":"58.0","8":"female","9":"Mirial","10":"Mirialan","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Barriss Offee","2":"166","3":"50.0","4":"black","5":"yellow","6":"blue","7":"40.0","8":"female","9":"Mirial","10":"Mirialan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Dormé","2":"165","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"female","9":"Naboo","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Dooku","2":"193","3":"80.0","4":"white","5":"fair","6":"brown","7":"102.0","8":"male","9":"Serenno","10":"Human","11":"<chr [2]>","12":"<chr [1]>","13":"<chr [0]>"},{"1":"Bail Prestor Organa","2":"191","3":"NA","4":"black","5":"tan","6":"brown","7":"67.0","8":"male","9":"Alderaan","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Jango Fett","2":"183","3":"79.0","4":"black","5":"tan","6":"brown","7":"66.0","8":"male","9":"Concord Dawn","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Zam Wesell","2":"168","3":"55.0","4":"blonde","5":"fair, green, yellow","6":"yellow","7":"NA","8":"female","9":"Zolan","10":"Clawdite","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [0]>"},{"1":"Dexter Jettster","2":"198","3":"102.0","4":"none","5":"brown","6":"yellow","7":"NA","8":"male","9":"Ojom","10":"Besalisk","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Lama Su","2":"229","3":"88.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"Kamino","10":"Kaminoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Taun We","2":"213","3":"NA","4":"none","5":"grey","6":"black","7":"NA","8":"female","9":"Kamino","10":"Kaminoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Jocasta Nu","2":"167","3":"NA","4":"white","5":"fair","6":"blue","7":"NA","8":"female","9":"Coruscant","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Ratts Tyerell","2":"79","3":"15.0","4":"none","5":"grey, blue","6":"unknown","7":"NA","8":"male","9":"Aleen Minor","10":"Aleena","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"R4-P17","2":"96","3":"NA","4":"none","5":"silver, red","6":"red, blue","7":"NA","8":"female","9":"NA","10":"NA","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Wat Tambor","2":"193","3":"48.0","4":"none","5":"green, grey","6":"unknown","7":"NA","8":"male","9":"Skako","10":"Skakoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"San Hill","2":"191","3":"NA","4":"none","5":"grey","6":"gold","7":"NA","8":"male","9":"Muunilinst","10":"Muun","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Shaak Ti","2":"178","3":"57.0","4":"none","5":"red, blue, white","6":"black","7":"NA","8":"female","9":"Shili","10":"Togruta","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Grievous","2":"216","3":"159.0","4":"none","5":"brown, white","6":"green, yellow","7":"NA","8":"male","9":"Kalee","10":"Kaleesh","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [1]>"},{"1":"Tarfful","2":"234","3":"136.0","4":"brown","5":"brown","6":"blue","7":"NA","8":"male","9":"Kashyyyk","10":"Wookiee","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Raymus Antilles","2":"188","3":"79.0","4":"brown","5":"light","6":"brown","7":"NA","8":"male","9":"Alderaan","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Sly Moore","2":"178","3":"48.0","4":"none","5":"pale","6":"white","7":"NA","8":"female","9":"Umbara","10":"NA","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Tion Medon","2":"206","3":"80.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"Utapau","10":"Pau'an","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Finn","2":"NA","3":"NA","4":"black","5":"dark","6":"dark","7":"NA","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Rey","2":"NA","3":"NA","4":"brown","5":"light","6":"hazel","7":"NA","8":"female","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Poe Dameron","2":"NA","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"BB8","2":"NA","3":"NA","4":"none","5":"none","6":"black","7":"NA","8":"none","9":"NA","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Captain Phasma","2":"NA","3":"NA","4":"unknown","5":"unknown","6":"unknown","7":"NA","8":"female","9":"NA","10":"NA","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Padmé Amidala","2":"165","3":"45.0","4":"brown","5":"light","6":"brown","7":"46.0","8":"female","9":"Naboo","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [3]>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Let’s also say that we have some sensitive data (aka allegiance to the Rebel cause)</p>
+<pre class="r"><code>set.seed(5251977)
+(starwars &lt;- starwars %&gt;% 
+   mutate(allegiance = ifelse(rbinom(nrow(.), 1, prob = .3)&gt;0, 1, 0)))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hair_color"],"name":[4],"type":["chr"],"align":["left"]},{"label":["skin_color"],"name":[5],"type":["chr"],"align":["left"]},{"label":["eye_color"],"name":[6],"type":["chr"],"align":["left"]},{"label":["birth_year"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["gender"],"name":[8],"type":["chr"],"align":["left"]},{"label":["homeworld"],"name":[9],"type":["chr"],"align":["left"]},{"label":["species"],"name":[10],"type":["chr"],"align":["left"]},{"label":["films"],"name":[11],"type":["list"],"align":["right"]},{"label":["vehicles"],"name":[12],"type":["list"],"align":["right"]},{"label":["starships"],"name":[13],"type":["list"],"align":["right"]},{"label":["allegiance"],"name":[14],"type":["dbl"],"align":["right"]}],"data":[{"1":"Luke Skywalker","2":"172","3":"77.0","4":"blond","5":"fair","6":"blue","7":"19.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [5]>","12":"<chr [2]>","13":"<chr [2]>","14":"0"},{"1":"C-3PO","2":"167","3":"75.0","4":"NA","5":"gold","6":"yellow","7":"112.0","8":"NA","9":"Tatooine","10":"Droid","11":"<chr [6]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"R2-D2","2":"96","3":"32.0","4":"NA","5":"white, blue","6":"red","7":"33.0","8":"NA","9":"Naboo","10":"Droid","11":"<chr [7]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Darth Vader","2":"202","3":"136.0","4":"none","5":"white","6":"yellow","7":"41.9","8":"male","9":"Tatooine","10":"Human","11":"<chr [4]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"Leia Organa","2":"150","3":"49.0","4":"brown","5":"light","6":"brown","7":"19.0","8":"female","9":"Alderaan","10":"Human","11":"<chr [5]>","12":"<chr [1]>","13":"<chr [0]>","14":"0"},{"1":"Owen Lars","2":"178","3":"120.0","4":"brown, grey","5":"light","6":"blue","7":"52.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Beru Whitesun lars","2":"165","3":"75.0","4":"brown","5":"light","6":"blue","7":"47.0","8":"female","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"R5-D4","2":"97","3":"32.0","4":"NA","5":"white, red","6":"red","7":"NA","8":"NA","9":"Tatooine","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Biggs Darklighter","2":"183","3":"84.0","4":"black","5":"light","6":"brown","7":"24.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"1"},{"1":"Obi-Wan Kenobi","2":"182","3":"77.0","4":"auburn, white","5":"fair","6":"blue-gray","7":"57.0","8":"male","9":"Stewjon","10":"Human","11":"<chr [6]>","12":"<chr [1]>","13":"<chr [5]>","14":"1"},{"1":"Anakin Skywalker","2":"188","3":"84.0","4":"blond","5":"fair","6":"blue","7":"41.9","8":"male","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [2]>","13":"<chr [3]>","14":"1"},{"1":"Wilhuff Tarkin","2":"180","3":"NA","4":"auburn, grey","5":"fair","6":"blue","7":"64.0","8":"male","9":"Eriadu","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Chewbacca","2":"228","3":"112.0","4":"brown","5":"unknown","6":"blue","7":"200.0","8":"male","9":"Kashyyyk","10":"Wookiee","11":"<chr [5]>","12":"<chr [1]>","13":"<chr [2]>","14":"0"},{"1":"Han Solo","2":"180","3":"80.0","4":"brown","5":"fair","6":"brown","7":"29.0","8":"male","9":"Corellia","10":"Human","11":"<chr [4]>","12":"<chr [0]>","13":"<chr [2]>","14":"0"},{"1":"Greedo","2":"173","3":"74.0","4":"NA","5":"green","6":"black","7":"44.0","8":"male","9":"Rodia","10":"Rodian","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Jabba Desilijic Tiure","2":"175","3":"1358.0","4":"NA","5":"green-tan, brown","6":"orange","7":"600.0","8":"hermaphrodite","9":"Nal Hutta","10":"Hutt","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Wedge Antilles","2":"170","3":"77.0","4":"brown","5":"fair","6":"hazel","7":"21.0","8":"male","9":"Corellia","10":"Human","11":"<chr [3]>","12":"<chr [1]>","13":"<chr [1]>","14":"1"},{"1":"Jek Tono Porkins","2":"180","3":"110.0","4":"brown","5":"fair","6":"blue","7":"NA","8":"male","9":"Bestine IV","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"1"},{"1":"Yoda","2":"66","3":"17.0","4":"white","5":"green","6":"brown","7":"896.0","8":"male","9":"NA","10":"Yoda's species","11":"<chr [5]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Palpatine","2":"170","3":"75.0","4":"grey","5":"pale","6":"yellow","7":"82.0","8":"male","9":"Naboo","10":"Human","11":"<chr [5]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Boba Fett","2":"183","3":"78.2","4":"black","5":"fair","6":"brown","7":"31.5","8":"male","9":"Kamino","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"IG-88","2":"200","3":"140.0","4":"none","5":"metal","6":"red","7":"15.0","8":"none","9":"NA","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Bossk","2":"190","3":"113.0","4":"none","5":"green","6":"red","7":"53.0","8":"male","9":"Trandosha","10":"Trandoshan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Lando Calrissian","2":"177","3":"79.0","4":"black","5":"dark","6":"brown","7":"31.0","8":"male","9":"Socorro","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"Lobot","2":"175","3":"79.0","4":"none","5":"light","6":"blue","7":"37.0","8":"male","9":"Bespin","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Ackbar","2":"180","3":"83.0","4":"none","5":"brown mottle","6":"orange","7":"41.0","8":"male","9":"Mon Cala","10":"Mon Calamari","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Mon Mothma","2":"150","3":"NA","4":"auburn","5":"fair","6":"blue","7":"48.0","8":"female","9":"Chandrila","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Arvel Crynyd","2":"NA","3":"NA","4":"brown","5":"fair","6":"brown","7":"NA","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"1"},{"1":"Wicket Systri Warrick","2":"88","3":"20.0","4":"brown","5":"brown","6":"brown","7":"8.0","8":"male","9":"Endor","10":"Ewok","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Nien Nunb","2":"160","3":"68.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"Sullust","10":"Sullustan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"Qui-Gon Jinn","2":"193","3":"89.0","4":"brown","5":"fair","6":"blue","7":"92.0","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [0]>","14":"1"},{"1":"Nute Gunray","2":"191","3":"90.0","4":"none","5":"mottled green","6":"red","7":"NA","8":"male","9":"Cato Neimoidia","10":"Neimodian","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Finis Valorum","2":"170","3":"NA","4":"blond","5":"fair","6":"blue","7":"91.0","8":"male","9":"Coruscant","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Jar Jar Binks","2":"196","3":"66.0","4":"none","5":"orange","6":"orange","7":"52.0","8":"male","9":"Naboo","10":"Gungan","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Roos Tarpals","2":"224","3":"82.0","4":"none","5":"grey","6":"orange","7":"NA","8":"male","9":"Naboo","10":"Gungan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Rugor Nass","2":"206","3":"NA","4":"none","5":"green","6":"orange","7":"NA","8":"male","9":"Naboo","10":"Gungan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Ric Olié","2":"183","3":"NA","4":"brown","5":"fair","6":"blue","7":"NA","8":"male","9":"Naboo","10":"NA","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"Watto","2":"137","3":"NA","4":"black","5":"blue, grey","6":"yellow","7":"NA","8":"male","9":"Toydaria","10":"Toydarian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Sebulba","2":"112","3":"40.0","4":"none","5":"grey, red","6":"orange","7":"NA","8":"male","9":"Malastare","10":"Dug","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Quarsh Panaka","2":"183","3":"NA","4":"black","5":"dark","6":"brown","7":"62.0","8":"male","9":"Naboo","10":"NA","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Shmi Skywalker","2":"163","3":"NA","4":"black","5":"fair","6":"brown","7":"72.0","8":"female","9":"Tatooine","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Darth Maul","2":"175","3":"80.0","4":"none","5":"red","6":"yellow","7":"54.0","8":"male","9":"Dathomir","10":"Zabrak","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [1]>","14":"0"},{"1":"Bib Fortuna","2":"180","3":"NA","4":"none","5":"pale","6":"pink","7":"NA","8":"male","9":"Ryloth","10":"Twi'lek","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Ayla Secura","2":"178","3":"55.0","4":"none","5":"blue","6":"hazel","7":"48.0","8":"female","9":"Ryloth","10":"Twi'lek","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Dud Bolt","2":"94","3":"45.0","4":"none","5":"blue, grey","6":"yellow","7":"NA","8":"male","9":"Vulpter","10":"Vulptereen","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Gasgano","2":"122","3":"NA","4":"none","5":"white, blue","6":"black","7":"NA","8":"male","9":"Troiken","10":"Xexto","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Ben Quadinaros","2":"163","3":"65.0","4":"none","5":"grey, green, yellow","6":"orange","7":"NA","8":"male","9":"Tund","10":"Toong","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Mace Windu","2":"188","3":"84.0","4":"none","5":"dark","6":"brown","7":"72.0","8":"male","9":"Haruun Kal","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Ki-Adi-Mundi","2":"198","3":"82.0","4":"white","5":"pale","6":"yellow","7":"92.0","8":"male","9":"Cerea","10":"Cerean","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Kit Fisto","2":"196","3":"87.0","4":"none","5":"green","6":"black","7":"NA","8":"male","9":"Glee Anselm","10":"Nautolan","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Eeth Koth","2":"171","3":"NA","4":"black","5":"brown","6":"brown","7":"NA","8":"male","9":"Iridonia","10":"Zabrak","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Adi Gallia","2":"184","3":"50.0","4":"none","5":"dark","6":"blue","7":"NA","8":"female","9":"Coruscant","10":"Tholothian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Saesee Tiin","2":"188","3":"NA","4":"none","5":"pale","6":"orange","7":"NA","8":"male","9":"Iktotch","10":"Iktotchi","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Yarael Poof","2":"264","3":"NA","4":"none","5":"white","6":"yellow","7":"NA","8":"male","9":"Quermia","10":"Quermian","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Plo Koon","2":"188","3":"80.0","4":"none","5":"orange","6":"black","7":"22.0","8":"male","9":"Dorin","10":"Kel Dor","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"Mas Amedda","2":"196","3":"NA","4":"none","5":"blue","6":"blue","7":"NA","8":"male","9":"Champala","10":"Chagrian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Gregar Typho","2":"185","3":"85.0","4":"black","5":"dark","6":"brown","7":"NA","8":"male","9":"Naboo","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"0"},{"1":"Cordé","2":"157","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"female","9":"Naboo","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Cliegg Lars","2":"183","3":"NA","4":"brown","5":"fair","6":"blue","7":"82.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Poggle the Lesser","2":"183","3":"80.0","4":"none","5":"green","6":"yellow","7":"NA","8":"male","9":"Geonosis","10":"Geonosian","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Luminara Unduli","2":"170","3":"56.2","4":"black","5":"yellow","6":"blue","7":"58.0","8":"female","9":"Mirial","10":"Mirialan","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Barriss Offee","2":"166","3":"50.0","4":"black","5":"yellow","6":"blue","7":"40.0","8":"female","9":"Mirial","10":"Mirialan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Dormé","2":"165","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"female","9":"Naboo","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Dooku","2":"193","3":"80.0","4":"white","5":"fair","6":"brown","7":"102.0","8":"male","9":"Serenno","10":"Human","11":"<chr [2]>","12":"<chr [1]>","13":"<chr [0]>","14":"1"},{"1":"Bail Prestor Organa","2":"191","3":"NA","4":"black","5":"tan","6":"brown","7":"67.0","8":"male","9":"Alderaan","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Jango Fett","2":"183","3":"79.0","4":"black","5":"tan","6":"brown","7":"66.0","8":"male","9":"Concord Dawn","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Zam Wesell","2":"168","3":"55.0","4":"blonde","5":"fair, green, yellow","6":"yellow","7":"NA","8":"female","9":"Zolan","10":"Clawdite","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [0]>","14":"0"},{"1":"Dexter Jettster","2":"198","3":"102.0","4":"none","5":"brown","6":"yellow","7":"NA","8":"male","9":"Ojom","10":"Besalisk","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Lama Su","2":"229","3":"88.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"Kamino","10":"Kaminoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Taun We","2":"213","3":"NA","4":"none","5":"grey","6":"black","7":"NA","8":"female","9":"Kamino","10":"Kaminoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Jocasta Nu","2":"167","3":"NA","4":"white","5":"fair","6":"blue","7":"NA","8":"female","9":"Coruscant","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Ratts Tyerell","2":"79","3":"15.0","4":"none","5":"grey, blue","6":"unknown","7":"NA","8":"male","9":"Aleen Minor","10":"Aleena","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"R4-P17","2":"96","3":"NA","4":"none","5":"silver, red","6":"red, blue","7":"NA","8":"female","9":"NA","10":"NA","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Wat Tambor","2":"193","3":"48.0","4":"none","5":"green, grey","6":"unknown","7":"NA","8":"male","9":"Skako","10":"Skakoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"San Hill","2":"191","3":"NA","4":"none","5":"grey","6":"gold","7":"NA","8":"male","9":"Muunilinst","10":"Muun","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Shaak Ti","2":"178","3":"57.0","4":"none","5":"red, blue, white","6":"black","7":"NA","8":"female","9":"Shili","10":"Togruta","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Grievous","2":"216","3":"159.0","4":"none","5":"brown, white","6":"green, yellow","7":"NA","8":"male","9":"Kalee","10":"Kaleesh","11":"<chr [1]>","12":"<chr [1]>","13":"<chr [1]>","14":"1"},{"1":"Tarfful","2":"234","3":"136.0","4":"brown","5":"brown","6":"blue","7":"NA","8":"male","9":"Kashyyyk","10":"Wookiee","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Raymus Antilles","2":"188","3":"79.0","4":"brown","5":"light","6":"brown","7":"NA","8":"male","9":"Alderaan","10":"Human","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Sly Moore","2":"178","3":"48.0","4":"none","5":"pale","6":"white","7":"NA","8":"female","9":"Umbara","10":"NA","11":"<chr [2]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Tion Medon","2":"206","3":"80.0","4":"none","5":"grey","6":"black","7":"NA","8":"male","9":"Utapau","10":"Pau'an","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Finn","2":"NA","3":"NA","4":"black","5":"dark","6":"dark","7":"NA","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Rey","2":"NA","3":"NA","4":"brown","5":"light","6":"hazel","7":"NA","8":"female","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Poe Dameron","2":"NA","3":"NA","4":"brown","5":"light","6":"brown","7":"NA","8":"male","9":"NA","10":"Human","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [1]>","14":"1"},{"1":"BB8","2":"NA","3":"NA","4":"none","5":"none","6":"black","7":"NA","8":"none","9":"NA","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"1"},{"1":"Captain Phasma","2":"NA","3":"NA","4":"unknown","5":"unknown","6":"unknown","7":"NA","8":"female","9":"NA","10":"NA","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>","14":"0"},{"1":"Padmé Amidala","2":"165","3":"45.0","4":"brown","5":"light","6":"brown","7":"46.0","8":"female","9":"Naboo","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [3]>","14":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="applying-the-continuous-measures" class="section level2">
+<h2>Applying the Continuous Measures</h2>
+<p>Now let’s say we want to look at the height of the different species by allegance. Perhaps the Empire is setting up a height screening tool to try to detect and re-identify beings. We certainly don’t want to give away too much data so let’s test the aggregate.</p>
+<p>So the true value would be</p>
+<pre class="r"><code>(starwars %&gt;% 
+  group_by(allegiance) %&gt;% 
+  summarise(mu_height = mean(height, na.rm=TRUE))-&gt;true_height)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["allegiance"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mu_height"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"176.6441"},{"1":"1","2":"168.2273"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="setting-the-budget" class="section level3">
+<h3>Setting the Budget</h3>
+</div>
+<div id="gs-of-a-mean" class="section level3">
+<h3>GS of a Mean</h3>
+<pre class="r"><code>n &lt;- nrow(starwars)
+a &lt;- max(starwars$height, na.rm = T)
+b &lt;- min(starwars$height, na.rm = T)
+gs.mean &lt;- (a-b)/n
+eps &lt;- 1</code></pre>
+<p>Thus the simulated value would be:</p>
+<pre class="r"><code>(reported &lt;-rdoublex(1, true_height$mu_height, gs.mean / eps))</code></pre>
+<pre><code>## [1] 172.2229 163.8062</code></pre>
+<p>So we can look at the results side by side</p>
+<pre class="r"><code>data_frame(truth = true_height$mu_height, reported = reported)</code></pre>
+<pre><code>## Warning: `data_frame()` is deprecated, use `tibble()`.
+## This warning is displayed once per session.</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["truth"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["reported"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"176.6441","2":"172.2229"},{"1":"168.2273","2":"163.8062"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="applying-to-proportions" class="section level2">
+<h2>Applying to Proportions</h2>
+<p>Now say we wanted to look at the proportion of people who supported the Empire. We could calculate the true value by looking at the following:</p>
+<pre class="r"><code>(starwars %&gt;% 
+  count(species, allegiance) %&gt;% 
+  mutate(perc = n/sum(n)) %&gt;% 
+  filter(allegiance==1, species==&quot;Human&quot;) %&gt;% 
+  pull(perc) -&gt; perc_support)</code></pre>
+<pre><code>## [1] 0.1609195</code></pre>
+<p>Ok, so only 16.1%. This might be identifable…</p>
+<pre class="r"><code># Number of Observations
+n &lt;- nrow(filter(starwars, species == &quot;Human&quot;))</code></pre>
+<p>Now we set our privacy budget:</p>
+<pre class="r"><code># Set Value of Epsilon
+eps &lt;- 0.1</code></pre>
+<p>Now we can set the global sensitivity</p>
+<pre class="r"><code># GS of Proportion
+gs.prop &lt;- 1 / n</code></pre>
+<p>Now the differential privacy number that we would report would be:</p>
+<pre class="r"><code># Noisey Value
+(reported &lt;- rdoublex(1,perc_support, gs.prop / eps) %&gt;% max(0))</code></pre>
+<pre><code>## [1] 0.008698393</code></pre>
+<p>And looking at the two values side by side:</p>
+<pre class="r"><code>data_frame(truth = perc_support, reported = reported)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["truth"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["reported"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.1609195","2":"0.008698393"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="applying-to-counts" class="section level2">
+<h2>Applying to Counts</h2>
+<p>Now we will look at those people will blue eyes:</p>
+<pre class="r"><code>starwars %&gt;% 
+  count(eye_color) %&gt;% 
+  filter(eye_color == &quot;blue&quot;) %&gt;% 
+  pull(n)</code></pre>
+<pre><code>## [1] 19</code></pre>
+<p>So the true answer is 19. Let’s add our differential privacy.</p>
+<pre class="r"><code>data_frame(true = 19, eps = c(0.01, .1, 1, 10, 100), gs.count = 1) %&gt;% 
+  rowwise() %&gt;% 
+  mutate(noisey_value = round(rdoublex(1, 19, gs.count/eps)))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["true"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["eps"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["gs.count"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["noisey_value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"19","2":"1e-02","3":"1","4":"26"},{"1":"19","2":"1e-01","3":"1","4":"24"},{"1":"19","2":"1e+00","3":"1","4":"19"},{"1":"19","2":"1e+01","3":"1","4":"19"},{"1":"19","2":"1e+02","3":"1","4":"19"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Thus you can see the effect that DP has on the reported noisey value.</p>
+</div>
+
+  <br>
+    <hr>
+    
+    <div class="column-left">
+    <p>
+    <b>Research and Methods Resources</b><br>
+    <a href="mailto:me.dewitt.jr@gmail.com">me.dewitt.jr@gmail.com</a> <br>
+    </p>
+    </div>
+    
+    <div class="column-center">
+    <p>
+     <br>
+     <br>
+    Winston- Salem, NC<br>
+    </p>
+    
+    </div>
+    
+    <div class="column-right">
+    Michael DeWitt <br>
+    <a href="https://github.com/medewitt"><i class="fa fa-github"></i></a>
+    </div>
+    
+    <br>
+    <br>
+    <center>
+    <p>Copyright &copy; 2018 Michael DeWitt. All rights reserved.</p>
+    </center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

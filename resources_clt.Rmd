@@ -1,0 +1,38 @@
+---
+title: "Shell Tools"
+---
+
+
+## Command Line Tools
+
+[Awk, Sed, and Bash: Command-line file Editing and Processing](https://deepseqanalysis.readthedocs.io/en/latest/awk-sed-bash.html)
+
+[Microsoft Tools Alternative CERN](https://home.cern/news/news/computing/microsoft-alternatives-project-malt)
+
+[R and makefiles](https://monashbioinformaticsplatform.github.io/2017-11-16-open-science-training/topics/automation.html)
+
+[Awk and Sed to Parse 25tb](https://livefreeordichotomize.com/2019/06/04/using_awk_and_r_to_parse_25tb/)
+
+## Advanced R
+
+[Advanced R Solution](https://advanced-r-solutions.rbind.io/)
+
+## TikZ
+
+<https://sites.google.com/site/kochiuyu/Tikz>
+
+## Elastisearch
+
+<https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_pulling_the_image>
+
+<https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-dev-mode>
+
+<https://github.com/deviantony/docker-elk>
+
+<https://ropensci.org/tutorials/elastic_tutorial/>
+
+<https://cran.r-project.org/web/packages/elasticsearchr/vignettes/quick_start.html>
+
+## AWS
+
+<https://www.daeconomist.com/post/2018-06-27-aws/>

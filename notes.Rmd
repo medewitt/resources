@@ -1,5 +1,5 @@
 ---
-title: "Syllabus"
+title: "Notes"
 ---
 
 ```{r, child="_setup.Rmd"}
@@ -15,3 +15,5 @@ grades <- tribble(
 )
 ```
 
+
+[modelsummary: Beautiful, customizable, publication-ready model summaries in R.](https://github.com/vincentarelbundock/modelsummary/blob/master/README.md)

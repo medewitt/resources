@@ -1,0 +1,196 @@
+---
+title: "Ideal Point Modeling in Stan"
+bibliography: library.bib
+---
+
+Ideal Point Modeling is useful when assessing political behaviour. I'm going to copy and explore the analysis that was developed by [Robert Myles](https://github.com/RobertMyles/IRT).
+
+## Generate the Data
+
+Below is some of the data that was generated for simulation within a multiparty system. This is just a starting point.
+
+```{r stan-ideal}
+library(dplyr)
+set.seed(1834)
+# simulate data: 100 legislators, 150 votes
+N <- 50
+M <- 150
+m_votes <- matrix(NA, nrow = N, ncol = M)
+# Liberals (majority Gov. party)
+for(n in 1:20){
+  m_votes[n, ] <- rbinom(M, size = 1, prob = 0.9)
+}
+# Conservatives (uneasy coalition)
+for(n in 21:32){
+  m_votes[n, ] <- rbinom(M, size = 1, prob = 0.7)
+}
+# Socialists (opposition)
+for(n in 33:40){
+  m_votes[n, ] <- rbinom(M, size = 1, prob = 0.3)
+}
+# Greens (opposition)
+for(n in 41:45){
+  m_votes[n, ] <- rbinom(M, size = 1, prob = 0.25)
+}
+# Religious (opposition)
+for(n in 46:48){
+  m_votes[n, ] <- rbinom(M, size = 1, prob = 0.01)
+}
+# Independents (random)
+for(n in 49:50){
+  m_votes[n, ] <- rbinom(M, size = 1, prob = 0.5)
+}
+rm(n)
+
+votes_data <- data_frame(
+  vote_id = rep(paste0("Vote_", 1:M), each = N),
+  legislator_id = rep(1:N, times = M),
+  vote = as.vector(m_votes),
+  legislator_party = ""
+) %>% 
+  mutate(legislator_party = case_when(
+    legislator_id <= 20 ~ "The Classic Liberal Party",
+    legislator_id > 20 & legislator_id <= 32 ~ "The Conservative Party",
+    legislator_id > 32 & legislator_id <= 40 ~ "The Socialist Party",
+    legislator_id > 40 & legislator_id <= 45 ~ "The Green Party",
+    legislator_id > 45 & legislator_id <= 48 ~ "The Religious Party",
+    TRUE ~ "Independent"),
+    legislator_id = paste0("Legislator_", legislator_id),
+    government = ifelse(legislator_party %in% c("The Classic Liberal Party",
+                                                "The Conservative Party"), 
+                        "Government", "Opposition"),
+    index = gsub("[A-Za-z_]*", "", vote_id),
+    index = as.numeric(index),
+    year = ifelse(index <= 75, "2017", "2018")) %>% 
+  dplyr::select(-index)
+
+dimnames(m_votes)[[1]] <- unique(votes_data$legislator_id)
+dimnames(m_votes)[[2]] <- unique(votes_data$vote_id)
+
+# make the first two voters roughly opposite:
+# put voter from religious party in 2nd row
+religious <- m_votes[46, ]
+liberal <- m_votes[2, ]
+m_votes[2, ] <- religious
+m_votes[46, ] <- liberal
+dimnames(m_votes)[[1]][2] <- "Legislator_46"
+dimnames(m_votes)[[1]][46] <- "Legislator_2"
+
+# and make a random subset NA (missed votes, common in real datasets):
+m_votes[sample(seq(m_votes), 50)] <- NA
+```
+
+## Generative Model
+
+As with all 1- Dimensional Item Response Models the suggested form is:
+
+$$y_i \sim bernouilli(invlog(\theta_j*\beta_k -\alpha_k))$$
+Where j represents the individual legislators, voting on k bills. In this model \theta_j represents the latent ability of the indivudal legislator. One important component here is that IRT and specifically ideal point can be scale invariable. @gelman_applied_2006 details this issue, but the idea is that the algorithms will generate the ideal point, but without an anchor the direction is uncertain. Gelman gets around this in an analysis of the US Supreme court by anchoring Scalia as the most conservative justice. In this example you can see that the \theta for legistlators 1 and 2 are put into opposition. This is exactly to provide an anchoring of sorts.
+
+## Stan Code
+
+```
+data {
+  int<lower=1> J; //Legislators
+  int<lower=1> K; //Proposals/bills
+  int<lower=1> N; //no. of observations
+  int<lower=1, upper=J> j[N]; //Legislator for observation n
+  int<lower=1, upper=K> k[N]; //proposal for observation n
+  int<lower=0, upper=1> y[N]; //vote of observation n
+}
+parameters {
+  vector[K] alpha;
+  vector[K] beta;
+  vector[J] theta;
+}
+model {
+  //priors on parameters
+  alpha ~ normal(0,10); 
+  beta ~ normal(0,10); 
+  theta ~ normal(0,1); 
+  theta[1] ~  normal(1, .01);  //constraints
+  theta[2] ~ normal(-1, .01);  //Important for identifiability problem
+  for (n in 1:N)
+  y[n] ~ bernoulli_logit(theta[j[n]] * beta[k[n]] - alpha[k[n]]);
+}
+
+```
+
+```{r}
+library(rstan)
+rstan_options(auto_write = TRUE)
+id_fit <- stan_model("stan_ideal_point.stan")
+```
+
+
+
+## Prep Data for Stan
+
+Now we can prep the data removing the NA values from our data.
+
+
+```{r}
+# take out NA:
+nas <- which(is.na(m_votes))
+votes <- m_votes[-nas]
+N <- length(votes)
+j <- rep(1:50, times = 150)
+j <- j[-nas]
+k <- rep(1:150, each = 50)
+k <- k[-nas]
+J <- max(j)
+K <- max(k)
+
+
+data <- list(J = J, K = K, N = N, j = j, k = k, y = votes)
+```
+
+Now we can fit the model:
+
+```{r cache=TRUE}
+
+fit <- sampling(id_fit, 
+                 data = data, iter = 4000, 
+                 chains = 2, cores = 2, refresh = 0)
+```
+
+Let's check out the latent trait for our legislators:
+
+```{r}
+print(fit, pars = "theta")
+```
+
+Let's just extract the \beta parameters from the model.
+
+```{r}
+posterior <- rstan::extract(fit)[["theta"]]
+```
+
+And graph them in the classic way (note that our anchors are diametrically opposed):
+
+```{r}
+library(tidyverse, quietly = TRUE)
+posterior %>% 
+  as_data_frame() %>% 
+  set_names(sprintf("Legislator_%s", 1:50)) %>% 
+  gather(legislator_id, value) %>% 
+  group_by(legislator_id) %>% 
+  summarise(med = median(value),
+            q025 = quantile(value, 0.025),
+            q975 = quantile(value, 0.975)) %>% 
+  left_join(votes_data %>% dplyr::select(legislator_id, legislator_party) %>% unique()) %>% 
+  ggplot(aes(reorder(legislator_id, -med), color = legislator_party))+
+  geom_point(aes(y = med))+
+  geom_errorbar(aes(ymin = q025, ymax = q975))+
+  coord_flip()+
+  theme_minimal()+
+  labs(
+    title = "1PL Ideal Point Analysis",
+    subtitle = "95% Quantiles",
+    x = NULL,
+    color = "Party"
+  )
+  
+```
+
+## References

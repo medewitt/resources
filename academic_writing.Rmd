@@ -1,7 +1,29 @@
 ---
-title: "Academic Writing"
+title: "Presentations and  Writing"
 ---
 
 ## Weasel Words
 
 <http://blogs.cornell.edu/modelmeanings/2014/09/13/weasel-words/>
+
+## Journal Types
+
+[Poli Sci Research Notes](https://resulumit.com/blog/polisci-research-notes/)
+
+## Public Speaking
+
+[Public Speaking for Academic Economists](https://mfr.osf.io/render?url=https%3A%2F%2Fosf.io%2Fd8wm9%2Fdownload)
+
+## Law for Computer Science
+
+<https://lawforcomputerscientists.pubpub.org/>
+
+[fair ML](https://avehtari.github.io/modelselection/rats_kcv.html)
+
+## How Tos
+
+[write a thesis](https://www.cs.jhu.edu/~jason/advice/how-to-write-a-thesis.html)
+
+[make slides](https://kieranhealy.org/blog/archives/2018/03/24/making-slides/)
+
+[design for an audience](http://style.org/ku/)

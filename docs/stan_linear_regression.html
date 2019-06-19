@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Linear Regression in Stan</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'UA-117944166-1');
+      </script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research and Methods Resources</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-hand-paper"></span>
+     
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources_econ.html">Economics</a>
+    </li>
+    <li>
+      <a href="resources_polisci.html">Political Science</a>
+    </li>
+    <li>
+      <a href="resources_stats.html">Statistics</a>
+    </li>
+    <li>
+      <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="tutorials.html">
+    <span class="fa fa-book"></span>
+     
+    Tutorials
+  </a>
+</li>
+<li>
+  <a href="notes.html">
+    <span class="fa fa-handshake"></span>
+     
+    My Notes
+  </a>
+</li>
+<li>
+  <a href="data_sources.html">
+    <span class="fa fa-paper-plane"></span>
+     
+    Data Sources
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Stan
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="stan_linear_regression.html">Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_mult_linear_regression.html">Multiple Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_robust_linear_regression.html">Robust Linear Regression</a>
+    </li>
+    <li>
+      <a href="stan_hlm.html">Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_hlm_nn.html">Normal- Normal Hierarchical Linear Model</a>
+    </li>
+    <li>
+      <a href="stan_ideal_point.html">Ideal Point Analysis</a>
+    </li>
+    <li>
+      <a href="stan_cfa.html">Confirmatory Factor Analysis</a>
+    </li>
+    <li>
+      <a href="stan_categorical_responses.html">Categorical Response Distribution</a>
+    </li>
+    <li>
+      <a href="stan_2pl.html">2PL IRT</a>
+    </li>
+    <li>
+      <a href="stan_ar_models.html">Autoregressive Models</a>
+    </li>
+    <li>
+      <a href="stan_nowcast.html">Nowcasting in Stan</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://michaeldewittjr.com">
+    <span class="fa fa-folder"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Linear Regression in Stan</h1>
+
+</div>
+
+
+<div id="my-mission" class="section level2">
+<h2>My Mission</h2>
+<p>Write a bunch of Stan Code to practice building models in Stan. While <code>brms</code> is fantastic, I feel like I need to put in the work to learn to build the Stan code myself. I am going to try and work through one of the exercises each day from the <a href="https://mc-stan.org/docs/2_18/stan-users-guide/index.html">handbook</a> and other websites dealing with interesting models.</p>
+</div>
+<div id="linear-regression" class="section level2">
+<h2>Linear Regression</h2>
+<p>Linear regression is pretty much the cornerstone of models, so it is a good place to start.</p>
+<p>I’m going to go ahead and load <code>rstan</code> for use in this example</p>
+<pre class="r"><code>library(rstan)
+rstan_options(auto_write = TRUE)</code></pre>
+</div>
+<div id="generate-some-fake-data" class="section level2">
+<h2>Generate Some Fake Data</h2>
+<p>One of the most important processes in any model fitting data is to generate some data before hand. If your model performs as expected on the fake data simulation then you can have confidence that your model will work when faced with your actual data.</p>
+<p>I’m going to generate data from a normal distribution and a noise parameter. My slope will be set at 0.5.</p>
+<pre class="r"><code>x &lt;- rnorm(40, 10, 5)
+noise &lt;- rnorm(40,0,1)
+y &lt;- x*.5 + noise
+
+data &lt;- list( x= x, y = y, N = length(x))</code></pre>
+</div>
+<div id="specify-the-model" class="section level2">
+<h2>Specify the Model</h2>
+<p>The below Stan code models the familiar <span class="math inline">\(y = \beta*x + \alpha + \epsilon\)</span></p>
+<p>Or more formally:</p>
+<p><span class="math display">\[y_n \sim N(\alpha + \beta X_n,\sigma)\]</span></p>
+<pre><code>data {
+  int&lt;lower=0&gt; N;
+  vector[N] x;
+  vector[N] y;
+}
+parameters {
+  real alpha;
+  real beta;
+  real&lt;lower=0&gt; sigma;
+}
+model {
+  y ~ normal(alpha + beta * x, sigma);
+}</code></pre>
+</div>
+<div id="modeling-the-fake-data" class="section level2">
+<h2>Modeling the Fake Data</h2>
+<p>So now we need to compile the Stan code. This takes a little while….</p>
+<pre class="r"><code>linear_regression &lt;- stan_model(&quot;stan_linear_regression.stan&quot;)</code></pre>
+<p>One that code has been compiled then we can actually fit the model. This is a simple model and it converges quickly (which it should).</p>
+<pre class="r"><code>fit1 &lt;- sampling(linear_regression, data = data, chains = 2, iter = 1000, refresh = 0)</code></pre>
+<p>Now we can look at the model outputs with the <code>summary</code> which prints a lot of information or just look at the parameters one by one. I’m interested in if it could detect the true slope, in this case 0.5:</p>
+<pre class="r"><code>print(fit1, pars = &quot;beta&quot;, probs = c(0.025, 0.5, 0.975))</code></pre>
+<pre><code>## Inference for Stan model: stan_linear_regression.
+## 2 chains, each with iter=1000; warmup=500; thin=1; 
+## post-warmup draws per chain=500, total post-warmup draws=1000.
+## 
+##      mean se_mean   sd 2.5%  50%  98% n_eff Rhat
+## beta 0.51       0 0.03 0.45 0.51 0.58   403    1
+## 
+## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:05:42 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<p>And it did a reasonable job! Yahoo it worked.</p>
+</div>
+<div id="model-checking" class="section level2">
+<h2>Model Checking</h2>
+<p>As with any good Bayesian analysis it is important to perform some posterior checks to ensure that the model sufficiently converged. One check is the <span class="math inline">\(\hat{R}\)</span> which is a measure of the mixing on the chaines with a target of one (which is achieved here).</p>
+<p>Additionally, we can look at the trace plots to make sure everything converged and thise look good too.</p>
+<pre class="r"><code>traceplot(fit1)</code></pre>
+<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>And finally a pairs plot which shows that sigma, alpha and beta all look reasonable centered with no strange patterns.</p>
+<pre class="r"><code>pairs(fit1)</code></pre>
+<p><img src="stan_linear_regression_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>So, yahoo! first real model in Stan!</p>
+</div>
+
+  <br>
+    <hr>
+    
+    <div class="column-left">
+    <p>
+    <b>Research and Methods Resources</b><br>
+    <a href="mailto:me.dewitt.jr@gmail.com">me.dewitt.jr@gmail.com</a> <br>
+    </p>
+    </div>
+    
+    <div class="column-center">
+    <p>
+     <br>
+     <br>
+    Winston- Salem, NC<br>
+    </p>
+    
+    </div>
+    
+    <div class="column-right">
+    Michael DeWitt <br>
+    <a href="https://github.com/medewitt"><i class="fa fa-github"></i></a>
+    </div>
+    
+    <br>
+    <br>
+    <center>
+    <p>Copyright &copy; 2018 Michael DeWitt. All rights reserved.</p>
+    </center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

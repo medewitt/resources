@@ -1,0 +1,157 @@
+---
+title: "A Normal- Normal Hierarchical Model"
+bibliography: library.bib
+---
+
+This is an example taken from Jeff Gill's Bayesian Methods: A Social and Behavioural Sciences Approach [@gill_2008]. I wanted to re-implment the existing BUGS code into Stan and see if I could arrive at the same results.
+
+## Our Data
+
+The example in the book utilises data from the US Department of Commerce's Survey of Current Business. The data contain information by quarter from 1979 to 1989. After some hunting I found that Dr Gill graciously put the data to this book in the `BaM` package which I subsequently downloaded from CRAN.
+
+```{r initial-data}
+data_sales <- BaM::retail.sales
+```
+
+And we can inspect it a little more:
+
+```{r print-out}
+data_sales
+```
+
+To describe the data further:
+
+- DSB - National Wage and Incime Disbursements (Billions)
+- EMP - Employees on non-agricultural payrolls (thousands)
+- BDG - building dealer sales (millions)
+- CAR - car dealer sales (millions)
+- FRN - home furnishings dealer sales (millions)
+- GRM - general merchanise sales in millions
+
+## Generative Model
+
+In the case of the model for the data it is specified as 
+
+$$y_{i,j}  \sim N(\beta_0[i]+\beta_1[i]x_j, \tau)$$
+$$\beta_0[i] \sim N(\mu_{\beta.0},\tau_{\beta.0})$$
+$$\beta_1[i] \sim N(\mu_{\beta.1},\tau_{\beta.1})$$
+$$\tau\sim\Gamma(0.01, 0.01)$$
+
+## Now to Stan
+
+To implement the above model we would need to do the following:
+
+```
+// Normal Normal Model
+
+data {
+  int<lower=0> J;   // number of data items
+  int<lower=0> I;   // number of predictors
+  vector[J] x; // depdent variable
+  matrix[J, I] y;   // predictor matrix
+}
+parameters {
+  vector[I] beta0; //vector of beta0s
+  vector[I] beta1; //vector of beta1s
+  real mu_beta0; //average value of beta0
+  real mu_beta1; //average value of beta1
+  real tau;
+  real tau_beta1;
+  real tau_beta0;
+  
+}
+
+transformed parameters{
+  real xbar;
+  xbar = mean(x); // calculate the average value of x
+  
+}
+model {
+  // priors
+  tau ~ gamma(.01, .01); 
+  mu_beta0 ~ normal(0, 10);
+  tau_beta0 ~ gamma( .01, .01);
+  mu_beta1 ~ normal(0, 10);
+  tau_beta1 ~ gamma( .01, .01);
+  
+  //group effects for each indicator
+  for(i in 1:I){
+  beta0[i] ~ normal(mu_beta0, tau_beta0);
+  beta1[i] ~ normal(mu_beta1, tau_beta1);
+  }
+  
+  //model
+  for(j in 1:J){
+    y[j]~ normal(beta0 + beta1*(x[j]-xbar), tau);
+  }
+  
+}
+
+```
+Now we can make sure that the model compiles.
+
+```{r compile-nn, message=FALSE, warning=FALSE}
+library(rstan)
+rstan_options(auto_write = TRUE)
+nn_fit <- stan_model("stan_hlm_nn.stan")
+```
+
+Format our data for the modelL
+
+```{r data-prep}
+data <- list(J = nrow(data_sales),
+             I = 6L,
+             x = data_sales$TIME,
+             y = as.matrix(data_sales[,-1])/1000)
+```
+
+And fit our model:
+
+```{r message=FALSE, warning=FALSE}
+fit <- sampling(nn_fit, data = data,  chains = 2, iter = 2000, refresh = 0)
+```
+
+Looking at the output from our model it matches that on page 405 in the second edition almost right on! Hooray!
+
+```{r print-fit}
+print(fit, probs = c(0.025, 0.5, 0.975))
+```
+
+## Posterior Model Checking
+
+Thus we refit this model in Stan, but let's check the trace plots and some posterior predictive checks to make sure we have a model that makes sense.
+
+```{r}
+traceplot(fit, "beta0")
+```
+
+```{r}
+traceplot(fit, "beta1")
+```
+
+
+```{r}
+library(bayesplot)
+posterior <- as.array(fit)
+
+mcmc_areas(posterior,
+           pars = c("beta1[1]","beta1[2]","beta1[3]","beta1[4]","beta1[5]","beta1[6]"),
+           prob = 0.8)
+```
+
+```{r}
+posterior2 <- extract(fit, inc_warmup = TRUE, permuted = FALSE)
+```
+
+
+```{r}
+color_scheme_set("darkgray")
+mcmc_scatter(
+  as.matrix(fit),
+  pars = c("tau", "beta1[1]"), 
+  np = nuts_params(fit), 
+  np_style = scatter_style_np(div_color = "green", div_alpha = 0.8)
+)
+```
+
+## References

@@ -1,0 +1,107 @@
+---
+title: "Robust Linear Regression in Stan"
+---
+
+## To be Robust or To Not Be Robust
+
+One method often used in econometrics is to perform robust linear regression. This method tempers the problems with the presence of outliers in your data. Typically linear models assume normality of errors and as such can give you some wonky results if these assumptions are violated.
+
+This example will be using the [Stan manual](https://mc-stan.org/docs/2_18/stan-users-guide/robust-noise-models.html) example.
+
+## Generate Some Data
+
+As always, it is best to generate by specifying a generative model with what we expect to occur.
+
+```{r gen-data}
+# Independent Variable
+x <- rnorm(50, 5, 2)
+
+#t- distributed noise
+noise <- rt(50, 3)
+
+y <- 5* x + noise
+
+```
+
+## Specify the Model
+
+In this case we assume that:
+
+$$y\sim t(\nu, \beta X, \sigma)$$
+
+Here we have already specified the degrees of freedom of our randomly generated data, so the Stan code would look like that below:
+
+```
+// robust linear regression
+data {
+  int<lower=0> N; //number of samples
+  vector[N] x; //independent variable
+  vector[N] y; // depdent variable
+  real<lower=0> nu; //degrees of freedom
+}
+parameters {
+  real alpha;
+  real beta;
+  real<lower=0> sigma;
+}
+model {
+  y ~ student_t(nu, alpha + beta * x, sigma);
+}
+
+```
+
+## Model the Fake Data
+
+Now we bring in our favourite package `rstan`.
+
+```{r message=FALSE, warning=FALSE}
+library(rstan)
+rstan_options(auto_write = TRUE)
+```
+
+Compile our code
+
+```{r compile-stan}
+robust_reg <- stan_model("stan_robust_linear_regression.stan")
+```
+
+Prep our data for the model:
+
+```{r prep-data}
+data <- list(x = x, y = y, N = length(x), nu = 3L)
+```
+
+
+And now we can fit out model.
+
+```{r model}
+robust_fit <- sampling(robust_reg, data, chains = 2, iter = 1000, refresh = 0)
+```
+
+And we can inspect our our model fit our data.
+
+```{r print-fit}
+print(robust_fit, pars = "beta", probs = c(0.025, 0.5, 0.975))
+```
+
+The results look promising, but lets do a few other checks:
+
+```{r pairs}
+pairs(robust_fit)
+```
+
+```{r trace}
+traceplot(robust_fit)
+```
+
+Everything looks pretty good! However, just for comparison, it might be interesting to compare these results to the maximum liklihood estimator approach:
+
+```{r mle-fit}
+mle_fit <- MASS::rlm(y ~ x, data = data)
+```
+
+```{r summary-mle}
+summary(mle_fit)
+```
+
+So we achieved basically the same estimates for beta, which is good!

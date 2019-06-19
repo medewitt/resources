@@ -1,0 +1,25 @@
+---
+title: Causal Inference Resources
+bibliography: library.bib
+biblio-style: apalike
+---
+  
+## Causal Inference
+
+[The tlverse Software Ecosystem for Causal Inference](https://tlverse.org/acic2019-workshop/)
+
+[RAND Propensity Score Matching](https://www.rand.org/statistics/twang/tutorials.html)
+
+[Statistical Tools for CI](https://chabefer.github.io/STCI/the-fundamental-problem-of-causal-inference.html#rubin-causal-model)
+
+[Synthetic Controls](http://blogs.worldbank.org/impactevaluations/do-i-need-recruit-control-group-my-trial)
+
+[Causal Graphs Seminar](http://julianschuessler.net/graphs2018.html)
+
+## Instrumental Variables
+
+<http://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html?m=1>
+
+## Multiverse
+
+[Exploring the Multiverse](https://explorablemultiverse.github.io/)

@@ -1,0 +1,202 @@
+---
+title: "scd Micro Simulation"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+The purpose of this simulation is to test the impact of statistical micro-discloure practices. Microdata are samples of the non-aggregated data (unit record) used for analysis. This is important in order to avoid the ecological inference problem^[see <https://en.wikipedia.org/wiki/Ecological_fallacy>].
+
+```{r sdc}
+library(tidyverse)
+library(sdcMicro)
+library(broom)
+```
+
+## Generate Known Data
+
+As with any simulation or modeling process it is important to simulate some data with known parameters in order to better test the methods.
+
+### Population Parameters
+
+Now to develop some synthetic data with some known population parameters.
+
+```{r}
+set.seed(100)
+gender_options <- c("M", "F")
+gender_probs <- c(.4, .6)
+race_options <- c("Asian", "Black/ African American","Hispanic", "White", "Other")
+race_probs <- c(.07, .15, .15, .6,.03)
+citizenship <- c("Y", "N", "RA")
+citizenship_probs <- c(.9, .07, .03)
+education <- c("HS", "Some College", "College", "Post-graduate")
+education_probs <- c(.35, .35, .25, .05)
+```
+
+### Generate the Data
+
+```{r}
+dat_1 <- data.frame(
+  gender = sample( 500, x = gender_options, replace = T, prob = gender_probs),
+  race = sample( 500, x = race_options, replace = T, prob = race_probs),
+  citizenship = sample(500, x = citizenship, replace = T, prob = citizenship_probs),
+  education = sample( 500, x = education, replace = T, prob = education_probs),
+  income = rbeta(500, shape1 = 1, 5)*100000,
+  debt = rnorm(500, mean = 20000, 5000)
+) %>% 
+  mutate(id = row_number()) %>% 
+  mutate_if(is.character, as.factor)
+
+dat_2 <- dat_1 %>% 
+  mutate(citizenship = fct_lump(citizenship, 1))
+```
+
+## Examine the Real Data Cross Tabs
+
+```{r}
+dat_1 %>% 
+  group_by(gender, race) %>% 
+  summarise(avg_income = mean(income)) %>% 
+  spread(gender, avg_income)
+```
+
+## Statistical Disclosure Methods
+
+Now we can explore the `sdcMicro` package with some additional details.
+
+### Assess the Risk
+
+I am going to declare the race, gender, citizenship, education, income and debt are all sensitive variables. I can then perform the `freqCalc` to see if there are unique and identifying combinations of these parameters in the data.
+
+```{r}
+key_vars <- c("race", "gender", "citizenship", "education")
+conti_vars <- c("income", "debt")
+(initial_fc <- freqCalc(dat_1, keyVars = key_vars))
+```
+
+### Now Make the sdcMicro Object
+
+For best use of the package, it is important to create an Sdc object with the specified important or sensitive variables
+
+```{r}
+sdc_micro <- createSdcObj(dat_2, 
+                          keyVars = key_vars,
+                          numVars =conti_vars,
+                          pramVars = key_vars)
+```
+
+Now we can examine the outputted object:
+
+```{r}
+sdc_micro
+```
+
+### Handle Categorical 
+
+Now we can apply some methods to mask some of the categorical variables. Additionally, from the output one can gather how much the data has changed. 
+
+```{r}
+(clean_1 <- sdcMicro::pram(sdc_micro))
+```
+
+### Handle Numeric
+
+```{r}
+(clean_2 <- microaggregation(clean_1, method = "rmd", aggr = 3))
+```
+
+For the final step we can pull the new data out of the `sdc` object.
+
+```{r}
+anon_data <- extractManipData(clean_2)
+```
+
+## Compare New Data with True
+
+Now we can perform some regressions using the true data and the perturbed data to examine the different results. 
+
+```{r}
+options(digits =2)
+fit_1 <- lm(income~ race + education + citizenship, data = dat_2)
+fit_2 <- lm(income~ race + education + citizenship, data = anon_data)
+
+tidy(fit_1) %>% 
+  dplyr::select(term, estimate) %>% 
+  rename(original_data = estimate) %>% 
+  cbind(tidy(fit_2) %>% dplyr::select(estimate)) %>% 
+  rename(anon_data = estimate) %>% 
+  mutate(delta = original_data - anon_data) %>% 
+  knitr::kable(digits = 2)
+```
+
+In general the signs of the regression are all consistent. The magnitude of the effects have changed slightly. We can plot the outputs to get a better idea of these differences.
+
+```{r}
+fit_1_broom <- tidy(fit_1) %>% 
+  mutate(id = "original")
+fit_2_broom <- tidy(fit_2) %>% 
+  mutate(id = "anon")
+
+combined_dat <- bind_rows(fit_1_broom, fit_2_broom)
+
+combined_dat %>% 
+  filter(!grepl("(Intercept)", term)) %>% 
+  ggplot(aes(term, estimate, group = id, color = id))+
+  geom_point()+
+  geom_errorbar(aes(ymin = estimate - std.error, 
+                    ymax = estimate + std.error))+
+  theme_minimal()+
+  coord_flip()+
+  labs(
+    title = "Comparison of OLS Estimated Parameters",
+    color = "Data Source"
+  )
+```
+
+```{r}
+sdcMicro::calcRisks(clean_2)
+```
+
+## Match Anon Data Back to Original Data
+
+Now let's see if I can match this data back. I'll use the `fastLink` package to see if I can link some of the masked data back to the original data set. I'll also use the original key values which represents the worst case where an intruder would have access to all of these key variables.
+
+```{r}
+library(fastLink)
+
+matching_test <- fastLink(dfA = anon_data,
+                          dfB = dat_1,
+                          varnames = key_vars, n.cores = 3, verbose = FALSE)
+```
+
+Now let's returned the matched data frame. I will use a 95% confidence level for returning matches. 
+
+```{r}
+matched_dfs <- getMatches(
+  dfA = anon_data, dfB = dat_1, 
+  fl.out = matching_test, threshold.match = 0.95
+)
+```
+
+We can then see our accuracy at matching
+
+```{r}
+options(digits = 2)
+df <- matching_test$matches
+
+mean(df[["inds.a"]] == df[["inds.b"]])
+```
+
+Thus only `r round((mean(df[["inds.a"]] == df[["inds.b"]]))*100,1)`% were actually identified. Of those we can see how many were uniquely matched
+
+```{r}
+df %>% 
+  count(inds.b) %>% 
+  left_join(filter(df, inds.a==inds.b)) %>% 
+  filter(!is.na(inds.a), n == 1)
+```
+
+Therefore 17 out of 500 or 3.4% were uniquely identified. Now more modifications could be done to improve the masking of the data.
