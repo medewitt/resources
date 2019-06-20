@@ -113,7 +113,7 @@ Do it right...
 
 [More changepoint analysis](https://www.r-bloggers.com/a-simple-intro-to-bayesian-change-point-analysis/)
 
-## Stan SEM
+## Stan SEM 
 
 <http://rpubs.com/jebyrnes/343408>
 
