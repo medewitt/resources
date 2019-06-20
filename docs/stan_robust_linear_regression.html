@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -556,9 +572,9 @@ rstan_options(auto_write = TRUE)</code></pre>
 ## post-warmup draws per chain=500, total post-warmup draws=1000.
 ## 
 ##      mean se_mean   sd 2.5% 50% 98% n_eff Rhat
-## beta  5.1       0 0.09  4.9 5.1 5.2   418    1
+## beta  5.1       0 0.09    5 5.1 5.3   505    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:28:25 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:53:43 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -573,13 +589,13 @@ rstan_options(auto_write = TRUE)</code></pre>
 <pre><code>## 
 ## Call: rlm(formula = y ~ x, data = data)
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -2.250 -0.693 -0.128  0.706 11.502 
+##      Min       1Q   Median       3Q      Max 
+## -2.01591 -0.69722  0.00958  0.65882 11.07708 
 ## 
 ## Coefficients:
-##             Value  Std. Error t value
-## (Intercept) -0.195  0.529     -0.369 
-## x            5.084  0.094     53.929 
+##             Value Std. Error t value
+## (Intercept) -0.42  0.52      -0.81  
+## x            5.16  0.10      50.42  
 ## 
 ## Residual standard error: 1 on 48 degrees of freedom</code></pre>
 <p>So we achieved basically the same estimates for beta, which is good!</p>

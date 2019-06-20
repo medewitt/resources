@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -507,7 +523,7 @@ test
 </div>
 <div class="warning">
 <p>
-Holding all other variables fixed at their observed values - or <em>ceteris paribus</em> - a one unit increase in <span class="math inline"><span class="math inline">\(wt\)</span></span> implies a -3.87783 units change in <span class="math inline"><span class="math inline">\(mpg\)</span></span>. Similarly, one more <span class="math inline"><span class="math inline">\(hp\)</span></span> horse power implies a change in <span class="math inline"><span class="math inline">\(mpg\)</span></span> of -0.03177 units, <em>all else (i.e. <span class="math inline"><span class="math inline">\(wt\)</span></span>) equal</em>.
+Holding all other variables fixed at their observed values - or <em>ceteris paribus</em> - a one unit increase in <span class="math inline"><span class="math inline">\(wt\)</span></span> implies a -3.87783 units change in <span class="math inline"><span class="math inline">\(mpg\)</span></span>. Similarly, one more <span class="math inline"><span class="math inline">\(hp\)</span></span> horse power implies a change in <span class="math inline"><span class="math inline">\(mpg\)</span></span> of -0.03177 units, <em>all else (i.e. <span class="math inline"><span class="math inline">\(wt\)</span></span>) equal</em>.
 </p>
 </div>
 <div id="the-algorithmic-foundations-of-adaptive-data-analysis" class="section level2">
@@ -540,10 +556,6 @@ Holding all other variables fixed at their observed values - or <em>ceteris pari
 <h3>Introduction</h3>
 <p><a href="http://www.alexpghayes.com/blog/some-things-ive-learned-about-stan/" class="uri">http://www.alexpghayes.com/blog/some-things-ive-learned-about-stan/</a></p>
 </div>
-<div id="instrumental-variables" class="section level3">
-<h3>Instrumental Variables</h3>
-<p><a href="http://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html?m=1" class="uri">http://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html?m=1</a></p>
-</div>
 </div>
 <div id="confidence-intervals-for-glms" class="section level2">
 <h2>Confidence Intervals for GLMs</h2>
@@ -566,7 +578,37 @@ Holding all other variables fixed at their observed values - or <em>ceteris pari
 <div id="mixed-models" class="section level3">
 <h3>Mixed Models</h3>
 <p><a href="http://rpubs.com/tjmahr/tidybayes-on-a-mixed-model" class="uri">http://rpubs.com/tjmahr/tidybayes-on-a-mixed-model</a></p>
+<p><a href="https://normaldeviate.wordpress.com/2012/08/04/mixture-models-the-twilight-zone-of-statistics/amp/?__twitter_impression=true">Mixture Models in Stan</a></p>
 </div>
+</div>
+<div id="data-generation" class="section level2">
+<h2>Data Generation</h2>
+<p><a href="https://stat.ethz.ch/pipermail/r-help/2007-April/128925.html">Correlated Variables with Chol</a></p>
+</div>
+<div id="state-space" class="section level2">
+<h2>State Space</h2>
+<p><a href="https://statmodeling.stat.columbia.edu/2019/04/15/state-space-models-in-stan/" class="uri">https://statmodeling.stat.columbia.edu/2019/04/15/state-space-models-in-stan/</a></p>
+<p><a href="https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256">stan structural time series</a></p>
+</div>
+<div id="bda-exercises" class="section level2">
+<h2>BDA Exercises</h2>
+<p><a href="https://github.com/torkar/BDA_in_ESE/blob/master/toy_example.Rmd" class="uri">https://github.com/torkar/BDA_in_ESE/blob/master/toy_example.Rmd</a></p>
+</div>
+<div id="stan-missing-data" class="section level2">
+<h2>Stan Missing Data</h2>
+<p><a href="https://magesblog.com/post/2018-08-02-use-domain-knowledge-to-review-prior-predictive-distributions/" class="uri">https://magesblog.com/post/2018-08-02-use-domain-knowledge-to-review-prior-predictive-distributions/</a></p>
+<p><a href="http://srmart.in/a-foray-into-bayesian-handling-of-missing-data/" class="uri">http://srmart.in/a-foray-into-bayesian-handling-of-missing-data/</a></p>
+<p><a href="https://gist.github.com/mike-lawrence/dd2435f290a567bd1fd03370ee669688">stan cfa</a> <a href="http://rfarouni.github.io/2015-04-26-fa/">bayesian factor analysis</a> <a href="https://www.cs.helsinki.fi/u/sakaya/tutorial/#cca">bayes factor analysis 2</a></p>
+<p><a href="https://stablemarkets.netlify.com/post/post2/specifying-accelerated-failure-time-models-in-stan/">accelerated time failure</a></p>
+<p><a href="https://avehtari.github.io/modelselection/rats_kcv.html">cross validation on hierarchical models</a></p>
+<p><a href="https://github.com/avehtari/BDA_R_demos">BDA Demos</a> <a href="https://github.com/avehtari/BDA_R_demos">More BDA Demos</a></p>
+<p><a href="https://gist.github.com/acoppock/1e19e947cd114bf9dac847fa4a39513e#file-gelman_and_hill_chapter_3-r">gelman and hill chapter 3</a></p>
+<p><a href="https://mc-stan.org/users/documentation/case-studies/hierarchical_2pl.html">Hierarchical 2PL</a></p>
+</div>
+<div id="stan-sem" class="section level2">
+<h2>Stan SEM</h2>
+<p><a href="http://rpubs.com/jebyrnes/343408" class="uri">http://rpubs.com/jebyrnes/343408</a></p>
+<p><a href="http://cs109.github.io/2015/pages/syllabus.html">Harvard DS 109</a></p>
 </div>
 
   <br>

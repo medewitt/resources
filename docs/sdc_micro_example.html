@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -505,8 +521,11 @@ div.tocify {
 <p>The purpose of this simulation is to test the impact of statistical micro-discloure practices. Microdata are samples of the non-aggregated data (unit record) used for analysis. This is important in order to avoid the ecological inference problem<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
 <pre class="r"><code>library(tidyverse)
 library(sdcMicro)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;sets&#39;:
+##   method        from   
+##   print.element ggplot2</code></pre>
 <pre><code>## --------
-## This is sdcMicro v5.3.0.
+## This is sdcMicro v5.4.0.
 ## For references, please have a look at citation(&#39;sdcMicro&#39;)
 ## Note: since version 5.0.0, the graphical user-interface is a shiny-app that can be started with sdcApp().
 ## Please submit suggestions and bugs at: https://github.com/sdcTools/sdcMicro/issues

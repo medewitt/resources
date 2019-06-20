@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -598,8 +614,6 @@ model {
                 chains = 2, refresh = 0,
                 control = list(adapt_delta = .95,
                                max_treedepth = 15))</code></pre>
-<pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
-## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>## Warning: There were 2 chains where the estimated Bayesian Fraction of Missing Information was low. See
 ## http://mc-stan.org/misc/warnings.html#bfmi-low</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
@@ -610,6 +624,15 @@ model {
 <pre class="r"><code>util &lt;- new.env()
 source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
 <pre class="r"><code>util$check_all_diagnostics(fit)</code></pre>
+<pre><code>## [1] &quot;n_eff / iter looks reasonable for all parameters&quot;
+## [1] &quot;Rhat for parameter sigma_eta is 1.1372136448821!&quot;
+## [1] &quot;  Rhat above 1.1 indicates that the chains very likely have not mixed&quot;
+## [1] &quot;0 of 2000 iterations ended with a divergence (0%)&quot;
+## [1] &quot;813 of 2000 iterations saturated the maximum tree depth of 10 (40.65%)&quot;
+## [1] &quot;  Run again with max_treedepth set to a larger value to avoid saturation&quot;
+## [1] &quot;Chain 1: E-FMI = 0.0218018506545009&quot;
+## [1] &quot;Chain 2: E-FMI = 0.00913922915443346&quot;
+## [1] &quot;  E-FMI below 0.2 indicates you may need to reparameterize your model&quot;</code></pre>
 <p>So it appears that this model needs a little more work!</p>
 </div>
 <div id="now-some-inferences" class="section level2">
@@ -621,10 +644,10 @@ source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
 ##           mean se_mean   sd  2.5%   25%   50%   75%   98% n_eff Rhat
-## gamma[1]  0.45       0 0.08  0.29  0.40  0.45  0.49  0.60   919    1
-## gamma[2] -0.31       0 0.07 -0.46 -0.35 -0.31 -0.28 -0.18   896    1
+## gamma[1]  0.46       0 0.06  0.33  0.42  0.46  0.50  0.57   721    1
+## gamma[2] -0.31       0 0.05 -0.41 -0.34 -0.31 -0.28 -0.22  1221    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:28:20 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:52:22 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -654,7 +677,7 @@ x_summarise &lt;- x_mod %&gt;%
 <p>Now to the graph, but first we can check how often a result occured outside of our confidence interval (technically highest density interval).</p>
 <pre class="r"><code>mean(x_summarise$Actual&lt;x_summarise$Lower | x_summarise$Actual&gt;x_summarise$Upper) %&gt;% 
   scales::percent()</code></pre>
-<pre><code>## [1] &quot;0%&quot;</code></pre>
+<pre><code>## [1] &quot;0.333%&quot;</code></pre>
 <pre class="r"><code>x_summarise %&gt;% 
   ggplot(aes(x = obs)) +
   geom_ribbon(aes(ymin = Lower, ymax = Upper), fill = &quot;orange&quot;, alpha = 0.5) +

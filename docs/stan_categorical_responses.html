@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -721,23 +737,23 @@ library(tidybayes)</code></pre>
 ## post-warmup draws per chain=1000, total post-warmup draws=3000.
 ## 
 ##              mean se_mean   sd 2.5%  25%  50%  75%  98% n_eff Rhat
-## theta_0[1,1] 0.33       0 0.06 0.21 0.28 0.33 0.37 0.46  7854    1
-## theta_0[1,2] 0.24       0 0.06 0.13 0.20 0.23 0.27 0.36  7504    1
-## theta_0[1,3] 0.14       0 0.05 0.07 0.11 0.14 0.17 0.24  7228    1
-## theta_0[1,4] 0.15       0 0.05 0.07 0.11 0.14 0.17 0.25  6898    1
-## theta_0[1,5] 0.14       0 0.05 0.07 0.11 0.14 0.17 0.25  7480    1
-## theta_0[2,1] 0.16       0 0.05 0.08 0.13 0.16 0.19 0.27  7794    1
-## theta_0[2,2] 0.20       0 0.05 0.11 0.16 0.20 0.23 0.32  7952    1
-## theta_0[2,3] 0.31       0 0.06 0.20 0.27 0.31 0.35 0.44  7585    1
-## theta_0[2,4] 0.11       0 0.04 0.04 0.08 0.10 0.13 0.20  6893    1
-## theta_0[2,5] 0.22       0 0.06 0.12 0.18 0.21 0.25 0.33  6533    1
-## theta_0[3,1] 0.22       0 0.05 0.12 0.18 0.21 0.25 0.33  6973    1
-## theta_0[3,2] 0.22       0 0.05 0.12 0.18 0.22 0.25 0.33  6779    1
-## theta_0[3,3] 0.25       0 0.06 0.15 0.21 0.25 0.29 0.38  7537    1
-## theta_0[3,4] 0.13       0 0.04 0.05 0.10 0.12 0.15 0.23  6668    1
-## theta_0[3,5] 0.18       0 0.05 0.09 0.14 0.18 0.22 0.29  7994    1
+## theta_0[1,1] 0.33       0 0.07 0.21 0.28 0.32 0.37 0.46  6221    1
+## theta_0[1,2] 0.24       0 0.06 0.14 0.19 0.23 0.27 0.36  6461    1
+## theta_0[1,3] 0.15       0 0.05 0.07 0.11 0.14 0.18 0.25  5846    1
+## theta_0[1,4] 0.14       0 0.05 0.06 0.11 0.14 0.17 0.25  6077    1
+## theta_0[1,5] 0.15       0 0.05 0.07 0.11 0.14 0.18 0.25  6320    1
+## theta_0[2,1] 0.16       0 0.05 0.08 0.13 0.16 0.19 0.26  6448    1
+## theta_0[2,2] 0.20       0 0.05 0.10 0.16 0.19 0.24 0.31  6637    1
+## theta_0[2,3] 0.31       0 0.06 0.20 0.27 0.31 0.35 0.43  6076    1
+## theta_0[2,4] 0.11       0 0.04 0.04 0.08 0.10 0.13 0.20  6022    1
+## theta_0[2,5] 0.22       0 0.06 0.12 0.18 0.21 0.26 0.34  5735    1
+## theta_0[3,1] 0.22       0 0.06 0.12 0.18 0.21 0.25 0.33  7842    1
+## theta_0[3,2] 0.22       0 0.06 0.12 0.18 0.21 0.25 0.33  7388    1
+## theta_0[3,3] 0.25       0 0.06 0.15 0.21 0.25 0.29 0.38  7063    1
+## theta_0[3,4] 0.13       0 0.05 0.05 0.09 0.12 0.16 0.23  6601    1
+## theta_0[3,5] 0.18       0 0.05 0.09 0.15 0.18 0.21 0.29  7499    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:01:00 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:32:56 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -747,23 +763,23 @@ library(tidybayes)</code></pre>
 ## post-warmup draws per chain=1000, total post-warmup draws=3000.
 ## 
 ##              mean se_mean   sd 2.5%  25%  50%  75%  98% n_eff Rhat
-## theta_1[1,1] 0.33       0 0.06 0.21 0.29 0.33 0.37 0.45  8631    1
-## theta_1[1,2] 0.13       0 0.05 0.05 0.09 0.12 0.15 0.23  7115    1
-## theta_1[1,3] 0.13       0 0.04 0.05 0.09 0.12 0.15 0.23  5467    1
-## theta_1[1,4] 0.22       0 0.05 0.12 0.18 0.21 0.25 0.33  7476    1
-## theta_1[1,5] 0.20       0 0.05 0.11 0.16 0.20 0.24 0.31  6973    1
-## theta_1[2,1] 0.55       0 0.07 0.42 0.50 0.55 0.59 0.67  7236    1
-## theta_1[2,2] 0.09       0 0.04 0.03 0.06 0.09 0.11 0.18  6654    1
-## theta_1[2,3] 0.13       0 0.04 0.06 0.09 0.12 0.15 0.23  5680    1
-## theta_1[2,4] 0.15       0 0.05 0.07 0.11 0.14 0.17 0.25  6202    1
-## theta_1[2,5] 0.09       0 0.04 0.03 0.06 0.09 0.11 0.18  5211    1
-## theta_1[3,1] 0.18       0 0.05 0.10 0.14 0.18 0.21 0.29  7474    1
-## theta_1[3,2] 0.25       0 0.06 0.15 0.21 0.25 0.29 0.37  7686    1
-## theta_1[3,3] 0.18       0 0.05 0.09 0.15 0.18 0.21 0.29  7503    1
-## theta_1[3,4] 0.18       0 0.05 0.09 0.14 0.18 0.22 0.29  7837    1
-## theta_1[3,5] 0.20       0 0.05 0.11 0.16 0.20 0.24 0.31  9464    1
+## theta_1[1,1] 0.33       0 0.06 0.21 0.28 0.33 0.37 0.46  6667    1
+## theta_1[1,2] 0.13       0 0.04 0.06 0.09 0.12 0.15 0.22  7069    1
+## theta_1[1,3] 0.13       0 0.04 0.05 0.10 0.12 0.15 0.22  4609    1
+## theta_1[1,4] 0.22       0 0.06 0.12 0.18 0.22 0.25 0.34  6389    1
+## theta_1[1,5] 0.20       0 0.05 0.11 0.16 0.20 0.23 0.31  8081    1
+## theta_1[2,1] 0.55       0 0.07 0.41 0.50 0.55 0.59 0.68  7694    1
+## theta_1[2,2] 0.09       0 0.04 0.03 0.06 0.09 0.11 0.18  5528    1
+## theta_1[2,3] 0.13       0 0.05 0.05 0.09 0.12 0.16 0.23  6236    1
+## theta_1[2,4] 0.15       0 0.05 0.06 0.11 0.14 0.18 0.25  5285    1
+## theta_1[2,5] 0.09       0 0.04 0.03 0.06 0.09 0.11 0.18  6102    1
+## theta_1[3,1] 0.18       0 0.05 0.09 0.15 0.18 0.21 0.29  6327    1
+## theta_1[3,2] 0.26       0 0.06 0.15 0.21 0.25 0.29 0.38  7521    1
+## theta_1[3,3] 0.18       0 0.05 0.09 0.15 0.18 0.21 0.29  6531    1
+## theta_1[3,4] 0.18       0 0.05 0.09 0.14 0.18 0.21 0.30  6593    1
+## theta_1[3,5] 0.20       0 0.05 0.11 0.16 0.20 0.23 0.31  5671    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:01:00 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:32:56 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -777,7 +793,7 @@ library(tidybayes)</code></pre>
 
 acc &lt;- round(mean(pred$.pred == new_df$y), 2)
 cat(&quot;The classification accuracy is:&quot;, acc)</code></pre>
-<pre><code>## The classification accuracy is: 0.66</code></pre>
+<pre><code>## The classification accuracy is: 0.67</code></pre>
 <pre class="r"><code>theta_0_draws &lt;- fit %&gt;%  
   spread_draws(theta_0[i, j])
 

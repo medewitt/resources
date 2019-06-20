@@ -96,7 +96,7 @@ util <- new.env()
 source('stan_utilities.R', local=util)
 ```
 
-```{r checks, eval=FALSE}
+```{r checks}
 util$check_all_diagnostics(fit)
 ```
 

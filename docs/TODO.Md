@@ -19,3 +19,8 @@
 https://github.com/sara-vanerp/bayesreg/tree/master/src/stan_files
 
 - [nowcasting](https://github.com/khakieconomics/nowcasting_in_stan/blob/master/Nowcasting_with_stan.R
+
+
+- <https://github.com/ellisp/ozfedelect/blob/master/model-2pp/model-2pp.stan>
+
+- <https://discourse.mc-stan.org/t/heckman-selection-model-code-simulation/4853>

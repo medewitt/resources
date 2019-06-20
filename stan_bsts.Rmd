@@ -172,7 +172,7 @@ plot(y)
 
 ## Stan Model
 
-```{r stan-bsts, comment=""}
+```{r stan-bsts2, comment=""}
 writeLines(readLines("stan_bsts_seasonal.stan"))
 ```
 
@@ -201,7 +201,7 @@ fit <-sampling(model_season, stan_dat_seasonal,
                refresh = 0)
 ```
 
-```{r checks, eval=FALSE}
+```{r checks2, eval=FALSE}
 util$check_all_diagnostics(fit)
 ```
 

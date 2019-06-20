@@ -1,7 +1,6 @@
 // From https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256
 
 data {
-
   int <lower=0> t; // number of observations
   int <lower=1> K; // number of predictors 
   matrix[t, K] x; // predictors

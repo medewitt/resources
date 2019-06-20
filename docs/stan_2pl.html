@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -589,6 +605,9 @@ model {
 ## options(mc.cores = parallel::detectCores()).
 ## To avoid recompilation of unchanged Stan programs, we recommend calling
 ## rstan_options(auto_write = TRUE)</code></pre>
+<pre><code>## For improved execution time, we recommend calling
+## Sys.setenv(LOCAL_CPPFLAGS = &#39;-march=native&#39;)
+## although this causes Stan to throw an error on a few processors.</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;rstan&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:tidyr&#39;:
@@ -599,8 +618,10 @@ model &lt;- stan_model(&quot;stan_2pl.stan&quot;)</code></pre>
 <p>Now we can run our compiled model with our data:</p>
 <pre class="r"><code>fit_2pl &lt;- sampling(model, stan_dat, 
                     cores = 2, chains = 2, iter = 2000, refresh = 0)</code></pre>
-<pre><code>## Warning: There were 47 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
+<pre><code>## Warning: There were 1897 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>## Warning: There were 39 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
 </div>
 <div id="model-checking" class="section level2">
@@ -618,19 +639,19 @@ source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
 ## 2 chains, each with iter=2000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##           mean se_mean  sd   2.5%  25%   50%   75%  98% n_eff Rhat
-## beta[1]  -0.79    0.16 2.3  -6.15 -2.0 -0.51  0.62 3.14   214    1
-## beta[2]  -1.46    0.14 2.5  -7.14 -2.7 -1.11  0.17 2.65   305    1
-## beta[3]  -1.49    0.15 2.6  -7.73 -2.9 -1.16  0.35 2.72   323    1
-## beta[4]  -4.75    0.15 3.2 -11.48 -6.7 -4.55 -2.49 0.66   455    1
-## beta[5]   3.25    0.11 2.2  -0.44  1.8  2.97  4.36 8.37   397    1
-## beta[6]   3.01    0.14 2.5  -1.52  1.4  2.76  4.47 8.51   325    1
-## beta[7]   0.49    0.17 3.5  -7.96 -1.3  0.63  2.61 6.74   431    1
-## beta[8]   3.98    0.13 2.6  -0.47  2.3  3.81  5.51 9.64   416    1
-## beta[9]  -4.00    0.17 3.2 -11.22 -5.8 -3.59 -1.77 0.95   337    1
-## beta[10]  0.09    0.14 1.8  -3.38 -1.1  0.17  1.25 3.50   175    1
+##           mean se_mean  sd  2.5%   25%   50%   75%   98% n_eff Rhat
+## beta[1]  -0.69    1.00 2.2  -9.1 -1.21 -0.68 -0.16  3.31     5  1.3
+## beta[2]  -1.38    1.21 1.5  -4.2 -2.32 -1.46 -0.49  2.40     2  2.1
+## beta[3]  -1.19    0.63 2.3  -5.6 -2.65 -0.94 -0.38  5.26    13  1.3
+## beta[4]  -5.89    0.38 1.9  -8.9 -7.16 -6.19 -4.72 -1.12    26  1.1
+## beta[5]   0.88    0.44 2.3  -3.9  0.08  0.80  1.40  6.71    28  1.0
+## beta[6]  -0.01    0.83 3.9 -11.0 -1.91  0.05  2.29  8.33    21  1.2
+## beta[7]   2.15    0.85 4.0  -5.1 -0.53  2.37  4.98  9.32    22  1.0
+## beta[8]  -1.70    3.93 5.9 -11.8 -5.74 -2.86  2.56 10.78     2  1.3
+## beta[9]  -3.01    1.47 2.1  -7.2 -4.09 -3.14 -1.73  0.73     2  1.8
+## beta[10]  0.11    0.63 1.2  -1.1 -0.69 -0.24  0.33  3.23     3  1.9
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:00:53 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:09:27 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -640,30 +661,39 @@ source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
 ## 2 chains, each with iter=2000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=1000, total post-warmup draws=2000.
 ## 
-##            mean se_mean    sd 2.5%  25%  50%   75%   98% n_eff Rhat
-## gamma[1]   2.11    0.19  3.86 0.16 0.60 1.18  2.18 10.22   413  1.0
-## gamma[2]   6.61    0.89 12.51 0.29 1.04 2.28  5.88 52.83   196  1.0
-## gamma[3]   1.28    0.54  4.92 0.07 0.25 0.49  0.93  3.74    84  1.0
-## gamma[4]   0.31    0.01  0.21 0.07 0.17 0.26  0.38  0.86   616  1.0
-## gamma[5]   2.02    0.43  6.20 0.06 0.32 0.68  1.38 14.24   208  1.0
-## gamma[6]   2.87    1.03  8.06 0.02 0.25 0.67  1.60 32.59    61  1.1
-## gamma[7]   0.28    0.04  0.42 0.01 0.06 0.13  0.32  1.43   129  1.0
-## gamma[8]   0.45    0.02  0.41 0.03 0.17 0.33  0.59  1.50   614  1.0
-## gamma[9]   0.49    0.02  0.36 0.11 0.25 0.39  0.60  1.51   275  1.0
-## gamma[10] 12.16    0.92 17.52 0.39 2.78 5.71 13.98 61.90   364  1.0
+##              mean se_mean      sd 2.5%   25%    50%     75%     98% n_eff
+## gamma[1]  1.4e+00 1.9e-01 9.0e-01 0.19  0.98   1.38 1.7e+00 3.6e+00    22
+## gamma[2]  1.3e+02 1.2e+02 4.8e+02 0.66  1.35   3.10 1.4e+01 2.0e+03    17
+## gamma[3]  5.8e-01 4.2e-01 5.7e-01 0.00  0.00   0.45 1.0e+00 1.9e+00     2
+## gamma[4]  2.3e-01 2.0e-02 8.0e-02 0.10  0.17   0.22 2.5e-01 4.4e-01    26
+## gamma[5]  1.9e+12 1.9e+12 1.2e+13 0.00  0.00   0.06 2.5e+09 1.6e+13    43
+## gamma[6]  0.0e+00 0.0e+00 5.0e-02 0.00  0.00   0.00 0.0e+00 0.0e+00   333
+## gamma[7]  0.0e+00 0.0e+00 0.0e+00 0.00  0.00   0.00 0.0e+00 0.0e+00  1574
+## gamma[8]  0.0e+00 0.0e+00 1.0e-02 0.00  0.00   0.00 0.0e+00 0.0e+00    79
+## gamma[9]  4.7e-01 1.9e-01 3.0e-01 0.24  0.30   0.34 5.5e-01 1.6e+00     2
+## gamma[10] 1.4e+05 1.4e+05 3.8e+05 5.90 44.46 158.76 3.6e+03 1.3e+06     7
+##           Rhat
+## gamma[1]   1.1
+## gamma[2]   1.1
+## gamma[3]   1.7
+## gamma[4]   1.1
+## gamma[5]   1.0
+## gamma[6]   1.0
+## gamma[7]   1.0
+## gamma[8]   1.0
+## gamma[9]   1.4
+## gamma[10]  1.4
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Feb 26 22:00:53 2019.
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:09:27 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
 <div id="summarising-with-icc" class="section level3">
 <h3>Summarising with ICC</h3>
 <p>Now we can pull out some of our valuess and plot the ICCs for the different items.</p>
-<pre class="r"><code>library(tidybayes)</code></pre>
-<pre><code>## NOTE: As of tidybayes version 1.0, several functions, arguments, and output column names
-##       have undergone significant name changes in order to adopt a unified naming scheme.
-##       See help(&#39;tidybayes-deprecated&#39;) for more information.</code></pre>
-<pre class="r"><code>difficulties &lt;- extract(fit_2pl)[&quot;beta&quot;][[1]] %&gt;% 
+<pre class="r"><code>library(tidybayes)
+
+difficulties &lt;- extract(fit_2pl)[&quot;beta&quot;][[1]] %&gt;% 
   as_tibble() %&gt;% 
   colMeans()
 
@@ -679,6 +709,12 @@ ability_range &lt;- seq(-4,4, .05)
 probs &lt;- crossing(instrument, ability_range) %&gt;% 
   rowwise() %&gt;% 
   mutate(prob = arm::invlogit(discrimination*(ability_range-difficulties)))</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
+##   method                          from
+##   cooks.distance.influence.merMod car 
+##   influence.merMod                car 
+##   dfbeta.influence.merMod         car 
+##   dfbetas.influence.merMod        car</code></pre>
 <p>And now we can look at our ICCs.</p>
 <pre class="r"><code>probs %&gt;% 
   ggplot(aes(ability_range, prob, group = item_id, color = item_id))+

@@ -86,9 +86,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -206,8 +204,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -355,8 +351,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -365,6 +359,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -413,6 +417,18 @@ div.tocify {
     </li>
     <li>
       <a href="resources_privacy.html">Privacy Methods</a>
+    </li>
+    <li>
+      <a href="data_viz.html">Data Viz</a>
+    </li>
+    <li>
+      <a href="resources_clt.html">Command Line Tools</a>
+    </li>
+    <li>
+      <a href="resources_causal_inference.html">Causal Inference</a>
+    </li>
+    <li>
+      <a href="academic_writing.html">Presentation and Writing</a>
     </li>
   </ul>
 </li>
@@ -500,14 +516,22 @@ div.tocify {
 </div>
 
 
-<pre><code>library(&#39;rstan&#39;)
+<p>This post is inspired by these two posts, <a href="http://www.unofficialgoogledatascience.com/2017/07/fitting-bayesian-structural-time-series.html">Fitting Bayesian structural time series with the bsts R package</a> and a subsequent post on the Stan help page <a href="https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256">here</a>.</p>
+<pre class="r"><code>library(&#39;rstan&#39;)
 rstan_options(auto_write = TRUE)
-options(mc.cores = parallel::detectCores())</code></pre>
-<pre><code># Generate dummy data for model testing
-# model: y[t] = u[t] + b*x[t] + s_obs , s_* is sigma of noise
-#        u[t+1] = u[t] + v[t] + s_level
-#        v[t+1] = v[1] + s_slope</code></pre>
-<pre class="r"><code>beta &lt;- rnorm(250,1,0.1)
+options(mc.cores = parallel::detectCores())
+library(dplyr)</code></pre>
+<div id="data-generating-process" class="section level2">
+<h2>Data Generating Process</h2>
+<p>Regression State <span class="math display">\[y_t = \mu_t + \beta^Tx_t + \epsilon_t\]</span></p>
+<p>Trend State</p>
+<p><span class="math display">\[\mu_{t+1}=\mu_t+\delta_t+\eta_{0t}\]</span></p>
+<pre class="r"><code>set.seed(336)
+x1 &lt;- rnorm(250,1,0.1)
+x2 &lt;- rnorm(250, 0, 1)
+x3 &lt;- rnorm(250, 1, .5)
+
+preds &lt;- data.frame(x1 = x1, x2 = x2, x3 = x3)
 v &lt;- rep(-0.0001,250)
 u &lt;- rep(0.0,250)
 s_slope &lt;- rnorm(250,0,0.005)
@@ -516,18 +540,238 @@ for (i in 2:250){
   u[i] &lt;- u[i-1] + v[i-1] + s_level[i-1]
   v[i] &lt;- v[i-1] + s_slope[i-1]
 }
+
 s_obs &lt;- rnorm(250,0,1)
 x &lt;- runif(250,0,1)
-y &lt;- u + beta*x + s_obs
+y &lt;- u + 5*x1 + 1*x2 + -.75*x3+ s_obs
 n &lt;- 250
+x &lt;- as.matrix(preds)
+k &lt;- ncol(preds)
 ytrain &lt;- y[1:n]
-xtrain &lt;- x[1:n]</code></pre>
-<pre><code>#Load stan model file, and fit to data
-fit &lt;- stan(file = &#39;test.stan&#39;, data = list( T = length(ytrain), y = ytrain, x = xtrain) , iter=500, chains=4, control = list(max_treedepth = 10))
-</code></pre>
-<div id="do-pairs-plot-of-different-parameters" class="section level1">
-<h1>Do pairs plot of different parameters</h1>
-<p>pairs(fit,pars = c(“s_slope”,“s_level”,“s_obs”,“beta”))</p>
+xtrain &lt;- x[1:n,]
+
+plot(y)</code></pre>
+<p><img src="stan_bsts_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="stan" class="section level2">
+<h2>Stan</h2>
+<p>Develop the Stan model</p>
+<pre class="r"><code>writeLines(readLines(&quot;stan_bsts.stan&quot;))</code></pre>
+<pre><code>// From https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256
+
+data {
+  int &lt;lower=0&gt; t; // number of observations
+  int &lt;lower=1&gt; K; // number of predictors 
+  matrix[t, K] x; // predictors
+  vector[t] y; // outcomes
+}
+
+parameters {
+  vector[t] u_err; //Slope innovation
+  vector[t] v_err; //Level innovation
+  vector[K] beta;
+  real &lt;lower=0&gt; s_obs;
+  real &lt;lower=0&gt; s_slope;
+  real &lt;lower=0&gt; s_level;
+}
+
+transformed parameters {
+  vector[t] u; //Level
+  vector[t] v; //Slope
+  u[1] = u_err[1];
+  v[1] = v_err[1];
+  for (i in 2:t) {
+    u[i] = u[i-1] + v[i-1] + s_level * u_err[i];
+    v[i] = v[i-1] + s_slope * v_err[i];
+  }
+}
+
+model {
+  u_err ~ normal(0,1);
+  v_err ~ normal(0,1);
+  
+  y ~ normal (x*beta + u, s_obs); //u
+}</code></pre>
+<pre class="r"><code>stan_dat = list( t = length(ytrain), 
+                 y = ytrain, 
+                 x = xtrain,
+                 K = k)</code></pre>
+<p>Compile the Stan model.</p>
+<pre class="r"><code>model_bsts &lt;- stan_model(&quot;stan_bsts.stan&quot;)</code></pre>
+<p>The run the model with our data.</p>
+<pre class="r"><code>#Load stan model file, and fit to data
+fit &lt;- sampling(model_bsts , stan_dat,
+                iter=1000, 
+                chains=3, 
+                control = list(max_treedepth = 15,
+                               adapt_delta = .95), refresh =0)</code></pre>
+<pre><code>## Warning: There were 23 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
+## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+</div>
+<div id="model-checking" class="section level2">
+<h2>Model Checking</h2>
+<p>And as always special thanks to <a href="https://betanalpha.github.io/">Michael Betancourt</a> for these amazing tools for diagnostics.</p>
+<pre class="r"><code>util &lt;- new.env()
+source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
+<pre class="r"><code>util$check_all_diagnostics(fit)</code></pre>
+<div id="do-pairs-plot-of-different-parameters" class="section level3">
+<h3>Do pairs plot of different parameters</h3>
+<pre class="r"><code>pairs(fit,pars = c(&quot;s_slope&quot;,&quot;s_level&quot;,&quot;s_obs&quot;,&quot;beta&quot;))</code></pre>
+<p><img src="stan_bsts_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>traceplot(fit, pars = &quot;beta&quot;)</code></pre>
+<p><img src="stan_bsts_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+</div>
+<div id="inference" class="section level2">
+<h2>Inference</h2>
+<pre class="r"><code>print(fit, pars = &quot;beta&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_bsts.
+## 3 chains, each with iter=1000; warmup=500; thin=1; 
+## post-warmup draws per chain=500, total post-warmup draws=1500.
+## 
+##          mean se_mean   sd  2.5%  25%   50%   75%   98% n_eff Rhat
+## beta[1]  4.98    0.01 0.51  3.96  4.7  4.98  5.32  5.98  1280    1
+## beta[2]  1.06    0.00 0.06  0.95  1.0  1.06  1.10  1.17  1997    1
+## beta[3] -0.96    0.00 0.13 -1.20 -1.0 -0.96 -0.88 -0.72  1775    1
+## 
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:20:22 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+</div>
+<div id="add-seasonality" class="section level2">
+<h2>Add Seasonality?</h2>
+<div id="data-generating-process-1" class="section level3">
+<h3>Data Generating Process</h3>
+<p>Regression State <span class="math display">\[y_t = \mu_t + \tau_t + \beta^Tx_t + \epsilon_t\]</span></p>
+<p>Trend State</p>
+<p><span class="math display">\[\mu_{t+1}=\mu_t+\delta_t+\eta_{0t}\]</span></p>
+<p>Seasonal Pattern</p>
+<p><span class="math display">\[\tau_{t+1}=-\Sigma_{s=1}^{s-1}\tau_t+\eta_{2t}\]</span></p>
+</div>
+</div>
+<div id="generate-fake-data" class="section level2">
+<h2>Generate Fake Data</h2>
+<pre class="r"><code>set.seed(336)
+x1 &lt;- rnorm(250,1,0.1)
+x2 &lt;- rnorm(250, 1, .1)
+x3 &lt;- rnorm(250, 1, .5)
+
+preds &lt;- data.frame(x1 = x1, x2 = x2, x3 = x3)
+v &lt;- rep(-0.0001,250)
+u &lt;- rep(0.0,250)
+s_slope &lt;- rnorm(250,0,0.005)
+s_level &lt;- rnorm(250,0,0.005)
+
+for (i in 2:250){
+  u[i] &lt;- u[i-1] + v[i-1] + s_level[i-1]
+  v[i] &lt;- v[i-1] + s_slope[i-1]
+}
+
+# Seasonal Component with freq = 12
+t &lt;- seq(0,1, by = 1/250)
+
+tau &lt;-vector()
+
+tau&lt;- 1*sin(12*pi*t*2)
+
+plot(tau)</code></pre>
+<p><img src="stan_bsts_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>s_obs &lt;- rnorm(250,0,1)
+x &lt;- runif(250,0,1)
+y &lt;- u + 5*x1 + 1*x2 + -.75*x3+ s_obs + tau[-251]
+n &lt;- 250
+x &lt;- as.matrix(preds)
+k &lt;- ncol(preds)
+ytrain &lt;- y[1:n]
+xtrain &lt;- x[1:n,]
+
+plot(y)</code></pre>
+<p><img src="stan_bsts_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+</div>
+<div id="stan-model" class="section level2">
+<h2>Stan Model</h2>
+<pre class="r"><code>writeLines(readLines(&quot;stan_bsts_seasonal.stan&quot;))</code></pre>
+<pre><code>// From https://discourse.mc-stan.org/t/bayesian-structural-time-series-modeling/2256
+
+data {
+  int &lt;lower=0&gt; t; // number of observations
+  int &lt;lower=1&gt; K; // number of predictors 
+  matrix[t, K] x; // predictors
+  vector[t] y; // outcomes
+  int &lt;lower=1&gt; frequency; // seasonality
+}
+
+parameters {
+  vector[t] u_err; //Slope innovation
+  vector[t] v_err; //Level innovation
+  vector[t] seasonal; // seasonality
+  vector[K] beta;
+  real &lt;lower=0&gt; s_obs;
+  real &lt;lower=0&gt; s_slope;
+  real &lt;lower=0&gt; s_level;
+  real &lt;lower=0&gt; s_season;
+}
+
+transformed parameters {
+  vector[t] u; //Level
+  vector[t] v; //Slope
+  u[1] = u_err[1];
+  v[1] = v_err[1];
+  for (i in 2:t) {
+    u[i] = u[i-1] + v[i-1] + s_level * u_err[i];
+    v[i] = v[i-1] + s_slope * v_err[i];
+  }
+  
+}
+
+model {
+  u_err ~ normal(0,1);
+  v_err ~ normal(0,1);
+  
+  // Seasonal Component
+  for (i in frequency:t) {
+        seasonal[i] ~ normal(- sum(seasonal[i-(frequency-1):i-1]), s_season);
+    }
+  
+  y ~ normal (x*beta + u + seasonal, s_obs); // model
+}</code></pre>
+<p>Now let’s compule the model:</p>
+<pre class="r"><code>model_season &lt;- stan_model(&quot;stan_bsts_seasonal.stan&quot;)</code></pre>
+<p>Prepare the data for Stan.</p>
+<pre class="r"><code>stan_dat_seasonal = list( t = length(ytrain), 
+                 y = ytrain, 
+                 x = xtrain,
+                 K = k,
+                 frequency = 12)</code></pre>
+<p>Then fit the model.</p>
+<pre class="r"><code>fit &lt;-sampling(model_season, stan_dat_seasonal, 
+               iter = 1000, cores = 2, chain = 2,
+               control = list(max_treedepth = 15, adapt_delta = .99), 
+               refresh = 0)</code></pre>
+<pre><code>## Warning: There were 2 divergent transitions after warmup. Increasing adapt_delta above 0.99 may help. See
+## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>## Warning: There were 2 chains where the estimated Bayesian Fraction of Missing Information was low. See
+## http://mc-stan.org/misc/warnings.html#bfmi-low</code></pre>
+<pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+<pre class="r"><code>util$check_all_diagnostics(fit)</code></pre>
+<pre class="r"><code>print(fit, &quot;beta&quot;)</code></pre>
+<pre><code>## Inference for Stan model: stan_bsts_seasonal.
+## 2 chains, each with iter=1000; warmup=500; thin=1; 
+## post-warmup draws per chain=500, total post-warmup draws=1000.
+## 
+##         mean se_mean   sd  2.5%  25%  50%   75%   98% n_eff Rhat
+## beta[1]  5.2    0.03 0.62  3.96  4.7  5.2  5.60  6.44   603    1
+## beta[2]  1.7    0.02 0.55  0.67  1.4  1.7  2.10  2.83   697    1
+## beta[3] -1.0    0.01 0.15 -1.30 -1.1 -1.0 -0.92 -0.73   611    1
+## 
+## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:31:36 2019.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<pre class="r"><code>pairs(fit, pars = c(&quot;beta&quot;, &quot;s_obs&quot;, &quot;s_season&quot;))</code></pre>
+<p><img src="stan_bsts_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 
   <br>

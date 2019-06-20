@@ -2,7 +2,7 @@
 title: "Confirmatory Factor Analysis in Stan"
 ---
 
-```{r setup, include=FALSE}
+```{r include=FALSE}
 library(tidyverse, quietly = T)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
