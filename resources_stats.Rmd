@@ -109,6 +109,10 @@ Do it right...
 
 [Hierarchical 2PL](https://mc-stan.org/users/documentation/case-studies/hierarchical_2pl.html)
 
+[Change Point Analysis with Stan](http://nowave.it/pages/bayesian-changepoint-detection-with-r-and-stan.html)
+
+[More changepoint analysis](https://www.r-bloggers.com/a-simple-intro-to-bayesian-change-point-analysis/)
+
 ## Stan SEM
 
 <http://rpubs.com/jebyrnes/343408>

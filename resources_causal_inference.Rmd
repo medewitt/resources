@@ -16,6 +16,12 @@ biblio-style: apalike
 
 [Causal Graphs Seminar](http://julianschuessler.net/graphs2018.html)
 
+[50+ DAGS from Hernan and Robins](https://sgfin.github.io/2019/06/19/Causal-Inference-Book-All-DAGs/)
+
+[Notes on Hernan and Robins](https://sgfin.github.io/2019/06/19/Causal-Inference-Book-Glossary-and-Notes/)
+
+[Causal Inference at Uber](https://eng.uber.com/causal-inference-at-uber/)
+
 ## Instrumental Variables
 
 <http://modernstatisticalworkflow.blogspot.com/2017/11/bayesian-instrumental-variables-with.html?m=1>
