@@ -27,3 +27,13 @@ title: "Presentations and  Writing"
 [make slides](https://kieranhealy.org/blog/archives/2018/03/24/making-slides/)
 
 [design for an audience](http://style.org/ku/)
+
+```
+YAML:
+
+---
+output:
+  html_document:
+    code_download: true
+---
+```

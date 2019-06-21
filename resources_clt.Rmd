@@ -36,3 +36,7 @@ title: "Shell Tools"
 ## AWS
 
 <https://www.daeconomist.com/post/2018-06-27-aws/>
+
+## regex
+
+<https://www.regular-expressions.info/dates.html?wlr=1>

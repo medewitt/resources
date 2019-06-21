@@ -75,7 +75,7 @@ model_bsts <- stan_model("stan_bsts.stan")
 
 The run the model with our data.
 
-```{r}
+```{r cache=TRUE}
 #Load stan model file, and fit to data
 fit <- sampling(model_bsts , stan_dat,
                 iter=1000, 
@@ -194,7 +194,7 @@ stan_dat_seasonal = list( t = length(ytrain),
 
 Then fit the model.
 
-```{r}
+```{r cache=TRUE}
 fit <-sampling(model_season, stan_dat_seasonal, 
                iter = 1000, cores = 2, chain = 2,
                control = list(max_treedepth = 15, adapt_delta = .99), 
