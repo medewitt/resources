@@ -19,7 +19,7 @@ $(DOCS)/%.html: $(RDIR)/%.Rmd
 
 # Clean up
 clean:
-	rm -fv $(MUNGE_OUT_FILES)
+	rm -fv $(DOCS_OUT_FILES)
 
 
 .PHONY: all clean

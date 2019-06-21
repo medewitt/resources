@@ -30,13 +30,13 @@
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117944166-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110093032-1"></script>
 <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       
-      gtag('config', 'UA-117944166-1');
+      gtag('config', 'UA-110093032-1');
       </script>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -605,7 +605,7 @@ fit &lt;- sampling(model_bsts , stan_dat,
                 chains=3, 
                 control = list(max_treedepth = 15,
                                adapt_delta = .95), refresh =0)</code></pre>
-<pre><code>## Warning: There were 23 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
+<pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
 </div>
@@ -631,11 +631,11 @@ source(&#39;stan_utilities.R&#39;, local=util)</code></pre>
 ## post-warmup draws per chain=500, total post-warmup draws=1500.
 ## 
 ##          mean se_mean   sd  2.5%  25%   50%   75%   98% n_eff Rhat
-## beta[1]  4.98    0.01 0.51  3.96  4.7  4.98  5.32  5.98  1280    1
-## beta[2]  1.06    0.00 0.06  0.95  1.0  1.06  1.10  1.17  1997    1
-## beta[3] -0.96    0.00 0.13 -1.20 -1.0 -0.96 -0.88 -0.72  1775    1
+## beta[1]  4.99    0.01 0.52  3.94  4.6  4.98  5.34  6.00  1539    1
+## beta[2]  1.06    0.00 0.06  0.94  1.0  1.06  1.10  1.18  3098    1
+## beta[3] -0.95    0.00 0.12 -1.18 -1.0 -0.95 -0.87 -0.71  3565    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:20:22 2019.
+## Samples were drawn using NUTS(diag_e) at Fri Jun 21 08:45:42 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -766,7 +766,7 @@ model {
 ## beta[2]  1.7    0.02 0.55  0.67  1.4  1.7  2.10  2.83   697    1
 ## beta[3] -1.0    0.01 0.15 -1.30 -1.1 -1.0 -0.92 -0.73   611    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Jun 20 10:31:36 2019.
+## Samples were drawn using NUTS(diag_e) at Fri Jun 21 13:07:25 2019.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
