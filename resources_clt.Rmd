@@ -17,6 +17,8 @@ title: "Shell Tools"
 
 [Advanced R Solution](https://advanced-r-solutions.rbind.io/)
 
+[clt + data.table](https://jozef.io/r917-fread-comparisons/)
+
 ## TikZ
 
 <https://sites.google.com/site/kochiuyu/Tikz>
