@@ -26,6 +26,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [Urban Institute Graphics](https://ui-research.github.io/r-at-urban/graphics-guide.html)
 
+[Urban Institute Themes](https://github.com/UI-Research/urbnthemes)
+
 [ggplot2 at the BBC](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535)
 
 [Datatypes in R](https://www.trafforddatalab.io/graphics_companion/index.html#deviation)
