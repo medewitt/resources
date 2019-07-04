@@ -21,6 +21,8 @@ title: "Shell Tools"
 
 [dplyr and data.table](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/)
 
+[Unit Tests for web connections](https://community.rstudio.com/t/unit-testing-for-non-working-internet-connection/31894)
+
 ## TikZ
 
 <https://sites.google.com/site/kochiuyu/Tikz>

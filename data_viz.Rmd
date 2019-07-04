@@ -18,15 +18,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Design
 
-### Coloring for Colorblindness
-
-<https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D>
+[Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D)
 
 [Financial Times Story Playbook](https://github.com/ft-interactive/story-playbook/blob/master/README.md)
 
 [Urban Institute Graphics](https://ui-research.github.io/r-at-urban/graphics-guide.html)
 
 [Urban Institute Themes](https://github.com/UI-Research/urbnthemes)
+
+[US Gov Colour Palette](https://designsystem.digital.gov/design-tokens/color/overview/)
 
 [ggplot2 at the BBC](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535)
 

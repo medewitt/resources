@@ -143,6 +143,8 @@ World happiness report
 
 [Opportunity Insights](https://opportunityinsights.org/paper/land-of-opportunity/)
 
+[us treasurey daily statements](https://github.com/seanjtaylor/treasury-data)
+
 ## Example jsons
 
 <https://github.com/jdorfman/awesome-json-datasets/blob/master/README.md>

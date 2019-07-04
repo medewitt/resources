@@ -4,6 +4,8 @@ title: "Privacy Methods"
 
 This page contains information regarding differential privacy, assessing the risk for disclosing microdata, and other methods used for preserving the privacy of data.
 
+More info [here](https://github.com/frankmcsherry/blog/blob/master/posts/2019-04-12.md)
+
 ## Examples
 
 [Differential Privacy](differential_privacy.html)

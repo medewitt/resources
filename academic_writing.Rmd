@@ -20,6 +20,12 @@ title: "Presentations and  Writing"
 
 [fair ML](https://avehtari.github.io/modelselection/rats_kcv.html)
 
+## Using Rmarkdown
+
+[Rmarkdown for Everything](http://cmcr-class.rbind.io/blog/2019/01/22/rmarkdown-everywhere/)
+
+[templated reports](https://sharla.party/posts/usethis-for-reporting/)
+
 ## How Tos
 
 [write a thesis](https://www.cs.jhu.edu/~jason/advice/how-to-write-a-thesis.html)
@@ -31,6 +37,12 @@ title: "Presentations and  Writing"
 [Gelman on Writing](https://statmodeling.stat.columbia.edu/2009/07/30/advice_on_writi/)
 
 [Gelman on Reading](https://statmodeling.stat.columbia.edu/2014/12/02/read-quantitative-social-science-implication-write/)
+
+[case writing method](https://timvangelder.com/2019/04/07/what-is-the-case-schema/)
+
+## citations
+
+[zotero and rmarkdown](https://ikashnitsky.github.io/2019/zotero/)
 
 ```
 YAML:
