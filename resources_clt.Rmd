@@ -19,6 +19,8 @@ title: "Shell Tools"
 
 [clt + data.table](https://jozef.io/r917-fread-comparisons/)
 
+[dplyr and data.table](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/)
+
 ## TikZ
 
 <https://sites.google.com/site/kochiuyu/Tikz>
