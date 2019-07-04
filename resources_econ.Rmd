@@ -60,3 +60,7 @@ ASSA by David Autor
 >The Econ-ARK project provides open-source toolkits for researchers trying to understand how economic and social outcomes result from the actions of heterogeneous individuals.
 
 <https://econ-ark.org/notebooks/>
+
+## Taxation
+
+[Dynamic Documentation for Senator Warren’s Wealth Tax Policy Analysis](http://wealthtaxsimulator.org/analysis/#2_-_compute_tax_avoidance_elasticity)
