@@ -28,6 +28,11 @@ Holding all other variables fixed at their observed values - or *ceteris paribus
 
 <https://adaptivedataanalysis.com/lecture-schedule-and-notes/>
 
+## Discrete Event Simulation
+In R!
+
+<https://r-simmer.org/index.html>
+
 ## Posterior Draws
 
 <https://wilkelab.org/ungeviz/articles/posterior-draws.html>

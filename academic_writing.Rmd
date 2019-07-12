@@ -40,6 +40,8 @@ title: "Presentations and  Writing"
 
 [case writing method](https://timvangelder.com/2019/04/07/what-is-the-case-schema/)
 
+[awesome bookdown example](https://github.com/Robinlovelace/geocompr)
+
 ## citations
 
 [zotero and rmarkdown](https://ikashnitsky.github.io/2019/zotero/)
