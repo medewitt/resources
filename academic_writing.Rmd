@@ -26,6 +26,8 @@ title: "Presentations and  Writing"
 
 [templated reports](https://sharla.party/posts/usethis-for-reporting/)
 
+[modelsummary pretty tables](https://github.com/vincentarelbundock/modelsummary)
+
 ## How Tos
 
 [write a thesis](https://www.cs.jhu.edu/~jason/advice/how-to-write-a-thesis.html)

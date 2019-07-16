@@ -30,6 +30,8 @@ SciencesPo Course
 
 <https://scpoecon.github.io/ScPoEconometrics/>
 
+[Data Science for Econ](https://github.com/uo-ec607/lectures)
+
 
 ### Temporal Hierarchical Forecasting
 

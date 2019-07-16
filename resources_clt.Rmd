@@ -23,6 +23,8 @@ title: "Shell Tools"
 
 [Unit Tests for web connections](https://community.rstudio.com/t/unit-testing-for-non-working-internet-connection/31894)
 
+[More data.table examples](https://github.com/moj-analytical-services/coffee-and-coding-public/tree/master/2019-07-09%20Start%20using%20datatable)
+
 ## TikZ
 
 <https://sites.google.com/site/kochiuyu/Tikz>
