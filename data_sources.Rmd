@@ -148,3 +148,7 @@ World happiness report
 ## Example jsons
 
 <https://github.com/jdorfman/awesome-json-datasets/blob/master/README.md>
+
+## Opioids Washington Post
+
+<https://t.co/iYG6rGaRLd>
