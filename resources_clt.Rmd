@@ -48,3 +48,7 @@ title: "Shell Tools"
 ## regex
 
 <https://www.regular-expressions.info/dates.html?wlr=1>
+
+## databaes
+
+[dm R package](https://www.cynkra.com/2019/07/17/dm/index.html)
