@@ -24,3 +24,5 @@ https://github.com/sara-vanerp/bayesreg/tree/master/src/stan_files
 - <https://github.com/ellisp/ozfedelect/blob/master/model-2pp/model-2pp.stan>
 
 - <https://discourse.mc-stan.org/t/heckman-selection-model-code-simulation/4853>
+
+<https://github.com/rmcelreath/SBM_latent_gifts_survey> latent gits
