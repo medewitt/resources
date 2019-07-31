@@ -32,6 +32,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [Datatypes in R](https://www.trafforddatalab.io/graphics_companion/index.html#deviation)
 
+[How to Make corporate ggplot2 pallete](https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2)
+
 ## Power BI
 
 [Python Machine Learning in Power BI](https://www.absentdata.com/power-bi/python-machine-learning-in-power-bi/)
@@ -45,3 +47,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## General How To
 
 [Data Science at Ocean Health Institute](https://github.com/ohi-science)
+
+## Fonts
+
+[Fira Sans](https://en.m.wikipedia.org/wiki/Fira_Sans)

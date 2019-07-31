@@ -152,3 +152,5 @@ World happiness report
 ## Opioids Washington Post
 
 <https://t.co/iYG6rGaRLd>
+
+[FBI Gun Death](https://eml.berkeley.edu/~jmccrary/UCR/index.html)

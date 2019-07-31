@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 title: Political Science Resources
 bibliography: library.bib
@@ -24,7 +23,7 @@ biblio-style: apalike
 
 ## Quantitative Social Sciences
 
-For the tidyverse 
+For the `tidyverse` 
 
 <https://jrnold.github.io/qss-tidy/>
 

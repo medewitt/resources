@@ -25,6 +25,8 @@ title: "Shell Tools"
 
 [More data.table examples](https://github.com/moj-analytical-services/coffee-and-coding-public/tree/master/2019-07-09%20Start%20using%20datatable)
 
+[Documentation of Code](https://www.r-bloggers.com/rmd-first-when-development-starts-with-documentation/)
+
 ## TikZ
 
 <https://sites.google.com/site/kochiuyu/Tikz>

@@ -24,6 +24,8 @@ Holding all other variables fixed at their observed values - or *ceteris paribus
 
 [Data Science and Statistics Symposium 2019](https://github.com/johnlaudun/SDSS2019)
 
+[All Hypothesis Tests are Linear Models](https://lindeloev.github.io/tests-as-linear/)
+
 ## The Algorithmic Foundations of Adaptive Data Analysis
 
 <https://adaptivedataanalysis.com/lecture-schedule-and-notes/>
@@ -129,3 +131,5 @@ Do it right...
 <http://rpubs.com/jebyrnes/343408>
 
 [Harvard DS 109](http://cs109.github.io/2015/pages/syllabus.html)
+
+[Robust Bayesian Regression](https://jrnold.github.io/bayesian_notes/robust-regression.htm)
