@@ -1,0 +1,50 @@
+---
+title: "Categorical Data"
+---
+
+
+```{r}
+softmax <- function(x){
+  exp(x)/sum(exp(x))
+}
+```
+
+```{r}
+K <- 100
+X <- matrix(rnorm(K * 5), K, 5)
+beta <- rnorm(5)
+```
+
+```{r}
+mu <- X %*% beta
+```
+
+```{r}
+out <- gtools::rdirichlet(5, softmax(mu))
+
+pred <- apply(out, which.max, MARGIN = 2)
+
+```
+
+```{r}
+library(tidyverse)
+dat <- as_tibble(X) %>% 
+  add_column(y = pred)
+```
+
+
+```{r}
+library(brms)
+
+fit <- brm(y ~ .+0, data = dat, family = categorical(), 
+           iter = 1000,
+           chains = 2, cores = 2)
+
+```
+
+```{r}
+summary(fit)
+plot(fit)
+```
+
+
