@@ -9,6 +9,7 @@
 - Principal Components
 
 - SEM
+- survival analysis <https://github.com/jburos/biostan-examples/blob/master/applied-survival-model.Rmd>
 
 - Instrumental Variables
 
