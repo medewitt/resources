@@ -154,3 +154,7 @@ World happiness report
 <https://t.co/iYG6rGaRLd>
 
 [FBI Gun Death](https://eml.berkeley.edu/~jmccrary/UCR/index.html)
+
+[500 Cities CDC Project](https://chronicdata.cdc.gov/browse?category=500+Cities)
+
+[ACLEDR Conflict Data](https://github.com/andybega/acledr)
