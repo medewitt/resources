@@ -8,6 +8,7 @@ biblio-style: apalike
 ```
 
 ## Econometrics
+[Econometrics and Time Series with Stan](https://donskerclass.github.io/Forecasting.html)
 
 ### Topics in Economics
 

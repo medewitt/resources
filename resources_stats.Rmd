@@ -133,3 +133,7 @@ Do it right...
 [Harvard DS 109](http://cs109.github.io/2015/pages/syllabus.html)
 
 [Robust Bayesian Regression](https://jrnold.github.io/bayesian_notes/robust-regression.htm)
+
+## Challenges of Survey Weights
+
+<https://statmodeling.stat.columbia.edu/2019/10/29/non-random-missing-data-weights-generative-model/>
