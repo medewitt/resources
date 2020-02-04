@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -101,7 +100,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -250,6 +248,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -278,6 +277,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -482,7 +487,7 @@ div.tocify {
 <h2>Technology</h2>
 <div id="r2d3" class="section level3">
 <h3>r2d3</h3>
-<p><a href="https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/" class="uri">https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/</a></p>
+<p><a href="https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/">using r2d3 for d3 in R</a></p>
 </div>
 </div>
 <div id="visual-trumpery" class="section level2">
@@ -493,12 +498,14 @@ div.tocify {
 <h2>Design</h2>
 <p><a href="https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D">Coloring for Colorblindness</a></p>
 <p><a href="https://github.com/ft-interactive/story-playbook/blob/master/README.md">Financial Times Story Playbook</a></p>
-<p><a href="https://ui-research.github.io/r-at-urban/graphics-guide.html">Urban Institute Graphics</a></p>
-<p><a href="https://github.com/UI-Research/urbnthemes">Urban Institute Themes</a></p>
+<p><a href="https://ui-research.github.io/r-at-urban/graphics-guide.html">Urban Institute Graphics</a> <a href="https://urbaninstitute.github.io/graphics-styleguide/">Urban Institute Graphics Style Guide</a> <a href="https://github.com/UrbanInstitute/urbnthemes">Urban Institute Themes</a></p>
+<p><a href="https://ukgovdatascience.github.io/govdown/">GovDown: UK Government Data Science</a></p>
 <p><a href="https://designsystem.digital.gov/design-tokens/color/overview/">US Gov Colour Palette</a></p>
 <p><a href="https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535">ggplot2 at the BBC</a></p>
 <p><a href="https://www.trafforddatalab.io/graphics_companion/index.html#deviation">Datatypes in R</a></p>
 <p><a href="https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2">How to Make corporate ggplot2 pallete</a></p>
+<p><a href="http://ithare.com/the-art-of-web-design-color-wheel-color-relationships/">The Art of Web Design: Color Wheel &amp; Color Relationships</a>[^ Special thanks to Anna for the recommendation]</p>
+<p><a href="https://serialmentor.com/dataviz/">Clause Wilke’s Fundamentals of Data Visualization</a></p>
 </div>
 <div id="power-bi" class="section level2">
 <h2>Power BI</h2>
@@ -512,6 +519,7 @@ div.tocify {
 <div id="general-how-to" class="section level2">
 <h2>General How To</h2>
 <p><a href="https://github.com/ohi-science">Data Science at Ocean Health Institute</a></p>
+<p><a href="https://analystsuncertaintytoolkit.github.io/UncertaintyWeb/index.html">Communicating Uncertainty</a></p>
 </div>
 <div id="fonts" class="section level2">
 <h2>Fonts</h2>

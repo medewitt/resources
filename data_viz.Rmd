@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### r2d3
 
-<https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/>
+[using r2d3 for d3 in R](https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/)
 
 ## Visual Trumpery
 
@@ -18,13 +18,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Design
 
+
 [Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D)
 
 [Financial Times Story Playbook](https://github.com/ft-interactive/story-playbook/blob/master/README.md)
 
-[Urban Institute Graphics](https://ui-research.github.io/r-at-urban/graphics-guide.html)
+[Urban Institute Graphics](https://ui-research.github.io/r-at-urban/graphics-guide.html) 
+[Urban Institute Graphics Style Guide](https://urbaninstitute.github.io/graphics-styleguide/) 
+[Urban Institute Themes](https://github.com/UrbanInstitute/urbnthemes) 
 
-[Urban Institute Themes](https://github.com/UI-Research/urbnthemes)
+[GovDown: UK Government Data Science](https://ukgovdatascience.github.io/govdown/)
 
 [US Gov Colour Palette](https://designsystem.digital.gov/design-tokens/color/overview/)
 
@@ -33,6 +36,10 @@ knitr::opts_chunk$set(echo = TRUE)
 [Datatypes in R](https://www.trafforddatalab.io/graphics_companion/index.html#deviation)
 
 [How to Make corporate ggplot2 pallete](https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2)
+
+[The Art of Web Design: Color Wheel & Color Relationships](http://ithare.com/the-art-of-web-design-color-wheel-color-relationships/)[^ Special thanks to Anna for the recommendation]
+
+[Clause Wilke's Fundamentals of Data Visualization](https://serialmentor.com/dataviz/)
 
 ## Power BI
 
@@ -47,6 +54,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## General How To
 
 [Data Science at Ocean Health Institute](https://github.com/ohi-science)
+
+[Communicating Uncertainty](https://analystsuncertaintytoolkit.github.io/UncertaintyWeb/index.html)
 
 ## Fonts
 
