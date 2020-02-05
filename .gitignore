@@ -13,3 +13,4 @@ stan_ideal_point_cache/
 stan_mult_linear_regression_cache/
 stan_ar_models_cache/
 stan_cfa_cache/
+.DS_Store
