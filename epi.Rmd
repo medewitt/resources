@@ -1,0 +1,17 @@
+---
+title: "Epidemiology and Infectious Disease Modelling"
+---
+
+## Compartmental Models
+
+[Bayesian workflow for disease transmission modeling in Stan](https://mc-stan.org/users/documentation/case-studies/boarding_school_case_study.html)
+
+[Lotka-Volterra in Stan](https://github.com/stan-dev/example-models/blob/master/knitr/lotka-volterra/lotka-volterra.stan)
+
+## Spatial Modelling
+
+[Spatial Models in Stan: Intrinsic Auto-Regressive Models for Areal Data](https://mc-stan.org/users/documentation/case-studies/icar_stan.html)
+
+## Overdispersion
+
+[Estimating the overdispersion in COVID-19 transmission using outbreak sizes outside China](https://wellcomeopenresearch.org/articles/5-67)
