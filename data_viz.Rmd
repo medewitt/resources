@@ -14,17 +14,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Visual Trumpery
 
-<https://www.dropbox.com/sh/tquq8igjtul5aou/AAA8SeSDBeh919R3I2In3fxNa?dl=0>
+[How Graphs Can Be Used for Deceptive Purposes](https://www.dropbox.com/sh/tquq8igjtul5aou/AAA8SeSDBeh919R3I2In3fxNa?dl=0)
 
 ## Design
-
 
 [Coloring for Colorblindness](https://davidmathlogic.com/colorblind/#%23D8BD1B-%231E88E5-%23A09C9C-%231E004D)
 
 [Financial Times Story Playbook](https://github.com/ft-interactive/story-playbook/blob/master/README.md)
 
-[Urban Institute Graphics](https://ui-research.github.io/r-at-urban/graphics-guide.html) 
+
 [Urban Institute Graphics Style Guide](https://urbaninstitute.github.io/graphics-styleguide/) 
+
 [Urban Institute Themes](https://github.com/UrbanInstitute/urbnthemes) 
 
 [GovDown: UK Government Data Science](https://ukgovdatascience.github.io/govdown/)
@@ -41,13 +41,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [Claus Wilke's Fundamentals of Data Visualization](https://serialmentor.com/dataviz/)
 
+[Kieran Healy's Data Visualization: a Practical Introduction](https://socviz.co/)
+
+[Web Hosting and Setting Up Your Own Website](https://couponfollow.com/research/web-hosting-on-a-budget)^[Special thanks to Julie for the recommendation]
+
+[Computer Language for Beginners: HTML](https://www.hp.com/us-en/shop/tech-takes/computer-language-for-beginners-html)^[Special thanks to Julie for the recommendation]
+
 ## Power BI
 
 [Python Machine Learning in Power BI](https://www.absentdata.com/power-bi/python-machine-learning-in-power-bi/)
 
 ## Graphics
 
-[multivariate dot-density chart](https://www.cultureofinsight.com/blog/2018/05/02/2018-04-08-multivariate-dot-density-maps-in-r-with-sf-ggplot2/)
+[multivariate dot-density chart](https://gist.github.com/PaulC91/9cc8551d5475620cb5c5d87ee1609257)
 
 [Visual Vocabulary Financial Times](https://github.com/ft-interactive/chart-doctor/blob/master/visual-vocabulary/README.md)
 
@@ -60,3 +66,5 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Fonts
 
 [Fira Sans](https://en.m.wikipedia.org/wiki/Fira_Sans)
+
+[WeePeople](https://github.com/propublica/weepeople)
